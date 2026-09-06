@@ -5,20 +5,9 @@
     margin-top: 0.5rem;
 }
 
-.progressTrack {
-    height: 0.375rem;
-    width: 8rem;
-    max-width: 100%;
-    overflow: hidden;
-    border-radius: 9999px;
-    background-color: var(--border-color);
-}
-
-.progressFill {
-    height: 100%;
-    border-radius: 9999px;
-    background-color: var(--primary);
-    transition: width 0.3s ease;
+.progressBarWidth { 
+    width: 8rem; 
+    max-width: 100%; 
 }
 
 .progressText {

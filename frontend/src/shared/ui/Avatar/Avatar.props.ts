@@ -4,4 +4,5 @@ export interface AvatarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEle
     firstName?: string;
     lastName?: string;
     size?: number;
+    variant?: 'circle' | 'rounded';
 }

@@ -3,3 +3,9 @@
     flex-direction: column;
     gap: 1.25rem; 
 }
+
+.graphicsContainer {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+}

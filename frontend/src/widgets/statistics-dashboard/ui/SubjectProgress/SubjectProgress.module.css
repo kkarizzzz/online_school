@@ -1,0 +1,27 @@
+.title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.subjectName {
+  font-weight: 600;
+}
+
+.counter {
+  color: var(--text-secondary);
+}

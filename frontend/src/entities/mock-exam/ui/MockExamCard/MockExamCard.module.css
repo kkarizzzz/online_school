@@ -1,0 +1,21 @@
+.card {
+  gap: 10px;
+  background-color: color-mix(in srgb, var(--bg-secondary) 80%, transparent);
+}
+
+.subjectName {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.scoreRow {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.maxScore {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}

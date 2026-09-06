@@ -3,14 +3,7 @@ import { cn } from '../../lib/cn';
 import styles from './Avatar.module.css';
 import type { AvatarProps } from './Avatar.props';
 
-export const Avatar = ({ 
-    firstName,
-    lastName,
-    size = 48, 
-    className, 
-    style,
-    ...props 
-}: AvatarProps): JSX.Element => {
+export const Avatar = ({ firstName, lastName, size=48, variant='circle', className, style, ...props }: AvatarProps): JSX.Element => {
     
     const getInitials = () => {
         if (!firstName && !lastName) return ''; 
@@ -28,7 +21,11 @@ export const Avatar = ({
 
     return (
         <div 
-            className={cn(styles.avatar, className)} 
+            className={cn(
+                styles.avatar, 
+                styles[variant], 
+                className
+            )}
             style={dynamicStyle}
             {...props}
         >

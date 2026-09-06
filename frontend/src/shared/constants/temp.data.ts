@@ -1,9 +1,10 @@
-import { Award, BookOpenCheck, CheckCircle2, Clock, Compass, Flame, Medal, Sigma, Target, Trophy } from "lucide-react";
+import { BookOpenCheck, CheckCircle2, Clock, Flame, Target, Trophy } from "lucide-react";
 import type { HomeworkModel } from "../../entities/homework";
 import type { PsychologistModel, PsychologistNoteModel } from "../../entities/psychologist/model/types";
 import PsychologistElena from '../assets/images/psychologist-elena.webp';
 import PsychologistMikhail from '../assets/images/psychologist-mikhail.webp';
 import PsychologistOlga from '../assets/images/psychologist-olga.webp';
+import type { SubjectMetric } from "../config";
 
 
 // WeeklyActivity component
@@ -256,23 +257,26 @@ export const MOCK_STAT_METRICS = [
     { icon: Flame, label: 'Серия дней', value: '12', delta: 'Личный рекорд' },
 ];
 
-export const MOCK_SUBJECT_TASKS = [
-    { subject: 'Математика', solved: 642, total: 800 },
-    { subject: 'Физика', solved: 318, total: 500 },
-    { subject: 'Информатика', solved: 288, total: 400 },
+export const MOCK_SUBJECT_TASKS: SubjectMetric[] = [
+    { subject: 'Математика', value: 642, max: 800 },
+    { subject: 'Физика', value: 318, max: 500 },
+    { subject: 'Информатика', value: 288, max: 400 },
+    { subject: 'Русский язык', value: 537, max: 600 },
 ];
 
-export const MOCK_EXAMS = [
-    { subject: 'Математика', score: 82, max: 100 },
-    { subject: 'Физика', score: 71, max: 100 },
-    { subject: 'Информатика', score: 90, max: 100 },
+export const MOCK_STATS_ATTENDANCE = [
+    { day: 'Пн', value: 2.5 },
+    { day: 'Вт', value: 3.2 },
+    { day: 'Ср', value: 1.4 },
+    { day: 'Чт', value: 4.1 },
+    { day: 'Пт', value: 2.8 },
+    { day: 'Сб', value: 5.0 },
+    { day: 'Вс', value: 1.2 },
 ];
 
-export const MOCK_ACHIEVEMENTS: AchievementModel[] = [
-    { icon: Sigma, title: 'Гуру параметров', description: '10 верных задач с параметрами', unlocked: true },
-    { icon: Flame, title: 'Огонь недели', description: 'Серия из 7 дней подряд', unlocked: true },
-    { icon: Target, title: 'Снайпер', description: '50 задач без ошибок', unlocked: true },
-    { icon: Award, title: 'Марафонец', description: '100 часов на платформе', unlocked: true },
-    { icon: Compass, title: 'Первопроходец', description: 'Пройден вводный модуль', unlocked: true },
-    { icon: Medal, title: 'Стобалльник', description: 'Пробник на 100 баллов', unlocked: false },
+export const MOCK_EXAMS: SubjectMetric[] = [
+    { subject: 'Математика', value: 82, max: 100 },
+    { subject: 'Физика', value: 71, max: 100 },
+    { subject: 'Информатика', value: 90, max: 100 },
+    { subject: 'Русский язык', value: 87, max: 100 },
 ];

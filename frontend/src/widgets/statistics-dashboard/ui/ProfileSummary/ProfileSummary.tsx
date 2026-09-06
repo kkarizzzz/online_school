@@ -6,6 +6,7 @@ import { Avatar, Badge, Card } from '../../../../shared/ui';
 import styles from './ProfileSummary.module.css';
 import type { ProfileSummaryProps } from './ProfileSummary.props';
 
+
 export const ProfileSummary = ({ className, ...props }: ProfileSummaryProps): JSX.Element => {
     const { data: user } = useUser();
         
@@ -18,7 +19,7 @@ export const ProfileSummary = ({ className, ...props }: ProfileSummaryProps): JS
                     firstName={user?.firstName} 
                     lastName={user?.lastName} 
                     size={56} 
-                    className={styles.avatar}
+                    variant='rounded'
                 />
                 
                 <div className={styles.details}>

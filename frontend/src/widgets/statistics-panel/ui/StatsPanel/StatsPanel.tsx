@@ -15,7 +15,7 @@ export const StatsPanel = ({ title, subject="Предмет", children, classNam
             </div>
 
             <div className={styles.progressSection}>
-                <ProgressRing value={77} />
+                <ProgressRing value={77} label='курса пройдено'/>
                 <p className={styles.quote}>
                     {children}
                 </p>

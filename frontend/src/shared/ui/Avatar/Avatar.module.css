@@ -9,3 +9,12 @@
   overflow: hidden;
   user-select: none;
 }
+
+/* variants */
+.circle {
+  border-radius: 50%;
+}
+
+.rounded {
+  border-radius: 16px; 
+}

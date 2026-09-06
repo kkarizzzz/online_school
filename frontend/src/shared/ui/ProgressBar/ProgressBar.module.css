@@ -1,0 +1,14 @@
+.track {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: var(--border-color); 
+  height: 7px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--primary);
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}

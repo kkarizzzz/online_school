@@ -12,3 +12,9 @@ export interface NavItem {
     icon: FC<SVGProps<SVGSVGElement>>;
     description?: string;
 }
+
+export type SubjectMetric = {
+    subject: string;
+    value: number;
+    max: number; 
+};

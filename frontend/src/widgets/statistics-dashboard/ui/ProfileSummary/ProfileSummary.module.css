@@ -1,5 +1,5 @@
 .card {
-  gap: 16px;
+  align-items: flex-start;
 }
 
 @media (min-width: 640px) {
@@ -14,10 +14,6 @@
   display: flex;
   align-items: center;
   gap: 16px;
-}
-
-.avatar {
-  border-radius: 16px;
 }
 
 .details {
