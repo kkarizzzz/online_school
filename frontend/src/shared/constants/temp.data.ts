@@ -264,6 +264,15 @@ export const MOCK_SUBJECT_TASKS: SubjectMetric[] = [
     { subject: 'Русский язык', value: 537, max: 600 },
 ];
 
+export const MOCK_ACHIEVEMENTS = [
+    { icon: Sigma, title: 'Гуру параметров', description: '10 верных задач с параметрами', unlocked: true },
+    { icon: Flame, title: 'Огонь недели', description: 'Серия из 7 дней подряд', unlocked: true },
+    { icon: Target, title: 'Снайпер', description: '50 задач без ошибок', unlocked: true },
+    { icon: Award, title: 'Марафонец', description: '100 часов на платформе', unlocked: true },
+    { icon: Compass, title: 'Первопроходец', description: 'Пройден вводный модуль', unlocked: true },
+    { icon: Medal, title: 'Стобалльник', description: 'Пробник на 100 баллов', unlocked: false },
+]
+
 export const MOCK_STATS_ATTENDANCE = [
     { day: 'Пн', value: 2.5 },
     { day: 'Вт', value: 3.2 },
