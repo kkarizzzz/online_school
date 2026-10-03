@@ -11,7 +11,8 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRE_DAYS: int = 60
-    
+    COOKIE_SECURE: bool = False  # в проде на HTTPS выставить True в .env
+
     @property
     def DATABASE_URL(self):
         return f'postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'

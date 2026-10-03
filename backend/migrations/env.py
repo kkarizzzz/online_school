@@ -14,7 +14,8 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 # 1. Твои импорты настроек и моделей
 from app.core.config import settings
-from app.db.database import Model # Или Base, смотря как у тебя называется
+from app.db.database import Model
+import app.db.models  # noqa: F401 — регистрирует все таблицы в Model.metadata для autogenerate
 
 config = context.config
 

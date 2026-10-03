@@ -1,9 +1,8 @@
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import Depends, HTTPException, status
-from sqlalchemy import select
 from app.core.token import verify_token
 from app.db.database import SessionDep
-from app.db.models import StudentModel, ParentModel
+from app.repositories.users import UserModel, get_user_by_id
 from typing import Annotated
 
 
@@ -34,12 +33,8 @@ async def get_current_user(
             detail="Некорректный токен",
         )
     
-    model_cls = StudentModel if role == "student" else ParentModel
-    
     # Идем в БД за пользователем
-    query = select(model_cls).where(model_cls.id == int(user_id))
-    result = await session.execute(query)
-    user = result.scalar_one_or_none()
+    user = await get_user_by_id(session, int(user_id), role)
     
     if not user:
         raise HTTPException(
@@ -49,4 +44,4 @@ async def get_current_user(
     
     return user
 
-UserDep = Annotated[StudentModel | ParentModel, Depends(get_current_user)]
+UserDep = Annotated[UserModel, Depends(get_current_user)]

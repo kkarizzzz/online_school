@@ -1,11 +1,12 @@
 import random
 from fastapi import APIRouter, status, BackgroundTasks, HTTPException, Cookie, Response
-from sqlalchemy import select
 
+from app.core.config import settings
 from app.core.token import create_access_token, create_refresh_token, verify_token
-from app.db.models import StudentModel, ParentModel
 from app.db.database import SessionDep
+from app.repositories.users import get_model_for_role, get_user_by_id, get_user_and_role_by_phone
 from app.schemas.auth_schemas import SendCodeRequest, UserRegisterRequest, UserLoginRequest, RoleEnum, ActionEnum
+from app.schemas.user_schemas import UserOut, AuthResponse, TokenResponse
 
 router = APIRouter(prefix='/auth', tags=['Авторизация'])
 
@@ -17,40 +18,25 @@ def send_mock_sms(phone: str, code: str):
     print(f"{'=' * 40}\n")
 
 
-def set_auth_cookies_and_tokens(user, role: str, response: Response):
+def set_auth_cookies_and_tokens(user, role: RoleEnum, response: Response):
     """Вспомогательная функция, чтобы не дублировать код создания токенов"""
     token_payload = {
         "sub": str(user.id),
-        "role": role
+        "role": role.value
     }
-    
+
     access_token = create_access_token(data=token_payload)
     refresh_token = create_refresh_token(data=token_payload)
-    
+
     response.set_cookie(
         key='refresh_token',
         value=refresh_token,
         httponly=True,
-        secure=False,  # TODO: на сервере поставить True (HTTPS)
+        secure=settings.COOKIE_SECURE,
         samesite='lax',
-        max_age=60 * 60 * 24 * 60
+        max_age=60 * 60 * 24 * settings.REFRESH_TOKEN_EXPIRE_DAYS
     )
     return access_token
-
-
-async def get_user_and_role_by_phone(session, phone: str):
-    student_query = select(StudentModel).where(StudentModel.phone_number == phone)
-    student = (await session.execute(student_query)).scalar_one_or_none()
-    if student:
-        return student, RoleEnum.student.value
-    
-    # Ищем среди родителей
-    parent_query = select(ParentModel).where(ParentModel.phone_number == phone)
-    parent = (await session.execute(parent_query)).scalar_one_or_none()
-    if parent:
-        return parent, RoleEnum.parent.value
-    
-    return None, None
 
 
 @router.post('/send-code', summary='Запрос кода подтверждения')
@@ -87,7 +73,7 @@ async def request_code(
         "phone": data.phone_number
     }
 
-@router.post('/register', summary='Регистрация', status_code=status.HTTP_201_CREATED)
+@router.post('/register', summary='Регистрация', status_code=status.HTTP_201_CREATED, response_model=AuthResponse)
 async def register_user(
         session: SessionDep,
         data: UserRegisterRequest,
@@ -108,7 +94,7 @@ async def register_user(
             detail="Пользователь с таким номером уже существует. Пожалуйста, выполните вход."
         )
     
-    model_cls = StudentModel if data.role == RoleEnum.student else ParentModel
+    model_cls = get_model_for_role(data.role)
     
     # 2. Создаем нового
     user = model_cls(
@@ -121,23 +107,16 @@ async def register_user(
     await session.refresh(user)
     
     # 3. Выдаем токены
-    access_token = set_auth_cookies_and_tokens(user, data.role.value, response)
+    access_token = set_auth_cookies_and_tokens(user, data.role, response)
     
-    return {
-        "message": "Успешная регистрация",
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": {
-            "id": user.id,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "phone_number": user.phone_number,
-            "role": data.role.value
-        }
-    }
+    return AuthResponse(
+        message="Успешная регистрация",
+        access_token=access_token,
+        user=UserOut.from_user(user, data.role)
+    )
 
 
-@router.post('/login', summary='Вход в систему')
+@router.post('/login', summary='Вход в систему', response_model=AuthResponse)
 async def login_user(
         session: SessionDep,
         data: UserLoginRequest,
@@ -161,21 +140,14 @@ async def login_user(
     # 2. Выдаем токены
     access_token = set_auth_cookies_and_tokens(user, role, response)
     
-    return {
-        "message": "Успешный вход",
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": {
-            "id": user.id,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "phone_number": user.phone_number,
-            "role": role
-        }
-    }
+    return AuthResponse(
+        message="Успешный вход",
+        access_token=access_token,
+        user=UserOut.from_user(user, role)
+    )
 
 
-@router.post('/refresh', summary='Обновление токенов (Refresh)')
+@router.post('/refresh', summary='Обновление токенов (Refresh)', response_model=TokenResponse)
 async def refresh_tokens(
         session: SessionDep,
         response: Response,
@@ -188,13 +160,7 @@ async def refresh_tokens(
         )
     
     payload = verify_token(refresh_token, expected_type="refresh")
-    user_id = payload.get("sub")
-    role = payload.get("role")
-    
-    model_cls = StudentModel if role == RoleEnum.student.value else ParentModel
-    query = select(model_cls).where(model_cls.id == int(user_id))
-    result = await session.execute(query)
-    user = result.scalar_one_or_none()
+    user = await get_user_by_id(session, int(payload["sub"]), payload["role"])
     
     if not user:
         raise HTTPException(
@@ -202,12 +168,9 @@ async def refresh_tokens(
             detail="Пользователь не найден или был удален"
         )
     
-    new_access_token = set_auth_cookies_and_tokens(user, role, response)
+    new_access_token = set_auth_cookies_and_tokens(user, RoleEnum(payload["role"]), response)
     
-    return {
-        "access_token": new_access_token,
-        "token_type": "bearer"
-    }
+    return TokenResponse(access_token=new_access_token)
 
 
 @router.post('/logout', summary='Выход из системы')
@@ -216,7 +179,7 @@ async def logout(response: Response):
     response.delete_cookie(
         key="refresh_token",
         httponly=True,
-        secure=False,  # TODO: на сервере поставить True
+        secure=settings.COOKIE_SECURE,
         samesite="lax"
     )
     
