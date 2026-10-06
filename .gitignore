@@ -39,3 +39,9 @@ ecc.config.json
 .aider*
 .mcp*.json
 .cursor/
+# --- Концепты (генерируются seed.py) ---
+concepts/**/tasks.db
+concepts/**/storage/
+
+# --- Ролики урока (режет concepts/lesson_page/cut.py) ---
+concepts/lesson_page/static/media/

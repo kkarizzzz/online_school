@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Свойства логарифмов</title>
+<style>
+@font-face { font-family: 'Mulish'; src: url('../../frontend/public/fonts/mulish/mulish-regular.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Mulish'; src: url('../../frontend/public/fonts/mulish/mulish-500.woff2') format('woff2'); font-weight: 500; }
+@font-face { font-family: 'Mulish'; src: url('../../frontend/public/fonts/mulish/mulish-600.woff2') format('woff2'); font-weight: 600; }
+@font-face { font-family: 'Mulish'; src: url('../../frontend/public/fonts/mulish/mulish-700.woff2') format('woff2'); font-weight: 700; }
+@font-face { font-family: 'JetBrains Mono'; src: url('../../frontend/public/fonts/jetbrains-mono/jetbrains-mono-500.woff2') format('woff2'); font-weight: 500; }
+@font-face { font-family: 'JetBrains Mono'; src: url('../../frontend/public/fonts/jetbrains-mono/jetbrains-mono-700.woff2') format('woff2'); font-weight: 700; }
+@font-face { font-family: 'Source Serif 4'; src: url('../../frontend/public/fonts/source-serif/source-serif-regular.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Source Serif 4'; src: url('../../frontend/public/fonts/source-serif/source-serif-600.woff2') format('woff2'); font-weight: 600; }
+
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F6F8;
+  --text-primary: #171819;
+  --text-secondary: #6c7077;
+  --primary: #1219F3;
+  --green: #007c49;
+  --green-light: #C8F8E4;
+  --red: #FC836D;
+  --dark-red: #ef2c2c;
+  --border-color: #EBEBEB;
+  --font-sans: 'Mulish', sans-serif;
+  --font-serif: 'Source Serif 4', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #111; overflow: hidden; }
+
+#stage {
+  position: absolute; left: 0; top: 0;
+  width: 1920px; height: 1080px;
+  transform-origin: 0 0;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+.dots {
+  position: absolute; inset: 0; opacity: .5;
+  background-image: radial-gradient(circle at 1px 1px, rgba(23,24,25,.09) 1.2px, transparent 0);
+  background-size: 32px 32px;
+}
+.noise {
+  position: absolute; inset: 0; opacity: .05; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+.blob {
+  position: absolute; width: 900px; height: 900px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(18,25,243,.13), rgba(18,25,243,0) 65%);
+  pointer-events: none;
+}
+
+/* chrome */
+.topbar {
+  position: absolute; left: 96px; right: 96px; top: 52px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 18px; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--text-secondary); z-index: 5;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-dot { width: 12px; height: 12px; border-radius: 4px; background: var(--primary); }
+.counter b { color: var(--primary); font-weight: 700; }
+.progress { position: absolute; left: 0; bottom: 0; height: 6px; background: var(--primary); z-index: 5; }
+
+/* scenes */
+.scene { position: absolute; inset: 0; padding: 150px 96px 80px; opacity: 0; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: 20px; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--primary); font-weight: 500;
+}
+.h {
+  font-weight: 700; font-size: 76px; line-height: 1.02; letter-spacing: -0.03em;
+  margin-top: 18px;
+}
+.h em, .accent { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--text-secondary); letter-spacing: -0.01em; }
+
+.card {
+  background: var(--bg-primary); border: 1px solid var(--border-color);
+  border-radius: 28px; box-shadow: 0 4px 12px rgba(0,0,0,.05);
+  padding: 40px 48px;
+}
+.card.glow { box-shadow: 0 0 0 1px rgba(18,25,243,.4), 0 18px 60px -12px rgba(18,25,243,.45); border-color: transparent; }
+.card.bad { box-shadow: 0 0 0 1px rgba(239,44,44,.35), 0 18px 60px -16px rgba(239,44,44,.35); border-color: transparent; }
+.label {
+  font-family: var(--font-mono); font-size: 17px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text-secondary); margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+}
+.num {
+  display: inline-flex; width: 44px; height: 44px; border-radius: 12px; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary);
+  font-family: var(--font-sans); font-weight: 700; font-size: 18px; letter-spacing: 0;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 24px; border-radius: 999px; background: var(--bg-primary); border: 1px solid var(--border-color);
+  font-size: 26px; font-weight: 600;
+}
+.chip.blue { background: var(--primary); color: #fff; border-color: var(--primary); }
+.chip.green { background: var(--green-light); color: var(--green); border-color: transparent; }
+.chip.red { background: #ffe6e1; color: var(--dark-red); border-color: transparent; }
+.chip .m { font-size: 32px; }
+.note { font-size: 28px; color: var(--text-secondary); font-weight: 500; line-height: 1.35; }
+
+/* math */
+.m { font-family: var(--font-serif); font-weight: 400; white-space: nowrap; line-height: 1.25; }
+.m i { font-style: italic; }
+.m sub { font-size: .58em; vertical-align: -0.38em; line-height: 0; margin-right: .12em; }
+.m sup { font-size: .6em; vertical-align: .85em; line-height: 0; }
+.m sup sub { vertical-align: -0.3em; }
+.m sub sup { font-size: .8em; vertical-align: .6em; }
+.m .op { margin: 0 .22em; }
+.fr { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; margin: 0 .12em; line-height: 1.1; }
+.fr > span:first-child { border-bottom: .045em solid currentColor; padding: 0 .12em .04em; }
+.fr > span:last-child { padding: .06em .12em 0; }
+.m sup .fr, .m sub .fr { font-size: .9em; }
+.xl { font-size: 104px; }
+.lg { font-size: 80px; }
+.md { font-size: 62px; }
+.sm { font-size: 46px; }
+.blue { color: var(--primary); }
+.muted { color: var(--text-secondary); }
+
+/* highlight marker */
+.hl { position: relative; z-index: 0; padding: 0 .08em; }
+.hl::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 12%; bottom: 6%;
+  background: var(--green-light); border-radius: .14em; z-index: -1;
+  transform-origin: left center; transform: scaleX(var(--p, 0));
+}
+.hl.b::before { background: color-mix(in srgb, var(--primary) 16%, transparent); }
+.strike { position: relative; }
+.strike::after {
+  content: ''; position: absolute; left: -2%; top: 52%; height: .07em; width: 104%;
+  background: var(--dark-red); border-radius: 1em;
+  transform-origin: left center; transform: scaleX(var(--p, 0)) rotate(-2deg);
+}
+
+.row { display: flex; gap: 32px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 28px; }
+.steps { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+.step { display: flex; align-items: center; gap: 22px; }
+.step .arrow { font-family: var(--font-mono); color: var(--primary); font-size: 30px; width: 40px; }
+.answer {
+  display: inline-flex; align-items: center; gap: 18px; margin-top: 30px;
+  padding: 16px 30px; border-radius: 18px; background: var(--primary); color: #fff;
+  font-family: var(--font-mono); font-size: 26px; letter-spacing: .15em; text-transform: uppercase; font-weight: 700;
+}
+.answer .m { font-size: 46px; letter-spacing: 0; font-weight: 600; text-transform: none; }
+.ghost {
+  position: absolute; font-family: var(--font-serif); font-style: italic; color: rgba(18,25,243,.06);
+  font-size: 620px; line-height: 1; right: 40px; bottom: -120px; pointer-events: none; letter-spacing: -0.04em;
+}
+.sheet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 40px; }
+.sheet .card { padding: 26px 28px; border-radius: 22px; }
+.sheet .label { font-size: 14px; margin-bottom: 10px; }
+.sheet .m { font-size: 44px; }
+.s5 .card { padding: 26px 40px; }
+.s5 .label { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="dots"></div>
+  <div class="blob" id="blob"></div>
+  <div class="noise"></div>
+  <div class="topbar">
+    <div class="brand"><span class="brand-dot"></span>ЕГЭ · Математика · Профиль</div>
+    <div class="counter" id="counter"></div>
+  </div>
+
+  <!-- 1. Интро -->
+  <section class="scene" data-dur="10">
+    <div class="ghost" data-in="0">log</div>
+    <div style="margin-top: 150px">
+      <div class="eyebrow" data-in="0.3">Алгебра · Тема урока</div>
+      <div class="h" style="font-size: 150px; line-height: .95; letter-spacing: -0.04em; margin-top: 28px" data-in="0.6">
+        Свойства<br><em>логарифмов</em>
+      </div>
+      <div class="note" style="margin-top: 36px; font-size: 34px" data-in="1.6">Определение, все формулы и разбор задач в формате ЕГЭ</div>
+      <div style="display:flex; gap: 16px; margin-top: 44px">
+        <span class="chip blue" data-in="5.0">№ 7 · вычисления</span>
+        <span class="chip" data-in="6.2">№ 13 · уравнения</span>
+        <span class="chip" data-in="6.6">№ 15 · неравенства</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Определение -->
+  <section class="scene" data-dur="24">
+    <div class="eyebrow" data-in="0.2">Шаг 01 · Определение</div>
+    <div class="h" data-in="0.4">Что такое <em>логарифм</em></div>
+    <div class="row" style="margin-top: 56px">
+      <div class="card glow" style="flex: 1.3" data-in="1.5">
+        <div class="label">Логарифм числа b по основанию a</div>
+        <div class="m xl">log_{a}b <span class="op">=</span> <span class="hl b" data-hl="4.0">c</span> <span class="op blue">⇔</span> a^{<span class="hl b" data-hl="4.4">c</span>} <span class="op">=</span> b</div>
+        <div class="note" style="margin-top: 22px" data-in="5.2">c — показатель степени, в которую возводят a, чтобы получить b</div>
+      </div>
+      <div class="card" style="flex: 1" data-in="10">
+        <div class="label">Пример</div>
+        <div class="m lg">log_{2}8 <span class="op">=</span> <span class="hl" data-hl="12.5">3</span></div>
+        <div class="m md muted" style="margin-top: 16px" data-in="13.2">так как 2^{3} <span class="op">=</span> 8</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 18px; margin-top: 44px; align-items: center">
+      <span class="note" data-in="16.2" style="margin-right: 8px">Условия (ОДЗ):</span>
+      <span class="chip green" data-in="17.4"><span class="m">a &gt; 0</span></span>
+      <span class="chip green" data-in="18.6"><span class="m">a &ne; 1</span></span>
+      <span class="chip green" data-in="21.0"><span class="m">b &gt; 0</span></span>
+    </div>
+  </section>
+
+  <!-- 3. Простейшие + тождество -->
+  <section class="scene" data-dur="22">
+    <div class="eyebrow" data-in="0.2">Шаг 02 · Следствия определения</div>
+    <div class="h" data-in="0.4">Три факта <em>«из коробки»</em></div>
+    <div class="row" style="margin-top: 56px">
+      <div class="col" style="flex: 1">
+        <div class="card" data-in="3.0">
+          <div class="label"><span class="num">1</span>Логарифм единицы</div>
+          <div class="m lg">log_{a}1 <span class="op">=</span> 0</div>
+        </div>
+        <div class="card" data-in="5.8">
+          <div class="label"><span class="num">2</span>Логарифм основания</div>
+          <div class="m lg">log_{a}a <span class="op">=</span> 1</div>
+        </div>
+      </div>
+      <div class="card glow" style="flex: 1.35; display: flex; flex-direction: column; justify-content: space-between" data-in="9.0">
+        <div>
+          <div class="label"><span class="num">3</span>Основное логарифмическое тождество</div>
+          <div class="m" style="font-size: 120px; margin-top: 10px">a^{log_{a}b} <span class="op">=</span> b</div>
+        </div>
+        <div style="border-top: 1px solid var(--border-color); padding-top: 26px" data-in="15.0">
+          <div class="label" style="margin-bottom: 8px">Пример</div>
+          <div class="m md">5^{log_{5}7} <span class="op">=</span> <span class="hl" data-hl="18.6">7</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Сумма и разность -->
+  <section class="scene" data-dur="27">
+    <div class="eyebrow" data-in="0.2">Шаг 03 · Сумма и разность</div>
+    <div class="h" data-in="0.4">Одинаковые основания — <em>склеиваем</em></div>
+    <div class="row" style="margin-top: 56px">
+      <div class="card glow" style="flex: 1" data-in="1.6">
+        <div class="label"><span class="num">+</span>Логарифм произведения</div>
+        <div class="m md">log_{a}b <span class="op">+</span> log_{a}c <span class="op">=</span> <span class="blue">log_{a}(bc)</span></div>
+        <div class="steps">
+          <div class="step" data-in="5.6"><span class="arrow">→</span><span class="m md">log_{6}4 <span class="op">+</span> log_{6}9</span></div>
+          <div class="step" data-in="9.8"><span class="arrow">=</span><span class="m md">log_{6}(4<span class="op">·</span>9) <span class="op">=</span> log_{6}36</span></div>
+          <div class="step" data-in="12.8"><span class="arrow">=</span><span class="m md"><span class="hl" data-hl="13.2">2</span></span></div>
+        </div>
+      </div>
+      <div class="card glow" style="flex: 1" data-in="14.6">
+        <div class="label"><span class="num">−</span>Логарифм частного</div>
+        <div class="m md">log_{a}b <span class="op">−</span> log_{a}c <span class="op">=</span> <span class="blue">log_{a}\frac{b}{c}</span></div>
+        <div class="steps">
+          <div class="step" data-in="17.0"><span class="arrow">→</span><span class="m md">log_{3}54 <span class="op">−</span> log_{3}2</span></div>
+          <div class="step" data-in="19.6"><span class="arrow">=</span><span class="m md">log_{3}\frac{54}{2} <span class="op">=</span> log_{3}27</span></div>
+          <div class="step" data-in="22.4"><span class="arrow">=</span><span class="m md"><span class="hl" data-hl="22.8">3</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Степени -->
+  <section class="scene s5" data-dur="33">
+    <div class="eyebrow" data-in="0.2">Шаг 04 · Степени</div>
+    <div class="h" data-in="0.4">Выносим <em>показатели</em></div>
+    <div class="row" style="margin-top: 52px">
+      <div class="col" style="flex: 1">
+        <div class="card" data-in="1.2">
+          <div class="label">Степень аргумента</div>
+          <div class="m sm">log_{a}b^{<span class="hl b" data-hl="3.4">k</span>} <span class="op">=</span> <span class="hl b" data-hl="5.4">k</span><span class="op">·</span>log_{a}b</div>
+        </div>
+        <div class="card" data-in="8.2">
+          <div class="label">Степень основания</div>
+          <div class="m sm">log_{a^{<span class="hl b" data-hl="9.4">k</span>}}b <span class="op">=</span> <span class="hl b" data-hl="11.6">\frac{1}{k}</span><span class="op">·</span>log_{a}b</div>
+        </div>
+        <div class="card glow" data-in="13.0">
+          <div class="label">Вместе</div>
+          <div class="m sm">log_{a^{m}}b^{n} <span class="op">=</span> \frac{n}{m}<span class="op">·</span>log_{a}b</div>
+        </div>
+      </div>
+      <div class="card" style="flex: 0.85" data-in="22.0">
+        <div class="label">Пример</div>
+        <div class="m lg">log_{8}32</div>
+        <div class="steps" style="gap: 22px">
+          <div class="step" data-in="24.6"><span class="arrow">=</span><span class="m lg">log_{<span class="hl" data-hl="25.0">2^{3}</span>}<span class="hl" data-hl="26.8">2^{5}</span></span></div>
+          <div class="step" data-in="28.6"><span class="arrow">=</span><span class="m lg">\frac{5}{3}<span class="op">·</span>log_{2}2 <span class="op">=</span> <span class="hl" data-hl="29.4">\frac{5}{3}</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Переход к новому основанию -->
+  <section class="scene" data-dur="38">
+    <div class="eyebrow" data-in="0.2">Шаг 05 · Новое основание</div>
+    <div class="h" data-in="0.4">Переход к <em>другому основанию</em></div>
+    <div class="row" style="margin-top: 52px">
+      <div class="col" style="flex: 1.15">
+        <div class="card glow" data-in="1.2">
+          <div class="label">Формула перехода · c &gt; 0, c ≠ 1</div>
+          <div class="m lg">log_{a}b <span class="op">=</span> \frac{log_{<span class="hl b" data-hl="7.4">c</span>}b}{log_{<span class="hl b" data-hl="7.6">c</span>}a}</div>
+        </div>
+        <div class="row" style="gap: 24px">
+          <div class="card" style="flex: 1; padding: 32px 36px" data-in="10.6">
+            <div class="label">Следствие 1</div>
+            <div class="m sm">log_{a}b <span class="op">=</span> \frac{1}{log_{b}a}</div>
+          </div>
+          <div class="card" style="flex: 1.35; padding: 32px 36px" data-in="16.4">
+            <div class="label">Следствие 2 · «цепочка»</div>
+            <div class="m sm">log_{a}<span class="hl" data-hl="22.6">b</span><span class="op">·</span>log_{<span class="hl" data-hl="22.8">b</span>}c <span class="op">=</span> log_{a}c</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="flex: 0.85" data-in="26.0">
+        <div class="label">Пример</div>
+        <div class="m lg">\frac{log_{5}49}{log_{5}7}</div>
+        <div class="steps" style="gap: 22px">
+          <div class="step" data-in="31.0"><span class="arrow">=</span><span class="m lg">log_{7}49</span></div>
+          <div class="step" data-in="34.0"><span class="arrow">=</span><span class="m lg"><span class="hl" data-hl="34.4">2</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Задача 1 -->
+  <section class="scene" data-dur="23">
+    <div class="eyebrow" data-in="0.2">Практика · Задание 7</div>
+    <div class="h" data-in="0.4">Разбор <em>задачи ЕГЭ</em></div>
+    <div class="row" style="margin-top: 52px">
+      <div class="card glow" style="flex: 0.8; align-self: flex-start" data-in="2.4">
+        <div class="label">Найдите значение выражения</div>
+        <div class="m" style="font-size: 130px">36^{log_{6}5}</div>
+      </div>
+      <div class="card" style="flex: 1.2">
+        <div class="label" data-in="7.6">Решение</div>
+        <div class="steps" style="margin-top: 0; gap: 20px">
+          <div class="step" data-in="8.0"><span class="arrow">=</span><span class="m lg">(<span class="hl" data-hl="8.6">6^{2}</span>)^{log_{6}5}</span><span class="note">36 = 6²</span></div>
+          <div class="step" data-in="11.0"><span class="arrow">=</span><span class="m lg">6^{2log_{6}5} <span class="op">=</span> 6^{log_{6}<span class="hl" data-hl="14.4">25</span>}</span></div>
+          <div class="step" data-in="16.6"><span class="arrow">=</span><span class="m lg"><span class="hl" data-hl="17.0">25</span></span><span class="note">осн. тождество</span></div>
+        </div>
+        <div class="answer" data-in="18.2">Ответ <span class="m">25</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Задача 2 -->
+  <section class="scene" data-dur="30">
+    <div class="eyebrow" data-in="0.2">Практика · Задание 7</div>
+    <div class="h" data-in="0.4">Ещё одна <em>классика</em></div>
+    <div class="row" style="margin-top: 52px">
+      <div class="card glow" style="flex: 0.85; align-self: flex-start" data-in="0.8">
+        <div class="label">Найдите значение выражения</div>
+        <div class="m md">log_{0,8}<span class="hl" data-hl="10.6">3</span><span class="op">·</span>log_{<span class="hl" data-hl="10.8">3</span>}1,25</div>
+      </div>
+      <div class="card" style="flex: 1.15">
+        <div class="label" data-in="9.6">Решение</div>
+        <div class="steps" style="margin-top: 0; gap: 20px">
+          <div class="step" data-in="12.4"><span class="arrow">=</span><span class="m md">log_{0,8}1,25</span><span class="note">«цепочка»</span></div>
+          <div class="step" data-in="16.6"><span class="arrow">=</span><span class="m md">log_{<span class="hl" data-hl="17.4">\frac{4}{5}</span>}<span class="hl" data-hl="19.6">\frac{5}{4}</span></span></div>
+          <div class="step" data-in="22.0"><span class="arrow">=</span><span class="m md">log_{\frac{4}{5}}(\frac{4}{5})^{<span class="hl b" data-hl="23.8">−1</span>} <span class="op">=</span> <span class="hl" data-hl="26.0">−1</span></span></div>
+        </div>
+        <div class="answer" data-in="26.0">Ответ <span class="m">−1</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Ошибки -->
+  <section class="scene" data-dur="23">
+    <div class="eyebrow" data-in="0.2" style="color: var(--dark-red)">Осторожно · Типичные ошибки</div>
+    <div class="h" data-in="0.4">Где теряют <em>баллы</em></div>
+    <div class="row" style="margin-top: 56px">
+      <div class="card bad" style="flex: 1" data-in="1.6">
+        <div class="label"><span class="chip red" style="padding: 6px 14px; font-size: 16px">Нет такой формулы</span></div>
+        <div class="m md"><span class="strike" data-hl="3.6">log_{a}(b<span class="op">+</span>c) <span class="op">=</span> log_{a}b <span class="op">+</span> log_{a}c</span></div>
+        <div class="note" style="margin-top: 20px" data-in="4.2">Логарифм суммы не раскладывается</div>
+      </div>
+      <div class="card" style="flex: 1" data-in="6.2">
+        <div class="label">Чётная степень → модуль</div>
+        <div class="m md">log_{a}b^{2} <span class="op">=</span> 2log_{a}<span class="hl b" data-hl="9.8">|b|</span></div>
+        <div class="note" style="margin-top: 20px" data-in="11.4">Без модуля можно потерять корни уравнения</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 18px; margin-top: 44px; align-items: center">
+      <span class="note" data-in="14.4" style="margin-right: 8px">Всегда проверяйте ОДЗ:</span>
+      <span class="chip green" data-in="16.6"><span class="m">a &gt; 0</span></span>
+      <span class="chip green" data-in="17.4"><span class="m">a &ne; 1</span></span>
+      <span class="chip green" data-in="19.0"><span class="m">b &gt; 0</span></span>
+    </div>
+  </section>
+
+  <!-- 10. Шпаргалка -->
+  <section class="scene" data-dur="16">
+    <div style="display:flex; justify-content: space-between; align-items: flex-end">
+      <div>
+        <div class="eyebrow" data-in="0.2">Итог · Шпаргалка</div>
+        <div class="h" data-in="0.4">Всё на <em>одном экране</em></div>
+      </div>
+      <span class="chip blue" data-in="2.4" style="margin-bottom: 8px">⏸ Пауза — и скриншот</span>
+    </div>
+    <div class="sheet">
+      <div class="card" data-in="0.8"><div class="label">Определение</div><div class="m">log_{a}b<span class="op">=</span>c ⇔ a^{c}<span class="op">=</span>b</div></div>
+      <div class="card" data-in="1.0"><div class="label">Тождество</div><div class="m">a^{log_{a}b}<span class="op">=</span>b</div></div>
+      <div class="card" data-in="1.2"><div class="label">Простейшие</div><div class="m">log_{a}1<span class="op">=</span>0,  log_{a}a<span class="op">=</span>1</div></div>
+      <div class="card" data-in="1.4"><div class="label">Произведение</div><div class="m">log_{a}(bc)<span class="op">=</span>log_{a}b<span class="op">+</span>log_{a}c</div></div>
+      <div class="card" data-in="1.6"><div class="label">Частное</div><div class="m">log_{a}\frac{b}{c}<span class="op">=</span>log_{a}b<span class="op">−</span>log_{a}c</div></div>
+      <div class="card" data-in="1.8"><div class="label">Степени</div><div class="m">log_{a^{m}}b^{n}<span class="op">=</span>\frac{n}{m}log_{a}b</div></div>
+      <div class="card" data-in="2.0"><div class="label">Новое основание</div><div class="m">log_{a}b<span class="op">=</span>\frac{log_{c}b}{log_{c}a}</div></div>
+      <div class="card" data-in="2.2"><div class="label">Цепочка</div><div class="m">log_{a}b<span class="op">·</span>log_{b}c<span class="op">=</span>log_{a}c</div></div>
+      <div class="card" data-in="8.0" style="background: var(--primary); border-color: var(--primary); color: #fff; display: flex; flex-direction: column; justify-content: center"><div class="label" style="color: rgba(255,255,255,.7)">Дальше</div><div style="font-size: 30px; font-weight: 700; line-height: 1.25">Решайте задания на платформе — <span class="accent" style="color: #fff">до встречи на уроке!</span></div></div>
+    </div>
+
+  </section>
+</div>
+
+<script>
+// --- мини-разметка формул: log_{a}b, x^{k}, \frac{p}{q}; одиночные латинские буквы — курсивом
+function tex(s) {
+  let out = '', i = 0;
+  const grp = () => {
+    while (s[i] === ' ') i++;
+    if (s[i] !== '{') return s[i++] || '';
+    let d = 0, st = ++i;
+    for (; i < s.length; i++) {
+      if (s[i] === '{') d++;
+      else if (s[i] === '}') { if (d === 0) break; d--; }
+    }
+    return s.slice(st, i++);
+  };
+  while (i < s.length) {
+    const c = s[i];
+    if (s.startsWith('\\frac', i)) { i += 5; const a = grp(), b = grp(); out += `<span class="fr"><span>${tex(a)}</span><span>${tex(b)}</span></span>`; }
+    else if (c === '_') { i++; out += `<sub>${tex(grp())}</sub>`; }
+    else if (c === '^') { i++; out += `<sup>${tex(grp())}</sup>`; }
+    else if (c === '<') { const j = s.indexOf('>', i); out += s.slice(i, j + 1); i = j + 1; }
+    else if (c === '&') { const j = s.indexOf(';', i); out += s.slice(i, j + 1); i = j + 1; }
+    else if (/[a-z]/.test(c)) {
+      let j = i; while (j < s.length && /[a-z]/.test(s[j])) j++;
+      const w = s.slice(i, j); out += (w === 'log' || w === 'ln') ? w : w.replace(/./g, ch => `<i>${ch}</i>`); i = j;
+    }
+    else { out += c; i++; }
+  }
+  return out;
+}
+document.querySelectorAll('.m').forEach(el => { el.innerHTML = tex(el.innerHTML); });
+
+// --- таймлайн
+const scenes = [...document.querySelectorAll('.scene')];
+let acc = 0;
+scenes.forEach(s => { s._start = acc; s._dur = +s.dataset.dur; acc += s._dur; });
+const DURATION = acc;
+const FADE = 0.6;
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => 1 - Math.pow(1 - x, 3);
+const items = scenes.map(s => [...s.querySelectorAll('[data-in]')]);
+const hls = scenes.map(s => [...s.querySelectorAll('[data-hl]')]);
+const counter = document.getElementById('counter');
+const progress = document.querySelector('.progress') || document.getElementById('stage').appendChild(Object.assign(document.createElement('div'), { className: 'progress' }));
+const blob = document.getElementById('blob');
+
+function render(t) {
+  scenes.forEach((s, k) => {
+    const lt = t - s._start;
+    const last = k === scenes.length - 1;
+    const vis = lt < 0 || lt > s._dur ? 0 : Math.min(clamp(lt / 0.35), last ? 1 : clamp((s._dur - lt) / 0.45));
+    s.style.opacity = vis;
+    s.style.visibility = vis > 0 ? 'visible' : 'hidden';
+    if (!vis) return;
+    s.style.transform = `translateY(${(1 - ease(clamp(lt / 0.5))) * 10}px)`;
+    items[k].forEach(el => {
+      const p = ease(clamp((lt - +el.dataset.in) / FADE));
+      el.style.opacity = p;
+      el.style.transform = `translateY(${(1 - p) * 26}px)`;
+    });
+    hls[k].forEach(el => el.style.setProperty('--p', ease(clamp((lt - +el.dataset.hl) / 0.45))));
+    if (lt >= 0 && lt <= s._dur) counter.innerHTML = `<b>${String(k + 1).padStart(2, '0')}</b> / ${String(scenes.length).padStart(2, '0')}`;
+  });
+  progress.style.width = (t / DURATION * 100) + '%';
+  blob.style.left = (1100 + 260 * Math.sin(t / 9)) + 'px';
+  blob.style.top = (-320 + 200 * Math.cos(t / 11)) + 'px';
+}
+window.__render = render;
+window.__DURATION = DURATION;
+
+// --- превью в браузере: пробел — пауза, ←/→ — перемотка на 5 с, ?t=секунды
+const capture = new URLSearchParams(location.search).has('capture');
+function fit() {
+  const k = capture ? 1 : Math.min(innerWidth / 1920, innerHeight / 1080);
+  const st = document.getElementById('stage');
+  st.style.transform = `scale(${k})`;
+  st.style.left = capture ? '0' : (innerWidth - 1920 * k) / 2 + 'px';
+  st.style.top = capture ? '0' : (innerHeight - 1080 * k) / 2 + 'px';
+}
+addEventListener('resize', fit); fit();
+if (!capture) {
+  let t = +(new URLSearchParams(location.search).get('t') || 0), playing = true, prev = performance.now();
+  addEventListener('keydown', e => {
+    if (e.code === 'Space') playing = !playing;
+    if (e.code === 'ArrowRight') t = Math.min(DURATION, t + 5);
+    if (e.code === 'ArrowLeft') t = Math.max(0, t - 5);
+  });
+  const loop = (now) => { if (playing) t = Math.min(DURATION, t + (now - prev) / 1000); prev = now; render(t); requestAnimationFrame(loop); };
+  document.fonts.ready.then(() => requestAnimationFrame(loop));
+} else render(0);
+</script>
+</body>
+</html>

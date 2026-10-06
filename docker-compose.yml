@@ -19,6 +19,7 @@ services:
     restart: always
     environment:
       - DB_HOST=db
+      - DB_PORT=5432  # внутри docker-сети порт базы 5432; в backend/.env стоит 5433 для запуска с хоста
     ports:
       - "8000:8000"
     depends_on:

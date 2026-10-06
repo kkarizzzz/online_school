@@ -1,0 +1,305 @@
+<title>Карта подготовки к ЕГЭ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: тетрадь в клетку. Матрица «ветка × уровень», слева — шкала уровней от 1 класса до профиля; клик по теме открывает лист с подтемами. */
+:root{
+  --paper:#f7f9fc; --sheet:#ffffff; --ink:#1b2742; --muted:#5d6a86; --line:#d9e1ee; --grid:rgba(60,100,170,.07);
+  --margin:#d8465f;
+  --b1:#2f64cf; --b2:#c4521a; --b3:#118463; --b4:#8a4bc7; --b5:#a87908;
+  --f-display:"Unbounded",system-ui,sans-serif; --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --shadow:0 1px 2px rgba(27,39,66,.06),0 4px 14px rgba(27,39,66,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#11161f; --sheet:#18202c; --ink:#e4e9f3; --muted:#9aa6bd; --line:#2a3546; --grid:rgba(140,170,230,.06);
+  --margin:#ef6b80; --b1:#7aa3f5; --b2:#f08a55; --b3:#4fcca3; --b4:#bd8cf2; --b5:#e0b545;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11161f; --sheet:#18202c; --ink:#e4e9f3; --muted:#9aa6bd; --line:#2a3546; --grid:rgba(140,170,230,.06);
+  --margin:#ef6b80; --b1:#7aa3f5; --b2:#f08a55; --b3:#4fcca3; --b4:#bd8cf2; --b5:#e0b545;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px}
+.wrap{max-width:1440px;margin:0 auto;padding:28px 20px 60px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--b1);outline-offset:2px}
+
+/* Header */
+header{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;padding-left:18px;border-left:3px solid var(--margin)}
+.eyebrow{font:600 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--margin)}
+h1{font:700 clamp(26px,4vw,40px)/1.1 var(--f-display);margin:6px 0 10px;text-wrap:balance;letter-spacing:-.01em}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:14px}
+.stats b{color:var(--ink);font-family:var(--f-mono);font-weight:600}
+.ring{display:flex;align-items:center;gap:12px}
+.ring svg{width:76px;height:76px;transform:rotate(-90deg)}
+.ring .lbl{font-size:13px;color:var(--muted);line-height:1.3}
+.ring .lbl b{display:block;font:700 22px var(--f-display);color:var(--ink)}
+
+/* Toolbar */
+.tools{margin:26px 0 18px;display:grid;gap:12px}
+.search{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search input{flex:1 1 260px;min-width:0;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--sheet);color:var(--ink);font:inherit}
+.reset{padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:transparent;cursor:pointer;color:var(--muted)}
+.reset:hover{color:var(--ink)}
+.tasks{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tasks .part{font:600 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 4px 0 8px}
+.tasks .part:first-child{margin-left:0}
+.chip{min-width:38px;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);font:600 13px var(--f-mono);cursor:pointer;font-variant-numeric:tabular-nums}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.p2{border-style:dashed}
+.hint{font-size:13px;color:var(--muted)}
+
+/* Matrix */
+.scroller{overflow-x:auto;padding-bottom:6px}
+.matrix{display:grid;grid-template-columns:150px repeat(5,minmax(210px,1fr));gap:12px;min-width:1180px}
+.bhead{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--sheet);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.bhead .n{font:600 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.bhead h2{font:700 15px/1.25 var(--f-display);margin:4px 0 10px;text-wrap:balance}
+.bar{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c);width:0;transition:width .4s}
+.bhead .pc{font:12px var(--f-mono);color:var(--muted);margin-top:5px}
+
+.rowlab{position:relative;padding:14px 10px 14px 34px}
+.rowlab::before{content:"";position:absolute;left:12px;top:0;bottom:-12px;width:2px;background:var(--line)}
+.rowlab.last::before{bottom:auto;height:30px}
+.rowlab .dot{position:absolute;left:5px;top:16px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+.rowlab.l3 .dot{background:var(--margin);border-color:var(--margin)}
+.rowlab .lv{font:700 13px var(--f-display)}
+.rowlab .ds{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:4px}
+
+.cell{display:flex;flex-direction:column;gap:8px;min-width:0;padding:8px;border-radius:12px;background:color-mix(in srgb,var(--c) 6%,transparent);border:1px dashed color-mix(in srgb,var(--c) 30%,transparent)}
+.cell.empty{background:transparent;border-color:var(--line);align-items:center;justify-content:center;color:var(--muted);font-size:13px;min-height:60px}
+.cell .mlab{display:none}
+.card{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;text-align:left;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--sheet);cursor:pointer;transition:transform .15s,box-shadow .15s,opacity .2s;box-shadow:0 1px 1px rgba(0,0,0,.03)}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--c) 55%,var(--line))}
+.card .num{font:600 12px var(--f-mono);color:var(--c);padding-top:2px;font-variant-numeric:tabular-nums}
+.card .ttl{font-weight:500;font-size:14px;line-height:1.3;min-width:0}
+.card .meta{grid-column:2;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;font-size:12px;color:var(--muted)}
+.tag{font:600 11px var(--f-mono);padding:1px 6px;border-radius:5px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c)}
+.card .mini{grid-column:2;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+.card .mini i{display:block;height:100%;background:var(--c)}
+.card.done{border-color:var(--c)}
+.card.done .ttl::after{content:" ✓";color:var(--c);font-weight:700}
+.card.dim{opacity:.22}
+.card.hit{outline:2px solid var(--c);outline-offset:1px}
+
+/* Drawer */
+.backdrop{position:fixed;inset:0;background:rgba(10,15,25,.38);z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+.backdrop.on{opacity:1;pointer-events:auto}
+aside{position:fixed;top:0;right:0;bottom:0;width:min(600px,100%);z-index:21;background:var(--sheet);border-left:1px solid var(--line);box-shadow:-10px 0 40px rgba(0,0,0,.15);transform:translateX(102%);transition:transform .25s ease;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+aside.on{transform:none}
+.dh{padding:20px 22px 16px;border-bottom:1px solid var(--line);border-top:5px solid var(--c);display:grid;grid-template-columns:1fr auto;gap:8px}
+.crumb{font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.dh h3{font:700 20px/1.25 var(--f-display);margin:6px 0 8px;text-wrap:balance}
+.close{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:transparent;cursor:pointer;font-size:18px}
+.dprog{grid-column:1/-1;display:flex;align-items:center;gap:10px;font:12px var(--f-mono);color:var(--muted)}
+.dprog .bar{flex:1}
+.db{overflow-y:auto;padding:16px 22px 30px;display:grid;gap:12px;align-content:start}
+.sub{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper)}
+.sub.ok{border-color:color-mix(in srgb,var(--c) 60%,var(--line));background:color-mix(in srgb,var(--c) 7%,var(--paper))}
+.sub label{display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:start;cursor:pointer}
+.sub input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--c);cursor:pointer}
+.sub .sn{font:600 12px var(--f-mono);color:var(--c);padding-top:2px;white-space:nowrap}
+.sub .st{font-weight:600;line-height:1.35}
+.sub ul{margin:8px 0 0;padding-left:20px;font-size:14px;color:var(--ink);display:grid;gap:4px}
+.sub > ul{margin-left:28px}
+.sub li::marker{color:var(--c)}
+.sub li ul{margin-top:4px;color:var(--muted)}
+.f{font-family:var(--f-mono);font-size:.9em;background:color-mix(in srgb,var(--c) 10%,transparent);padding:0 4px;border-radius:4px}
+
+footer{margin-top:28px;color:var(--muted);font-size:13px;padding-left:18px;border-left:3px solid var(--margin)}
+
+@media (max-width:760px){
+  .wrap{padding:20px 16px 48px}
+  header{grid-template-columns:1fr}
+  .scroller{overflow:visible}
+  .matrix{grid-template-columns:1fr;min-width:0}
+  .matrix > *{grid-row:auto!important;grid-column:auto!important}
+  .rowlab{display:none}
+  .bhead{position:static;margin-top:14px}
+  .cell .mlab{display:block;font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:2px 4px}
+  .cell.empty{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Математика · профиль · план</div>
+      <h1>Карта подготовки к ЕГЭ</h1>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="ring" aria-live="polite">
+      <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--line)" stroke-width="4"/><circle id="ringArc" cx="18" cy="18" r="15.5" fill="none" stroke="var(--margin)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 100" pathLength="100"/></svg>
+      <div class="lbl"><b id="ringPc">0%</b>подтем отмечено<br>как пройденные</div>
+    </div>
+  </header>
+
+  <div class="tools">
+    <div class="search">
+      <input id="q" type="search" placeholder="Поиск по всем темам: логарифм, Виета, параметр, вероятность…" aria-label="Поиск по темам">
+      <button class="reset" id="reset" type="button">Сбросить фильтры</button>
+    </div>
+    <div class="tasks" id="tasks" role="group" aria-label="Фильтр по номеру задания ЕГЭ"></div>
+    <div class="hint">Нажмите номер задания, чтобы подсветить нужные темы. Нажмите на тему, чтобы раскрыть подтемы и отметить пройденное. Отметки хранятся в этом браузере.</div>
+  </div>
+
+  <div class="scroller"><div class="matrix" id="matrix"></div></div>
+
+  <footer>Двигайтесь снизу вверх по уровням внутри каждой ветки: база 1–6 класса → алгебра и геометрия 7–9 → первая часть ЕГЭ → вторая часть.</footer>
+</div>
+
+<div class="backdrop" id="bd"></div>
+<aside id="drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <div class="dh">
+    <div><div class="crumb" id="dCrumb"></div><h3 id="dTitle"></h3></div>
+    <button class="close" id="dClose" type="button" aria-label="Закрыть">✕</button>
+    <div class="dprog"><div class="bar"><i id="dBar"></i></div><span id="dPc"></span></div>
+  </div>
+  <div class="db" id="dBody"></div>
+</aside>
+
+<script>
+const DATA = /*DATA*/;
+const SHORT = ["Числа и теория чисел","Уравнения и неравенства","Функции и анализ","Геометрия","Прикладная математика и вероятность"];
+const LEVEL_DESC = ["База 1–6 класс","Алгебра и геометрия 7–9 класс","База ЕГЭ, первая часть","Профиль, вторая часть"];
+
+const nums = s => [...s.matchAll(/№\s?(\d+)/g)].map(m=>+m[1]);
+const stripNo = s => s.replace(/\s*\([^()]*№[^()]*\)/g,"").trim();
+const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const flat = n => n.t + " " + (n.c||[]).map(flat).join(" ");
+
+// Build model
+const topics = [];
+DATA.forEach((b,bi)=>{
+  b.c.forEach(lv=>{
+    const L = +(lv.t.match(/УРОВЕНЬ\s*(\d)/)||[0,0])[1];
+    const lvTasks = nums(lv.t);
+    lv.c.forEach(t=>{
+      const m = t.t.match(/^(\d+\.\d+)\.\s*(.*)$/);
+      const own = nums(t.t);
+      const subs = (t.c||[]).map(s=>{const mm=s.t.match(/^(\d+\.\d+\.\d+)\.\s*(.*)$/);return {id:mm?mm[1]:s.t,name:mm?mm[2]:s.t,c:s.c||[]}});
+      topics.push({bi,L,lvText:lv.t,id:m?m[1]:t.t,name:stripNo(m?m[2]:t.t),tasks:own.length?own:lvTasks,subs,text:flat(t).toLowerCase()});
+    });
+  });
+});
+
+// Progress store
+let done = new Set();
+try{ done = new Set(JSON.parse(localStorage.getItem("ege-map-done")||"[]")); }catch(e){}
+const save = ()=>{ try{ localStorage.setItem("ege-map-done",JSON.stringify([...done])); }catch(e){} };
+const tp = t => t.subs.length ? t.subs.filter(s=>done.has(s.id)).length / t.subs.length : 0;
+
+// Stats
+const allSubs = topics.reduce((a,t)=>a+t.subs.length,0);
+document.getElementById("stats").innerHTML =
+  `<span><b>5</b> веток</span><span><b>4</b> уровня</span><span><b>${topics.length}</b> тем</span><span><b>${allSubs}</b> подтем</span><span>задания <b>№1–19</b></span>`;
+
+// Task chips
+const tasksEl = document.getElementById("tasks");
+let activeTask = null;
+tasksEl.innerHTML = `<span class="part">Часть 1</span>` +
+  Array.from({length:12},(_,i)=>`<button class="chip" type="button" data-n="${i+1}" aria-pressed="false">${i+1}</button>`).join("") +
+  `<span class="part">Часть 2</span>` +
+  Array.from({length:7},(_,i)=>`<button class="chip p2" type="button" data-n="${i+13}" aria-pressed="false">${i+13}</button>`).join("");
+tasksEl.addEventListener("click",e=>{
+  const c=e.target.closest(".chip"); if(!c) return;
+  const n=+c.dataset.n; activeTask = activeTask===n?null:n;
+  tasksEl.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.n===activeTask));
+  applyFilter();
+});
+
+// Matrix
+const mx = document.getElementById("matrix");
+let html = `<div style="grid-row:1;grid-column:1"></div>`;
+DATA.forEach((b,bi)=>{
+  html += `<div class="bhead" style="--c:var(--b${bi+1});grid-row:1;grid-column:${bi+2}"><div class="n">Ветка ${bi+1}</div><h2>${SHORT[bi]}</h2><div class="bar"><i id="bb${bi}"></i></div><div class="pc" id="bp${bi}"></div></div>`;
+  for(let L=0;L<4;L++){
+    const ts = topics.filter(t=>t.bi===bi&&t.L===L);
+    const style = `--c:var(--b${bi+1});grid-row:${L+2};grid-column:${bi+2}`;
+    if(!ts.length){ html += `<div class="cell empty" style="${style}">нет уровня</div>`; continue; }
+    html += `<div class="cell" style="${style}"><div class="mlab">Уровень ${L} · ${LEVEL_DESC[L]}</div>` + ts.map(t=>
+      `<button class="card" type="button" data-id="${t.id}"><span class="num">${t.id}</span><span class="ttl">${esc(t.name)}</span>`+
+      `<span class="meta">${t.tasks.map(n=>`<span class="tag">№${n}</span>`).join("")}<span>${t.subs.length} подтем</span></span>`+
+      `<span class="mini"><i style="width:0"></i></span></button>`).join("") + `</div>`;
+  }
+});
+for(let L=0;L<4;L++){
+  html += `<div class="rowlab ${L===3?"l3 last":""}" style="grid-row:${L+2};grid-column:1"><span class="dot"></span><div class="lv">Уровень ${L}</div><div class="ds">${LEVEL_DESC[L]}</div></div>`;
+}
+mx.innerHTML = html;
+const byId = Object.fromEntries(topics.map(t=>[t.id,t]));
+
+function refresh(){
+  mx.querySelectorAll(".card").forEach(el=>{
+    const t=byId[el.dataset.id], p=tp(t);
+    el.querySelector(".mini i").style.width=(p*100)+"%";
+    el.classList.toggle("done",p===1);
+  });
+  for(let bi=0;bi<5;bi++){
+    const ss=topics.filter(t=>t.bi===bi).flatMap(t=>t.subs);
+    const d=ss.filter(s=>done.has(s.id)).length;
+    document.getElementById("bb"+bi).style.width=(d/ss.length*100)+"%";
+    document.getElementById("bp"+bi).textContent=`${d} / ${ss.length} подтем`;
+  }
+  const d=topics.flatMap(t=>t.subs).filter(s=>done.has(s.id)).length;
+  const pc=Math.round(d/allSubs*100);
+  document.getElementById("ringArc").setAttribute("stroke-dasharray",`${d/allSubs*100} 100`);
+  document.getElementById("ringPc").textContent=pc+"%";
+}
+
+// Filter
+const q=document.getElementById("q");
+function applyFilter(){
+  const s=q.value.trim().toLowerCase();
+  const on = s || activeTask;
+  mx.querySelectorAll(".card").forEach(el=>{
+    const t=byId[el.dataset.id];
+    const ok=(!s||t.text.includes(s))&&(!activeTask||t.tasks.includes(activeTask));
+    el.classList.toggle("dim",on&&!ok);
+    el.classList.toggle("hit",on&&ok);
+  });
+}
+q.addEventListener("input",applyFilter);
+document.getElementById("reset").addEventListener("click",()=>{q.value="";activeTask=null;tasksEl.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));applyFilter();});
+
+// Drawer
+const dr=document.getElementById("drawer"), bd=document.getElementById("bd");
+let cur=null, lastFocus=null;
+const fmt = s => { // mono для формул после двоеточия
+  const i=s.indexOf(": ");
+  if(i>0 && /[=<>≤≥√^·⋮≡]/.test(s.slice(i))) return esc(s.slice(0,i+1))+" <span class=\"f\">"+esc(s.slice(i+2))+"</span>";
+  return esc(s);
+};
+const list = arr => arr.length?`<ul>${arr.map(n=>`<li>${fmt(n.t)}${n.c?list(n.c):""}</li>`).join("")}</ul>`:"";
+function openTopic(id){
+  cur=byId[id]; lastFocus=document.activeElement;
+  dr.style.setProperty("--c",`var(--b${cur.bi+1})`);
+  document.getElementById("dCrumb").textContent=`Ветка ${cur.bi+1} · Уровень ${cur.L} · ${cur.tasks.length?"№"+cur.tasks.join(", №"):LEVEL_DESC[cur.L]}`;
+  document.getElementById("dTitle").textContent=`${cur.id}. ${cur.name}`;
+  document.getElementById("dBody").innerHTML=cur.subs.map(s=>
+    `<div class="sub${done.has(s.id)?" ok":""}"><label><input type="checkbox" id="cb-${s.id}" data-s="${s.id}"${done.has(s.id)?" checked":""}><span class="sn">${s.id}</span><span class="st">${fmt(s.name)}</span></label>${list(s.c)}</div>`).join("");
+  drawProg(); dr.classList.add("on"); bd.classList.add("on"); dr.setAttribute("aria-hidden","false");
+  document.getElementById("dClose").focus();
+}
+function drawProg(){const p=tp(cur);document.getElementById("dBar").style.width=p*100+"%";document.getElementById("dPc").textContent=`${cur.subs.filter(s=>done.has(s.id)).length} из ${cur.subs.length}`;}
+function close(){dr.classList.remove("on");bd.classList.remove("on");dr.setAttribute("aria-hidden","true");lastFocus&&lastFocus.focus();}
+mx.addEventListener("click",e=>{const c=e.target.closest(".card");if(c)openTopic(c.dataset.id);});
+document.getElementById("dBody").addEventListener("change",e=>{
+  const id=e.target.dataset.s; if(!id) return;
+  e.target.checked?done.add(id):done.delete(id);
+  e.target.closest(".sub").classList.toggle("ok",e.target.checked);
+  save(); drawProg(); refresh();
+});
+bd.addEventListener("click",close);
+document.getElementById("dClose").addEventListener("click",close);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&dr.classList.contains("on"))close();});
+
+refresh();
+</script>

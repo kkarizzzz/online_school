@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Теория — Из нуля в сотку</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="shell.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script>
+        // Тема до отрисовки, чтобы не мигало
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body>
+<div class="layout">
+    <div class="wrapper">
+
+        <!-- Сайдбар: как widgets/sidebar -->
+        <aside class="glass sidebar">
+            <a href="#" class="logo" aria-label="Из нуля в сотку">
+                <img src="../../../frontend/src/shared/assets/icons/logo.svg" alt="" class="logo-icon">
+                <span class="logo-text">Из нуля в сотку</span>
+            </a>
+
+            <nav class="nav" aria-label="Основная навигация">
+                <a class="nav-btn" href="#"><i data-lucide="house"></i><span>Главная</span></a>
+                <a class="nav-btn active" href="#" aria-current="page"><i data-lucide="book-open"></i><span>Теория</span></a>
+                <a class="nav-btn" href="#"><i data-lucide="clipboard-list"></i><span>Домашнее задание</span></a>
+                <a class="nav-btn" href="#"><i data-lucide="layers"></i><span>Банк заданий</span></a>
+                <a class="nav-btn" href="#"><i data-lucide="zap"></i><span>Нарешка</span></a>
+                <a class="nav-btn" href="#"><i data-lucide="folder-open"></i><span>Каталог вариантов</span></a>
+                <a class="nav-btn" href="#"><i data-lucide="repeat"></i><span>Быстрое повторение</span></a>
+            </nav>
+
+            <div class="subject-box">
+                <span class="subject-icon"><i data-lucide="sigma"></i></span>
+                <span class="subject-text">
+                    <span class="subject-label">Предмет</span>
+                    <span class="subject-value">Математика</span>
+                </span>
+            </div>
+        </aside>
+
+        <div class="main">
+            <!-- Шапка: как widgets/learning-header -->
+            <header class="glass header">
+                <label class="search">
+                    <i data-lucide="search"></i>
+                    <input type="search" id="search" placeholder="Поиск по темам и урокам…" aria-label="Поиск по темам и урокам">
+                </label>
+                <div class="actions">
+                    <button type="button" class="icon-btn" id="theme-toggle" aria-label="Сменить тему">
+                        <i data-lucide="moon" class="theme-dark-hidden"></i>
+                        <i data-lucide="sun" class="theme-light-hidden"></i>
+                    </button>
+                    <button type="button" class="icon-btn" aria-label="Уведомления"><i data-lucide="bell"></i></button>
+                    <span class="avatar" aria-hidden="true"><i data-lucide="user"></i></span>
+                </div>
+            </header>
+
+            <main class="page">
+                <!-- Заголовок: как widgets/page-header -->
+                <div class="page-header">
+                    <p class="eyebrow">Обучение · Математика</p>
+                    <h1 class="title">Теория</h1>
+                    <p class="description">Вся программа от дробей до задачи №19 — в одном маршруте.
+                        Темы идут от базы к профилю: сначала уровень, затем ветка. Пройденные уроки отмечаются сами — вы всегда видите, что дальше.</p>
+                </div>
+
+                <div class="top">
+                    <!-- Как entities/lesson/NextLesson -->
+                    <a href="#" class="next-card" id="next-card">
+                        <div>
+                            <span class="badge"><span class="dot"></span><span id="next-badge"></span></span>
+                            <h2 class="next-title" id="next-title"></h2>
+                            <p class="next-meta"><i data-lucide="clock"></i><span id="next-meta"></span></p>
+                        </div>
+                        <div class="next-footer">
+                            <span class="next-cta">Перейти к следующему уроку</span>
+                            <span class="arrow-btn"><i data-lucide="arrow-right"></i></span>
+                        </div>
+                    </a>
+
+                    <section class="glass card progress" aria-labelledby="progress-title">
+                        <div class="progress-head">
+                            <div>
+                                <h2 class="card-title" id="progress-title">Пройдено</h2>
+                                <p class="muted" id="progress-sub"></p>
+                            </div>
+                            <svg class="ring" viewBox="0 0 36 36" aria-hidden="true">
+                                <circle cx="18" cy="18" r="15.9" pathLength="100" class="ring-track"/>
+                                <circle cx="18" cy="18" r="15.9" pathLength="100" class="ring-arc" id="ring-arc"/>
+                                <text x="18" y="18" id="ring-pc" class="ring-text"></text>
+                            </svg>
+                        </div>
+                        <ul class="levels" id="level-bars"></ul>
+                    </section>
+                </div>
+
+                <section class="route" aria-labelledby="route-title">
+                    <div class="route-head">
+                        <div>
+                            <h2 class="section-title" id="route-title">Маршрут подготовки</h2>
+                            <p class="muted">Уровень → ветка 1–5 → тема. Можно перескакивать, но мы советуем идти по порядку.</p>
+                        </div>
+                        <div class="segmented" role="tablist" aria-label="Вид">
+                            <button type="button" role="tab" data-view="route" aria-selected="true"><i data-lucide="list-ordered"></i>Маршрут</button>
+                            <button type="button" role="tab" data-view="map" aria-selected="false"><i data-lucide="layout-grid"></i>Карта</button>
+                        </div>
+                    </div>
+
+                    <div id="view-route">
+                        <div class="level-tabs" id="level-tabs" role="tablist" aria-label="Уровень"></div>
+                        <div class="filters">
+                            <div class="chips" id="status-chips">
+                                <button type="button" class="chip" data-status="all" aria-pressed="false">Все</button>
+                                <button type="button" class="chip" data-status="progress" aria-pressed="true">В процессе</button>
+                                <button type="button" class="chip" data-status="todo" aria-pressed="false">Не начаты</button>
+                                <button type="button" class="chip" data-status="done" aria-pressed="false">Завершены</button>
+                            </div>
+                            <p class="muted small" id="filter-note"></p>
+                        </div>
+                        <div id="route-list"></div>
+                    </div>
+
+                    <div id="view-map" hidden>
+                        <div class="legend">
+                            <span><i class="lg done"></i>Завершена</span>
+                            <span><i class="lg progress"></i>В процессе</span>
+                            <span><i class="lg next"></i>Следующая</span>
+                            <span><i class="lg todo"></i>Не начата</span>
+                        </div>
+                        <div class="map-scroll"><div class="map" id="map"></div></div>
+                    </div>
+                </section>
+
+                <p class="demo-note">Концепт: прогресс демонстрационный — уроки засчитываются после прохождения.</p>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Урок: выезжающая панель -->
+<div class="backdrop" id="backdrop" hidden></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="d-title" role="dialog">
+    <div class="drawer-head">
+        <p class="eyebrow" id="d-crumb"></p>
+        <button type="button" class="icon-btn" id="d-close" aria-label="Закрыть"><i data-lucide="x"></i></button>
+    </div>
+    <div class="drawer-body">
+        <h2 class="d-title" id="d-title"></h2>
+        <p class="d-meta" id="d-meta"></p>
+        <div class="conspect" id="d-conspect"></div>
+    </div>
+    <div class="drawer-foot">
+        <a class="btn btn-primary" id="d-go" href="#">Перейти к уроку<i data-lucide="arrow-right"></i></a>
+    </div>
+</aside>
+
+<script src="data.js"></script>
+<script src="summaries.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
