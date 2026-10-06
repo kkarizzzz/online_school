@@ -8,6 +8,7 @@
 | [`theory_page/`](theory_page/README.md) | Вкладка «Теория»: маршрут по темам и урокам | http://localhost:8200/concepts/theory_page/static/index.html |
 | [`lesson_page/`](lesson_page/README.md) | Прохождение урока: ролики, вопросы, практика | http://localhost:8201/concepts/lesson_page/static/index.html?id=1.10.2 |
 | [`tasks_page/`](tasks_page/README.md) | «Нарешка»: лента заданий (FastAPI + SQLite) | http://localhost:8100 |
+| [`review_page/`](review_page/README.md) | «Быстрое повторение»: микс вопросов по теории и вычислениям с вариантами ответа | http://localhost:8202/concepts/review_page/static/index.html |
 
 Все команды в README запускаются **из корня репозитория** (`online_school/`), а не из папки концепта: страницы берут шрифты и логотип из `frontend/`.
 
@@ -33,4 +34,4 @@ python concepts/theory_page/build.py
 
 ## Запуск через Claude Code
 
-В `.claude/launch.json` есть конфиги `concept-theory`, `concept-lesson`, `concept-tasks` — их можно запускать во встроенном браузере приложения.
+В `.claude/launch.json` есть конфиги `concept-theory`, `concept-lesson`, `concept-tasks`, `concept-review` — их можно запускать во встроенном браузере приложения.
