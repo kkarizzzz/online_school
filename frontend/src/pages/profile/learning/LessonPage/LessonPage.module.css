@@ -1,0 +1,14 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 0;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.message a {
+  color: var(--primary);
+  font-weight: 600;
+}

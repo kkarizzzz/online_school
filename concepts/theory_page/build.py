@@ -68,6 +68,14 @@ payload = {'branches': BRANCHES, 'levels': LEVELS, 'topics': topics}
     '// Сгенерировано build.py из карты ЕГЭ — не редактировать вручную\n'
     'window.THEORY = ' + json.dumps(payload, ensure_ascii=False) + ';\n', encoding='utf-8')
 
+# Те же данные для основного фронтенда — пока у программы курса нет API
+FRONT_DATA = BASE.parents[1] / 'frontend' / 'src' / 'entities' / 'curriculum' / 'api' / 'mock' / 'curriculum.data.ts'
+FRONT_DATA.write_text(
+    '// Сгенерировано concepts/theory_page/build.py из карты ЕГЭ — не редактировать вручную.\n'
+    '// Пока нет API программы курса, данные берутся отсюда (см. MockCurriculumRepository).\n'
+    "import type { CurriculumDto } from '../../model/types';\n\n"
+    'export const CURRICULUM_MOCK: CurriculumDto = ' + json.dumps(payload, ensure_ascii=False) + ';\n', encoding='utf-8')
+
 # ORDER.md
 lines = ['# Порядок тем — теория, математика (профиль)', '',
          'Сортировка: **уровень** (0 → 3) → **ветка** (1 → 5) → **номер темы** внутри ветки.',

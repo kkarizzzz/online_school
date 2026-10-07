@@ -19,19 +19,6 @@ export const MOCK_DATA_WEEKLY_ACTIVITY = [
 ];
 
 
-// LearningHomePage component
-export const MOCK_API_LESSON = {
-    id: 'lesson-123',
-    title: 'Геометрический смысл производной',
-    moduleNumber: 4,
-    moduleTopic: 'Начала анализа',
-    lessonNumber: 18,
-    lessonTotal: 26,
-    duration: 25,
-    isWebinar: true
-};
-
-
 // WidgetMetric component
 export const MOCK_WIDGET_METRIC = [
     { id: 'streak', icon: Flame, label: 'Серия', value: '12 дней' },
@@ -47,34 +34,6 @@ export const MOCK_UPCOMING_LESSONS = [
     { id: 'l4', title: 'Практикум: задание №11', moduleNumber: 4, moduleTopic: 'Начала анализа', lessonNumber: 26, lessonTotal: 26, duration: 40 },
 ];
 
-
-// RepetionQuickPage component
-export const MOCK_QUICK_REVIEW_CARDS = [
-    {
-        topic: 'Производная',
-        fromMistake: true,
-        front: 'Производная произведения функций',
-        back: '(u·v)′ = u′·v + u·v′ — не забывайте второе слагаемое.',
-    },
-    {
-        topic: 'Тригонометрия',
-        fromMistake: true,
-        front: 'Основное тригонометрическое тождество',
-        back: 'sin²x + cos²x = 1, откуда 1 + tg²x = 1/cos²x.',
-    },
-    {
-        topic: 'Логарифмы',
-        fromMistake: false,
-        front: 'Логарифм произведения',
-        back: 'logₐ(xy) = logₐx + logₐy при x, y > 0.',
-    },
-    {
-        topic: 'Планиметрия',
-        fromMistake: true,
-        front: 'Теорема синусов',
-        back: 'a/sinA = b/sinB = c/sinC = 2R, где R — радиус описанной окружности.',
-    },
-];
 
 // VariantsPage component
 export const MOCK_VARIANTS = [

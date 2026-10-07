@@ -1,0 +1,10 @@
+.page {
+  gap: 1.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.loading {
+  padding: 2rem 0;
+  color: var(--text-secondary);
+  text-align: center;
+}

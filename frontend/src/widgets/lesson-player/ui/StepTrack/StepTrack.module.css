@@ -1,0 +1,50 @@
+.track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-margin-top: 20px;
+    scrollbar-width: none;
+}
+
+.step {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.step::before {
+    content: "";
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.done::before { background: var(--done); border-color: var(--done); }
+.current::before { background: var(--primary); border-color: var(--primary); }
+
+.step button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 4px 4px;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: left;
+    transition: color .2s, background-color .2s;
+}
+
+.step button:not(:disabled):hover { background: var(--bg-secondary); color: var(--text-primary); }
+.step button:disabled { opacity: .5; cursor: default; }
+.done button { color: var(--done); }
+.current button { color: var(--primary-text); }
+.strong button span { font-weight: 700; }

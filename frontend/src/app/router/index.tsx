@@ -3,7 +3,7 @@ import { RequireAuth } from "../../features/auth";
 import {
     AuthPage, ErrorPage, GraduatesPage, HomePage,
     HomeworkPage,
-    LearningHomePage, NotFoundPage, ParentsPage,
+    LearningHomePage, LessonPage, NotFoundPage, ParentsPage,
     PracticePage,
     PricingPage, ProfilePage, PsychologistPage,
     PsychologistsPage, RepetionQuickPage, SettingsPage, StatisticsPage, TaskBankPage, TeachersPage,
@@ -52,6 +52,7 @@ export const router = createBrowserRouter(
                     children: [
                         { index: true, element: <LearningHomePage /> }, 
                         { path: 'theory', element: <TheoryPage /> }, 
+                        { path: 'theory/lesson/:lessonId', element: <LessonPage /> },
                         { path: 'homework', element: <HomeworkPage /> }, 
                         { path: 'task-bank', element: <TaskBankPage /> },
                         { path: 'practice', element: <PracticePage /> },

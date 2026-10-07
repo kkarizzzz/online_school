@@ -2,6 +2,7 @@ import { ArrowRight, Clock } from 'lucide-react';
 import { type JSX } from 'react';
 import { Link } from 'react-router';
 import { cn } from '../../../../shared/lib';
+import { lessonRoute } from '../../lib/routes';
 import styles from './NextLesson.module.css';
 import type { NextLessonProps } from './NextLesson.props';
 
@@ -12,7 +13,7 @@ export const NextLesson = ({ lesson, className, ...props }: NextLessonProps): JS
 
     return (
         <Link 
-            to={`/learning/lesson/${lesson.id}`} 
+            to={lessonRoute(lesson.id)} 
             className={cn(styles.card, className)} 
             {...props} 
         >

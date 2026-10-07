@@ -1,0 +1,107 @@
+.top {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 1100px) {
+    .top {
+        grid-template-columns: 2fr 1fr;
+        align-items: stretch;
+    }
+}
+
+.finished {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 2rem;
+    border-radius: var(--radius);
+    color: var(--done);
+}
+
+.finished h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+.finished p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border-radius: var(--radius);
+}
+
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.muted {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.levels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.level {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    align-items: center;
+    width: calc(100% + 20px);
+    margin: 0 -10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    transition: background-color .2s;
+}
+
+.level:hover { background: var(--bg-secondary); }
+
+.levelName {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.levelName span {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.levelCount {
+    font: 12px var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.levelBar { grid-column: 1 / -1; }
+
+@media (max-width: 560px) {
+    .card { padding: 18px; }
+}

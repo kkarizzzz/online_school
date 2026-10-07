@@ -40,3 +40,16 @@
   color: var(--text-secondary);
   margin-top: 0.25rem;
 }
+
+.done .circleProgress {
+  stroke: var(--done);
+  filter: none;
+}
+
+.compact .circleProgress {
+  filter: none;
+}
+
+.compact .percentage {
+  font-size: 1.125rem;
+}

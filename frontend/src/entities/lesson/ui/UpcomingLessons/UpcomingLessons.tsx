@@ -3,6 +3,7 @@ import type { JSX } from 'react';
 import { Link } from 'react-router';
 import { MOCK_UPCOMING_LESSONS } from '../../../../shared/constants';
 import { Card } from '../../../../shared/ui';
+import { lessonRoute } from '../../lib/routes';
 import styles from './UpcomingLessons.module.css';
 import type { UpcomingLessonsProps } from './UpcomingLessons.props';
 
@@ -29,7 +30,7 @@ export const UpcomingLessons = ({
                 <ul className={styles.list}>
                     {lessons.map((lesson) => (
                         <li key={lesson.id}>
-                            <Link to={`/learning/lesson/${lesson.id}`} className={styles.item}>
+                            <Link to={lessonRoute(lesson.id)} className={styles.item}>
                                 <CheckCircle2 className={styles.icon} />
                                 
                                 <span className={styles.itemTitle}>{lesson.title}</span>

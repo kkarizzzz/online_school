@@ -43,5 +43,6 @@ ecc.config.json
 concepts/**/tasks.db
 concepts/**/storage/
 
-# --- Ролики урока (режет concepts/lesson_page/cut.py) ---
+# --- Ролики урока (режет concepts/lesson_page/cut.py, фронтенд берёт копию из public/media/lessons) ---
 concepts/lesson_page/static/media/
+frontend/public/media/lessons/

@@ -1,0 +1,31 @@
+.md {
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+}
+
+.md > :first-child { margin-top: 0; }
+.md > :last-child { margin-bottom: 0; }
+.md p { margin: 0 0 12px; }
+.md ol, .md ul { margin: 0 0 12px; padding-left: 24px; }
+.md strong { font-weight: 700; }
+
+.md img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 16px auto 4px;
+    padding: 8px;
+    border-radius: var(--radius);
+    background: white;
+    border: 1px solid var(--border-color);
+}
+
+.md :global(.katex-display) {
+    margin: 12px 0;
+    padding: 4px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.md :global(.katex) { font-size: 1.08em; }

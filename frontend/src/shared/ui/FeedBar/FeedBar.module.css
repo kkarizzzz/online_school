@@ -1,0 +1,118 @@
+.bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 10px 10px 8px;
+    border-radius: var(--radius);
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .2s;
+}
+
+.back:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.mode {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    gap: 10px;
+}
+
+.modeIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--primary-soft);
+    color: var(--primary-text);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.accent {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.modeText {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.modeLabel {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text-secondary);
+}
+
+.modeTitle {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stats {
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+}
+
+.stat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex: 1 1 0;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.stat svg { color: var(--primary-text); }
+.stat b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.hot svg { color: var(--red); }
+.bump { animation: bump .4s ease; }
+
+@keyframes bump {
+    40% { transform: scale(1.08); }
+}
+
+@media (max-width: 760px) {
+    .bar { flex-wrap: wrap; }
+    .stats { width: 100%; }
+}
+
+@media (max-width: 560px) {
+    .stats { gap: 6px; }
+    .stat { padding: 0 6px; gap: 5px; font-size: 12.5px; }
+    .stat svg { display: none; }
+}

@@ -1,0 +1,126 @@
+.side {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+}
+
+@media (min-width: 1180px) {
+    .side {
+        display: flex;
+        position: sticky;
+        top: 20px;
+    }
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border-radius: var(--radius);
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.plan {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: calc(100% + 16px);
+    margin: 0 -8px;
+    padding: 8px;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-primary);
+    text-align: left;
+    transition: background-color .2s;
+}
+
+.item:not(:disabled):hover { background: var(--bg-secondary); }
+.item:disabled { cursor: default; opacity: .55; }
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+.itemPractice .icon { border: 1px dashed var(--text-secondary); background: transparent; }
+.itemCurrent { background: var(--primary-soft); }
+.itemCurrent .icon { background: var(--primary); color: var(--white); border-color: transparent; }
+.itemDone .icon { background: var(--done-bg); color: var(--done); border-color: transparent; }
+
+.text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.sub {
+    margin-top: 2px;
+    font: 11.5px var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.lock { color: var(--text-secondary); }
+
+.score {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.scoreRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 10px;
+    align-items: center;
+}
+
+.scoreLabel { font-size: 13.5px; }
+
+.scoreNum {
+    font: 12px var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.scoreBar { grid-column: 1 / -1; }
+
+.reset {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    padding: 0;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.reset:hover { color: var(--bad); }

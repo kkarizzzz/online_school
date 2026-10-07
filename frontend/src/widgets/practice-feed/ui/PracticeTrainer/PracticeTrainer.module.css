@@ -1,0 +1,27 @@
+.feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 880px;
+}
+
+.empty {
+    padding: 32px 0;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.error b { color: var(--dark-red); }

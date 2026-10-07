@@ -1,0 +1,31 @@
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.note,
+.noteOk {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.noteOk {
+    color: var(--done);
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    .nav { flex-wrap: wrap; }
+    .note, .noteOk { order: -1; width: 100%; justify-content: center; }
+    .nav > button { flex: 1; }
+    .spacer { display: none; }
+}

@@ -5,4 +5,7 @@ export interface ProgressRingProps extends DetailedHTMLProps<HTMLAttributes<HTML
     label?: string;
     size?: number;
     stroke?: number;
+    tone?: 'primary' | 'done';
+    /** Маленькое кольцо: процент мельче, без подписи и свечения */
+    compact?: boolean;
 }

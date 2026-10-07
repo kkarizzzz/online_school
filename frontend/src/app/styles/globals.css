@@ -194,6 +194,41 @@ SOURCE SERIF 4 (Акцентный)
     }
 }
 
+/* Обучение: статусы ответов и цвета веток программы (теория, урок, нарешка, повторение) */
+:root {
+    --done: #007c49;
+    --done-bg: #C8F8E4;
+    --bad: #d6402a;
+    --bad-bg: #ffe6e0;
+    --warn: #9a6a00;
+    --warn-bg: #fff3d1;
+    --primary-soft: rgba(18, 25, 243, .1);
+    --primary-text: #1219F3;
+
+    --b1: #1219F3;
+    --b2: #e0612f;
+    --b3: #007c49;
+    --b4: #8a3ffc;
+    --b5: #b7860b;
+}
+
+[data-theme="dark"] {
+    --done: #3fd39a;
+    --done-bg: #0f2a20;
+    --bad: #ff8a72;
+    --bad-bg: #3a1a14;
+    --warn: #e6b84a;
+    --warn-bg: #33270b;
+    --primary-soft: rgba(124, 129, 255, .18);
+    --primary-text: #9ea2ff;
+
+    --b1: #7c81ff;
+    --b2: #ff8a5c;
+    --b3: #3fd39a;
+    --b4: #b48cff;
+    --b5: #e6b84a;
+}
+
 .glass {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);

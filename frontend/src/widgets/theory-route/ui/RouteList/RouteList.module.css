@@ -1,0 +1,58 @@
+.levelTitle {
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+.branch { margin-top: 8px; }
+
+.branchHead {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0 10px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--c);
+}
+
+.branchName {
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.branchName span {
+    display: block;
+    font: 600 11px var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--c);
+}
+
+.branchCount {
+    font: 12px var(--font-mono);
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.topics {
+    margin: 0;
+    padding: 0;
+}
+
+.empty {
+    padding: 28px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}

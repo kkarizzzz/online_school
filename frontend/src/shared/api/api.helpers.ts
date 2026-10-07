@@ -8,5 +8,8 @@ export const API = {
     },
     users: {
         me: '/users/me',
-    }
+    },
+    practice: {
+        root: '/practice',
+    },
 } as const;

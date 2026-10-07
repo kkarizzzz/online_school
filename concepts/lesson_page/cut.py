@@ -4,6 +4,7 @@
 
 Границы роликов совпадают с началами сцен (data-dur в logarithms.html) и с полем clip в static/lesson.js.
 """
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -12,6 +13,8 @@ import imageio_ffmpeg
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "video" / "logarithms" / "logarithms.mp4"
 OUT = Path(__file__).resolve().parent / "static" / "media"
+# Копия для основного фронтенда (урок в /profile/learning/theory/lesson/:id)
+FRONT_OUT = ROOT / "frontend" / "public" / "media" / "lessons"
 
 # (файл, начало, конец) в секундах
 CLIPS = [
@@ -36,6 +39,8 @@ def main():
         subprocess.run(base[:4] + ["-ss", str(end - 1), "-i", str(SRC), "-frames:v", "1",
                                    "-vf", "scale=1280:-2", "-q:v", "4", str(OUT / f"{name}.jpg")], check=True)
         print(name, end - start, "s")
+
+    shutil.copytree(OUT, FRONT_OUT, dirs_exist_ok=True)
 
 
 if __name__ == "__main__":
