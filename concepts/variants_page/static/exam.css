@@ -1,0 +1,113 @@
+/* Общее для каталога и страницы решения: токены, кнопки, блок статистики попытки */
+
+:root {
+    --done: #007c49;
+    --done-bg: #C8F8E4;
+    --part: #9a6a00;
+    --part-bg: #fff3d1;
+    --bad: #d6402a;
+    --bad-bg: #ffe6e0;
+    --primary-soft: rgba(18, 25, 243, .1);
+    --primary-text: #1219F3;
+}
+
+[data-theme="dark"] {
+    --done: #3fd39a;
+    --done-bg: #0f2a20;
+    --part: #e6b84a;
+    --part-bg: #33270b;
+    --bad: #ff8a72;
+    --bad-bg: #3a1a14;
+    --primary-soft: rgba(124, 129, 255, .18);
+    --primary-text: #9ea2ff;
+}
+
+.no-scroll { overflow: hidden; }
+
+/* как в review_page */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 46px; padding: 0 22px; border-radius: 12px; font-size: 15px; font-weight: 600;
+    white-space: nowrap; transition: all .2s;
+}
+
+.btn svg { width: 18px; height: 18px; }
+.btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.btn:disabled { opacity: .45; cursor: default; }
+
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+.btn-outline { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+.btn-outline:hover:not(:disabled) { border-color: var(--primary); color: var(--primary-text); }
+.btn-ghost { background: transparent; color: var(--text-secondary); }
+.btn-ghost:hover:not(:disabled) { color: var(--text-primary); background: var(--bg-secondary); }
+
+/* ------------------------------ статистика попытки ------------------------------ */
+
+.stats { display: flex; flex-direction: column; gap: 18px; }
+
+.score { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-around; gap: 24px 32px; padding: 4px 0; }
+
+/* Кольцо прогресса — копия shared/ui/ProgressRing (вкладка «Статистика», «Домашние задания») */
+.ring { position: relative; flex-shrink: 0; }
+.ring svg { display: block; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--glass-border); }
+
+.ring-progress {
+    fill: none; stroke: var(--primary); stroke-linecap: round;
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--primary) 70%, transparent));
+    animation: ring-fill 1s ease-out;
+}
+
+/* Во frontend дуга дорисовывается переходом stroke-dashoffset; здесь разметка вставляется строкой — то же анимацией */
+@keyframes ring-fill { from { stroke-dashoffset: var(--ring-from); } to { stroke-dashoffset: var(--ring-to); } }
+
+@media (prefers-reduced-motion: reduce) { .ring-progress { animation: none; } }
+
+.ring-content {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+.ring-value { font-size: 2.25rem; font-weight: 700; line-height: 1.1; color: var(--text-primary); }
+.ring-label { margin-top: .25rem; font-size: .75rem; color: var(--text-secondary); }
+
+/* Легенда — как HomeworkOverview */
+.ring-legend { display: flex; flex-direction: column; gap: 20px; }
+.ring-legend-item { display: flex; align-items: center; gap: 12px; font-size: 16px; }
+.ring-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; background-color: var(--gray); }
+.ring-dot.is-primary { background-color: var(--primary); }
+
+.facts-wide { grid-column: 1 / -1; }
+
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.facts > div { padding: 10px 12px; border-radius: 10px; background: var(--bg-secondary); }
+.facts dt { font: 600 10.5px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); }
+.facts dd { margin: 3px 0 0; font-size: 14px; font-weight: 600; }
+
+.part { display: flex; flex-direction: column; gap: 6px; }
+.part-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+.part-head b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.part-bar { height: 6px; border-radius: 3px; background: var(--bg-secondary); overflow: hidden; }
+.part-bar i { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+
+.cells-wrap { display: flex; flex-direction: column; gap: 10px; }
+.cells-title { font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); }
+
+.cells { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; }
+
+.cell {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    height: 46px; border-radius: 10px; font-variant-numeric: tabular-nums;
+}
+
+.cell b { font-size: 14px; }
+.cell small { font: 600 10px var(--font-mono); opacity: .8; }
+
+.cell.is-full, .cells-legend i.is-full { background: var(--done-bg); color: var(--done); }
+.cell.is-part, .cells-legend i.is-part { background: var(--part-bg); color: var(--part); }
+.cell.is-zero, .cells-legend i.is-zero { background: var(--bad-bg); color: var(--bad); }
+
+.cells-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--text-secondary); }
+.cells-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.cells-legend i { width: 10px; height: 10px; border-radius: 3px; }
