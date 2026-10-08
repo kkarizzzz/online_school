@@ -1,7 +1,7 @@
-import type { HomeworkAttempt } from '../../model/HomeworkAttempt';
+import type { AttemptSession } from '../../model/AttemptSession';
 
-export interface HomeworkTaskPanelProps {
-    attempt: HomeworkAttempt;
-    /** «К сдаче» на последней задаче */
+export interface AttemptTaskPanelProps {
+    session: AttemptSession;
+    /** «К сдаче» на последнем задании */
     onSubmit: () => void;
 }

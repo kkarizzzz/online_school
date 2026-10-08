@@ -1,6 +1,7 @@
 // Формат ответа сервера (snake_case) и перевод в модели фронтенда
 
-import type { AnswerType, PracticeTask, PracticeTopic, PracticeTopics, SubmitResult } from './types';
+import { ExamTaskMapper, type ExamTaskDto } from '../../exam-task';
+import type { PracticeTask, PracticeTopic, PracticeTopics, SubmitResult } from './types';
 
 export interface PracticeTopicDto {
     id: number;
@@ -16,22 +17,7 @@ export interface PracticeTopicsDto {
     last_topic_id: number | null;
 }
 
-export interface PracticeTaskDto {
-    id: number;
-    task_number: number;
-    part: number;
-    difficulty: number;
-    max_score: number;
-    answer_type: AnswerType;
-    topic_id: number | null;
-    topic: string | null;
-    subtopic: string | null;
-    sources: string[];
-    shared_text: string | null;
-    condition: string;
-    attachments: { filename: string; url: string }[];
-    similar_count: number;
-}
+export type PracticeTaskDto = ExamTaskDto;
 
 export interface SubmitResultDto {
     is_correct: boolean | null;
@@ -57,22 +43,7 @@ export const PracticeMapper = {
         lastTopicId: dto.last_topic_id,
     }),
 
-    task: (t: PracticeTaskDto): PracticeTask => ({
-        id: t.id,
-        taskNumber: t.task_number,
-        part: t.part,
-        difficulty: t.difficulty,
-        maxScore: t.max_score,
-        answerType: t.answer_type,
-        topicId: t.topic_id,
-        topic: t.topic,
-        subtopic: t.subtopic,
-        sources: t.sources,
-        sharedText: t.shared_text,
-        condition: t.condition,
-        attachments: t.attachments,
-        similarCount: t.similar_count,
-    }),
+    task: (t: PracticeTaskDto): PracticeTask => ExamTaskMapper.task(t),
 
     result: (r: SubmitResultDto): SubmitResult => ({
         isCorrect: r.is_correct,

@@ -47,8 +47,11 @@ export class HttpPracticeRepository implements PracticeRepository {
         return PracticeMapper.task(data);
     }
 
-    async submit(taskId: number, answer: string): Promise<SubmitResult> {
-        const { data } = await this.http.post<SubmitResultDto>(`${this.prefix}/tasks/${taskId}/submit`, { answer });
+    async submit(taskId: number, answer: string, timeSpentSec?: number): Promise<SubmitResult> {
+        const { data } = await this.http.post<SubmitResultDto>(`${this.prefix}/tasks/${taskId}/submit`, {
+            answer,
+            time_spent_sec: timeSpentSec,
+        });
         return PracticeMapper.result(data);
     }
 }

@@ -1,92 +1,163 @@
-import { isBlankAnswer, isCorrectAnswer } from '../../../entities/exam-task';
-import type { Homework, HomeworkRepository, HomeworkResult, HomeworkSession, HomeworkTask } from '../../../entities/homework';
-import { Observable } from '../../../shared/lib';
+import { isAxiosError } from 'axios';
+import type { AttemptData, AttemptItem, AttemptRepository } from '../../../entities/attempt';
+import { isBlankAnswer, type TaskAttachment } from '../../../entities/exam-task';
+import { Observable, parseApiError } from '../../../shared/lib';
+
+/** Ответ уходит на сервер через столько мс после последнего нажатия клавиши */
+const SAVE_DELAY = 600;
 
 /**
- * Выполнение ДЗ: ответы по задачам и открытая задача.
- * Каждое изменение сразу уходит в репозиторий — закрытая вкладка ничего не теряет,
- * а при следующем открытии ДЗ продолжится с той же задачи.
+ * Прохождение набора: ответы, приложенные фото и открытое задание.
+ * Ответы сохраняются на сервере черновиком (с задержкой после ввода), поэтому закрытая вкладка
+ * ничего не теряет: при следующем открытии попытка продолжится с того же задания.
+ * Проверяются ответы только при сдаче.
  */
-export class HomeworkAttempt extends Observable {
-    readonly homework: Homework;
-    readonly tasks: HomeworkTask[];
-    private readonly repository: HomeworkRepository;
-    private readonly session: HomeworkSession;
+export class AttemptSession extends Observable {
+    readonly data: AttemptData;
+    private readonly repository: AttemptRepository;
+    private readonly answers: string[];
+    private readonly files: TaskAttachment[][];
+    private readonly timers = new Map<number, ReturnType<typeof setTimeout>>();
+    private readonly saving = new Set<Promise<void>>();
+    private index: number;
 
-    constructor(homework: Homework, repository: HomeworkRepository) {
+    /** Последняя ошибка сохранения — показываем, пока следующее сохранение не пройдёт */
+    saveError: string | null = null;
+    /** Сервер больше не принимает ответы: время вышло или попытку сдали в другой вкладке */
+    closed = false;
+    uploading = false;
+
+    constructor(data: AttemptData, repository: AttemptRepository) {
         super();
-        this.homework = homework;
-        this.tasks = homework.tasks;
+        this.data = data;
         this.repository = repository;
-        const saved = homework.session;
-        this.session = saved
-            ? { ...saved, answers: [...saved.answers], current: Math.min(Math.max(saved.current, 0), this.tasks.length - 1) }
-            : { startedAt: Date.now(), answers: [], current: 0 };
-        this.save();
+        this.answers = data.items.map((i) => i.answer ?? '');
+        this.files = data.items.map((i) => [...i.files]);
+        this.index = Math.min(Math.max(data.currentPosition, 0), data.items.length - 1);
+    }
+
+    get items(): AttemptItem[] {
+        return this.data.items;
     }
 
     get current(): number {
-        return this.session.current;
+        return this.index;
     }
 
-    get task(): HomeworkTask {
-        return this.tasks[this.session.current];
+    get item(): AttemptItem {
+        return this.items[this.index];
     }
 
     get isFirst(): boolean {
-        return this.session.current === 0;
+        return this.index === 0;
     }
 
     get isLast(): boolean {
-        return this.session.current === this.tasks.length - 1;
+        return this.index === this.items.length - 1;
     }
 
+    /** Начало и конец по часам браузера, мс */
     get startedAt(): number {
-        return this.session.startedAt;
+        return new Date(this.data.startedAt).getTime() - this.data.clockOffset;
+    }
+
+    get expiresAt(): number | null {
+        return this.data.expiresAt ? new Date(this.data.expiresAt).getTime() - this.data.clockOffset : null;
     }
 
     answerOf(i: number): string {
-        return this.session.answers[i] ?? '';
+        return this.answers[i] ?? '';
+    }
+
+    filesOf(i: number): TaskAttachment[] {
+        return this.files[i] ?? [];
     }
 
     isAnswered(i: number): boolean {
-        return !isBlankAnswer(this.session.answers[i]);
+        return !isBlankAnswer(this.answers[i]) || this.filesOf(i).length > 0;
     }
 
     get answeredCount(): number {
-        return this.tasks.filter((_, i) => this.isAnswered(i)).length;
+        return this.items.filter((_, i) => this.isAnswered(i)).length;
     }
 
     get unansweredCount(): number {
-        return this.tasks.length - this.answeredCount;
+        return this.items.length - this.answeredCount;
     }
 
     setAnswer(value: string): void {
-        this.session.answers[this.session.current] = value;
-        this.save();
+        const i = this.index;
+        this.answers[i] = value;
+        clearTimeout(this.timers.get(i));
+        this.timers.set(i, setTimeout(() => this.saveAnswer(i), SAVE_DELAY));
         this.notify();
     }
 
     goTo(i: number): void {
-        if (i < 0 || i >= this.tasks.length || i === this.session.current) return;
-        this.session.current = i;
-        this.save();
+        if (i < 0 || i >= this.items.length || i === this.index) return;
+        this.flushAnswer(this.index);
+        this.index = i;
+        this.track(this.repository.savePosition(this.data.id, i, (Date.now() - this.startedAt) / 1000));
         this.notify();
     }
 
-    /** Итог сдачи: каждая задача — 1 (верно) или 0 */
-    toResult(): HomeworkResult {
-        const answers = this.tasks.map((_, i) => this.answerOf(i));
-        return {
-            points: this.tasks.map((t, i) => (isCorrectAnswer(answers[i], t.answer) ? 1 : 0)),
-            answers,
-            seconds: Math.floor((Date.now() - this.session.startedAt) / 1000),
-            date: new Date().toISOString(),
-            ...(this.homework.isOverdue ? { late: true } : {}),
-        };
+    async upload(file: File): Promise<void> {
+        const i = this.index;
+        this.uploading = true;
+        this.notify();
+        try {
+            const saved = await this.repository.uploadFile(this.data.id, this.items[i].task.id, file);
+            this.files[i] = [...this.filesOf(i), saved];
+            this.saveError = null;
+        } catch (error) {
+            this.fail(error, 'Не удалось загрузить файл');
+        } finally {
+            this.uploading = false;
+            this.notify();
+        }
     }
 
-    private save(): void {
-        void this.repository.saveSession(this.homework.id, { ...this.session, answers: [...this.session.answers] });
+    /** Дождаться, пока все ответы дойдут до сервера */
+    async flush(): Promise<void> {
+        for (const i of [...this.timers.keys()]) this.flushAnswer(i);
+        await Promise.allSettled([...this.saving]);
+    }
+
+    /** Сдать: сначала досохранить ответы, потом проверка на сервере. Возвращает попытку с разбором */
+    async submit(): Promise<AttemptData> {
+        await this.flush();
+        return this.repository.submit(this.data.id);
+    }
+
+    private flushAnswer(i: number): void {
+        if (!this.timers.has(i)) return;
+        clearTimeout(this.timers.get(i));
+        this.saveAnswer(i);
+    }
+
+    private saveAnswer(i: number): void {
+        this.timers.delete(i);
+        this.track(this.repository.saveAnswer(this.data.id, this.items[i].task.id, this.answers[i] ?? ''));
+    }
+
+    private track(request: Promise<void>): void {
+        const wrapped = request
+            .then(() => {
+                if (this.saveError) {
+                    this.saveError = null;
+                    this.notify();
+                }
+            })
+            .catch((error: unknown) => {
+                this.fail(error, 'Ответ не сохранился — проверьте интернет');
+                this.notify();
+            })
+            .finally(() => this.saving.delete(wrapped));
+        this.saving.add(wrapped);
+    }
+
+    private fail(error: unknown, fallback: string): void {
+        if (isAxiosError(error) && error.response?.status === 409) this.closed = true;
+        this.saveError = parseApiError(error, fallback);
     }
 }

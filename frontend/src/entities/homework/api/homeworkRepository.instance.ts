@@ -1,4 +1,4 @@
 import type { HomeworkRepository } from './HomeworkRepository';
-import { MockHomeworkRepository } from './MockHomeworkRepository';
+import { HttpHomeworkRepository } from './HttpHomeworkRepository';
 
-export const homeworkRepository: HomeworkRepository = new MockHomeworkRepository();
+export const homeworkRepository: HomeworkRepository = new HttpHomeworkRepository();

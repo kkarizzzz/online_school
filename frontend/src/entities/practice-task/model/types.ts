@@ -1,6 +1,7 @@
 // Нарешка: задания банка и темы, как их отдаёт API
+import type { AnswerType, ExamTask } from '../../exam-task';
 
-export type AnswerType = 'short' | 'digits_set' | 'sequence' | 'detailed';
+export type { AnswerType };
 
 export interface PracticeTopic {
     id: number;
@@ -17,31 +18,11 @@ export interface PracticeTopics {
     lastTopicId: number | null;
 }
 
-export interface PracticeAttachment {
-    filename: string;
-    url: string;
-}
-
 /** Задание без ответа и решения — то, что ученик видит до проверки */
-export interface PracticeTask {
-    id: number;
-    taskNumber: number;
-    part: number;
-    difficulty: number;
-    maxScore: number;
-    answerType: AnswerType;
-    topicId: number | null;
-    topic: string | null;
-    subtopic: string | null;
-    sources: string[];
-    sharedText: string | null;
-    condition: string;           // Markdown + LaTeX
-    attachments: PracticeAttachment[];
-    similarCount: number;
-}
+export type PracticeTask = ExamTask;
 
 export interface SubmitResult {
-    isCorrect: boolean | null;   // null — ответ проверит куратор
+    isCorrect: boolean | null;   // null — ответ проверит преподаватель
     score: number | null;
     maxScore: number;
     correctAnswer: string;

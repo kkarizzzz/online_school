@@ -1,7 +1,7 @@
 import { Timer } from 'lucide-react';
 import { useEffect, useState, type JSX } from 'react';
 import { cn, formatClock } from '../../../../shared/lib';
-import styles from '../HomeworkSolver/HomeworkSolver.module.css';
+import styles from '../AttemptSolver/AttemptSolver.module.css';
 import type { ElapsedTimerProps } from './ElapsedTimer.props';
 
 

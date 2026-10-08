@@ -45,7 +45,7 @@ export const LessonPage = (): JSX.Element => {
                 lesson={lesson}
                 lessonContent={lessonContent}
                 nextLesson={progress.curriculum.lessonAfter(lesson)}
-                onFinish={() => completeLesson(lesson.id)}
+                onFinish={(score) => completeLesson({ lessonId: lesson.id, percent: score })}
             />
         </Container>
     );

@@ -23,8 +23,22 @@ apiClient.interceptors.request.use((config) => {
     return config
 })
 
+// Одно обновление токена на всех: страница шлёт запросы параллельно, и при истёкшем токене
+// каждый получил бы 401 и пошёл обновлять его сам
+let refreshing: Promise<string> | null = null
+
+const refreshAccessToken = (): Promise<string> => {
+    refreshing ??= axios
+        .post(`${import.meta.env.VITE_API_URL}${API.auth.refresh}`, {}, { withCredentials: true })
+        .then((response) => response.data.access_token as string)
+        .finally(() => {
+            refreshing = null
+        })
+    return refreshing
+}
+
 apiClient.interceptors.response.use(
-    (response) => response, 
+    (response) => response,
     async (error) => {
         const originalRequest = error.config
 
@@ -32,11 +46,7 @@ apiClient.interceptors.response.use(
             originalRequest._isRetry = true
 
             try {
-                const response = await axios.post(`${import.meta.env.VITE_API_URL}${API.auth.refresh}`, {}, {
-                    withCredentials: true
-                })
-
-                accessToken = response.data.access_token
+                accessToken = await refreshAccessToken()
 
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`
 

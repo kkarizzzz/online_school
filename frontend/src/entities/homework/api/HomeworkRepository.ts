@@ -1,10 +1,9 @@
-import type { HomeworkDto, HomeworkResult, HomeworkSession } from '../model/types';
+import type { AttemptData } from '../../attempt';
+import type { HomeworkList } from '../model/types';
 
 export interface HomeworkRepository {
-    /** Все ДЗ ученика с его прогрессом */
-    getAll(): Promise<HomeworkDto[]>;
-    /** Сохранить начатое ДЗ — после каждого ответа */
-    saveSession(id: string, session: HomeworkSession): Promise<void>;
-    /** Сдать ДЗ: результат сохраняется, начатое удаляется. Сданное переписать нельзя */
-    submit(id: string, result: HomeworkResult): Promise<void>;
+    /** Все ДЗ ученика с прогрессом и счётчиками вкладок */
+    getAll(): Promise<HomeworkList>;
+    /** Начать ДЗ, продолжить начатое или открыть разбор сданного — сервер вернёт нужную попытку */
+    start(homeworkId: number): Promise<AttemptData>;
 }

@@ -1,6 +1,6 @@
 import { useCallback, type JSX } from 'react';
 import { useSearchParams } from 'react-router';
-import { useBankNumbers, type BankNumber } from '../../../../entities/bank-task';
+import { useBankNumbers } from '../../../../entities/bank-task';
 import { pluralize } from '../../../../shared/lib';
 import { TopicsDrawer } from '../TopicsDrawer/TopicsDrawer';
 import styles from './BankNumbers.module.css';
@@ -10,20 +10,19 @@ const PARTS = [
     { part: 2, title: 'Часть 2', note: 'развёрнутый ответ · задания 13–19' },
 ] as const;
 
-const taskCount = (b: BankNumber): number => b.topics.reduce((s, t) => s + t.tasks.length, 0);
-
 
 /**
  * Номера ЕГЭ 1–19 по частям. Клик по номеру открывает панель тем справа.
  * Открытый номер — в адресе (?n=6): так возвращает ссылка «Банк заданий» со страницы номера.
  */
 export const BankNumbers = (): JSX.Element => {
-    const { data: numbers } = useBankNumbers();
+    const { data: numbers, isError } = useBankNumbers();
     const [params, setParams] = useSearchParams();
     const open = numbers?.find((b) => b.n === Number(params.get('n'))) ?? null;
 
     const close = useCallback(() => setParams({}, { replace: true }), [setParams]);
 
+    if (isError) return <p className={styles.empty}>Не удалось загрузить банк заданий. Обновите страницу.</p>;
     if (!numbers) return <p className={styles.empty}>Загружаем банк заданий…</p>;
 
     return (
@@ -44,7 +43,8 @@ export const BankNumbers = (): JSX.Element => {
                                     <span className={styles.main}>
                                         <span className={styles.title}>{b.title}</span>
                                         <span className={styles.meta}>
-                                            {pluralize(b.topics.length, 'тема', 'темы', 'тем')} · {pluralize(taskCount(b), 'задание', 'задания', 'заданий')}
+                                            {pluralize(b.topics.length, 'тема', 'темы', 'тем')} · {pluralize(b.taskCount, 'задание', 'задания', 'заданий')}
+                                            {b.solvedCount > 0 && ` · решено ${b.solvedCount}`}
                                         </span>
                                     </span>
                                 </button>

@@ -1,4 +1,3 @@
 export const HOMEWORK_LIST_ROUTE = '/profile/learning/homework';
 
-export const homeworkRoute = (homeworkId: string): string =>
-    `${HOMEWORK_LIST_ROUTE}/${encodeURIComponent(homeworkId)}`;
+export const homeworkRoute = (homeworkId: number): string => `${HOMEWORK_LIST_ROUTE}/${homeworkId}`;

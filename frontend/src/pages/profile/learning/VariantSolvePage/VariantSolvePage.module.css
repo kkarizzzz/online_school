@@ -1,0 +1,24 @@
+.message {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.missing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    border-radius: var(--radius);
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.missingTitle {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+}

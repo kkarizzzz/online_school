@@ -1,4 +1,4 @@
 import type { BankRepository } from './BankRepository';
-import { MockBankRepository } from './MockBankRepository';
+import { HttpBankRepository } from './HttpBankRepository';
 
-export const bankRepository: BankRepository = new MockBankRepository();
+export const bankRepository: BankRepository = new HttpBankRepository();

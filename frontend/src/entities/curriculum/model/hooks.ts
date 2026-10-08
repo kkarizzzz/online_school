@@ -15,13 +15,10 @@ export const useLearningProgress = () =>
     useQuery({
         queryKey: curriculumKeys.progress,
         queryFn: async () => {
-            const [curriculum, completed] = await Promise.all([
-                curriculumRepository.getCurriculum(),
-                curriculumRepository.getCompletedLessonIds(),
-            ]);
-            return new LearningProgress(curriculum, completed);
+            const { curriculum, completedLessonIds } = await curriculumRepository.getCurriculum();
+            return new LearningProgress(curriculum, completedLessonIds);
         },
-        staleTime: Infinity,
+        staleTime: 5 * 60_000,
     });
 
 export const useLessonSummary = (lesson: Lesson | null) =>
@@ -39,9 +36,12 @@ export const useLessonSummary = (lesson: Lesson | null) =>
 export const useCompleteLesson = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (lessonId: string) => curriculumRepository.completeLesson(lessonId),
-        onSuccess: (_, lessonId) => {
+        mutationFn: ({ lessonId, percent }: { lessonId: string; percent?: number }) =>
+            curriculumRepository.completeLesson(lessonId, percent),
+        onSuccess: (_, { lessonId }) => {
             queryClient.setQueryData<LearningProgress>(curriculumKeys.progress, (prev) => prev?.withCompleted(lessonId));
+            // Урок попадает в активность дня и серию
+            void queryClient.invalidateQueries({ queryKey: ['stats'] });
         },
     });
 };

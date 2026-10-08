@@ -44,3 +44,8 @@
   align-items: center;
   gap: 12px;
 }
+.error {
+    margin-top: 12px;
+    color: var(--bad);
+    font-size: 14px;
+}

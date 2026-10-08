@@ -6,5 +6,6 @@ export interface LessonPlayerProps {
     lessonContent: LessonContent;
     nextLesson: Lesson | null;
     /** Ученик дошёл до итога — урок засчитывается пройденным */
-    onFinish: () => void;
+    /** Урок пройден; score — процент усвоения */
+    onFinish: (score: number) => void;
 }

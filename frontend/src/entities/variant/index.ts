@@ -1,2 +1,5 @@
+export * from './api/variantRepository'
+export * from './lib/routes'
+export * from './model/hooks'
 export * from './model/types'
 export * from './ui/VariantCard/VariantCard'

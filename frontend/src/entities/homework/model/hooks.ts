@@ -1,35 +1,31 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { homeworkRepository } from '../api/homeworkRepository.instance';
 import { Homework } from './Homework';
-import type { HomeworkResult } from './types';
 
+// Попытка — отдельный корень ключа: сброс списка ДЗ не перезапрашивает попытку
 export const homeworkKeys = {
     all: ['homework'] as const,
+    attempt: (homeworkId: number) => ['homework-attempt', homeworkId] as const,
 };
 
-/** Все ДЗ ученика */
+/** Все ДЗ ученика и счётчики вкладок */
 export const useHomeworkList = () =>
     useQuery({
         queryKey: homeworkKeys.all,
         queryFn: () => homeworkRepository.getAll(),
-        select: (list) => list.map((dto) => new Homework(dto)),
+        select: ({ items, counts }) => ({ items: items.map((h) => new Homework(h)), counts }),
     });
 
-/** Одно ДЗ; data === null — такого нет */
-export const useHomework = (id: string) =>
+/**
+ * Попытка ДЗ: новая, начатая или сданная. Запрос идемпотентный — сервер возвращает
+ * уже существующую попытку, поэтому его можно повторять при каждом открытии страницы
+ */
+export const useHomeworkAttempt = (homeworkId: number) =>
     useQuery({
-        queryKey: homeworkKeys.all,
-        queryFn: () => homeworkRepository.getAll(),
-        select: (list) => {
-            const dto = list.find((hw) => hw.id === id);
-            return dto ? new Homework(dto) : null;
-        },
+        queryKey: homeworkKeys.attempt(homeworkId),
+        queryFn: () => homeworkRepository.start(homeworkId),
+        enabled: Number.isInteger(homeworkId) && homeworkId > 0,
+        retry: false,
+        staleTime: Infinity,
+        gcTime: 0,
     });
-
-export const useSubmitHomework = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: ({ id, result }: { id: string; result: HomeworkResult }) => homeworkRepository.submit(id, result),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: homeworkKeys.all }),
-    });
-};

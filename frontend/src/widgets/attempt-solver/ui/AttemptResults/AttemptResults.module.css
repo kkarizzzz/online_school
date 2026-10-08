@@ -342,3 +342,58 @@
     .rowEge { display: none; }
     .body { padding-left: 14px; }
 }
+
+.cell.part,
+.cellsLegend i.part {
+    background: var(--warn-bg);
+    color: var(--warn);
+}
+
+.cell.pending,
+.cellsLegend i.pending {
+    background: var(--primary-soft);
+    color: var(--primary-text);
+}
+
+.row.part .rowNum { background: var(--warn-bg); color: var(--warn); }
+.row.part .points { color: var(--warn); }
+.row.pending .rowNum { background: var(--primary-soft); color: var(--primary-text); }
+.row.pending .points { color: var(--primary-text); }
+
+.notice {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--primary-soft);
+    color: var(--primary-text);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.comment {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border-left: 3px solid var(--primary);
+    background: var(--bg-primary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.comment b {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.files a {
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 13px;
+    text-decoration: none;
+}

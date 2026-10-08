@@ -37,12 +37,12 @@ export class LessonSession extends Observable {
     readonly finishIndex: number;
 
     private readonly storage: JsonStorage<SessionData>;
-    private readonly onFinish: () => void;
+    private readonly onFinish: (score: number) => void;
     private data: SessionData;
     private readonly progressCache = new Map<string, ItemProgress>();
     private resets = 0;
 
-    constructor(lessonId: string, content: LessonContentDto, onFinish: () => void) {
+    constructor(lessonId: string, content: LessonContentDto, onFinish: (score: number) => void) {
         super();
         this.steps = content.steps.map(LessonStep.from);
         this.videos = this.steps.filter((s): s is VideoStep => s instanceof VideoStep);
@@ -157,7 +157,7 @@ export class LessonSession extends Observable {
         if (stepIndex > this.data.max) {
             if (stepIndex !== this.data.max + 1 || !this.isStepDone(this.data.max)) return false;
             this.data.max = stepIndex;
-            if (stepIndex === this.finishIndex) this.onFinish();
+            if (stepIndex === this.finishIndex) this.onFinish(this.score);
         }
         this.data.step = stepIndex;
         this.commit();

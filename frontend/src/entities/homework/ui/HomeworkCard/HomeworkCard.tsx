@@ -11,6 +11,7 @@ export const HomeworkCard = ({ homework, className, ...props }: HomeworkCardProp
     const status = homework.status;
     const isOverdue = status === 'overdue';
     const isDone = status === 'done';
+    const isChecking = homework.attempt?.status === 'checking';
     const to = homeworkRoute(homework.id);
 
     const actionLabel = isOverdue
@@ -22,7 +23,7 @@ export const HomeworkCard = ({ homework, className, ...props }: HomeworkCardProp
             <div className={styles.card}>
                 <div className={styles.info}>
                     <h3 className={styles.title}>{homework.title}</h3>
-                    <p className={styles.topic}>{homework.topic} · {homework.sizeLabel}</p>
+                    <p className={styles.topic}>{[homework.topic, homework.sizeLabel].filter(Boolean).join(' · ')}</p>
 
                     <div className={styles.meta}>
                         <span className={cn(styles.metaItem, {
@@ -46,7 +47,7 @@ export const HomeworkCard = ({ homework, className, ...props }: HomeworkCardProp
                     <div className={styles.side}>
                         <span className={styles.doneBadge}>
                             <CheckCircle2 size={16} className={styles.metaDone} />
-                            Выполнено
+                            {isChecking ? 'На проверке' : 'Выполнено'}
                         </span>
                         <Button as={Link} to={to} variant='ghost' size='s' radius={18}>
                             Разбор<ArrowRight size={16} />

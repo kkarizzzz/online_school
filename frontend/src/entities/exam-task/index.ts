@@ -1,3 +1,3 @@
 export * from './lib/answer'
-export * from './lib/generators'
+export * from './model/dto'
 export * from './model/types'

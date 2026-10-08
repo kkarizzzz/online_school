@@ -1,4 +1,4 @@
-import { MockReviewQuestionRepository } from './MockReviewQuestionRepository';
+import { HttpReviewQuestionRepository } from './HttpReviewQuestionRepository';
 import type { ReviewQuestionRepository } from './ReviewQuestionRepository';
 
-export const reviewQuestionRepository: ReviewQuestionRepository = new MockReviewQuestionRepository();
+export const reviewQuestionRepository: ReviewQuestionRepository = new HttpReviewQuestionRepository();

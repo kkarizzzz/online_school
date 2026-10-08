@@ -1,20 +1,25 @@
 import type { JSX } from 'react';
+import { useUserProfile } from '../../../../entities/user';
 import { SUBJECTS } from '../../../../shared/constants';
-import { cn } from '../../../../shared/lib';
+import { cn, pluralize } from '../../../../shared/lib';
 import { Card } from '../../../../shared/ui';
 import styles from './SubscriptionSubjects.module.css';
 import type { SubscriptionSubjectsProps } from './SubscriptionSubjects.props';
 
 
+/** Предметы, к которым у ученика есть доступ */
 export const SubscriptionSubjects = ({ className, ...props }: SubscriptionSubjectsProps): JSX.Element => {
-    const pickedSubjects = ['math', 'physics'];
+    const { data: profile } = useUserProfile();
+    const pickedSubjects = (profile?.subjects ?? []).map((s) => s.subject);
 
     return (
         <Card variant="glass" className={className} {...props}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Мои предметы</h2>
                 <p className={styles.subtitle}>
-                    Подключено {pickedSubjects.length} предмета
+                    {pickedSubjects.length
+                        ? `Подключено ${pluralize(pickedSubjects.length, 'предмет', 'предмета', 'предметов')}`
+                        : 'Предметы подключаются вместе с тарифом'}
                 </p>
             </div>
 

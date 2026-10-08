@@ -4,7 +4,7 @@ import styles from './ProgressRing.module.css';
 import type { ProgressRingProps } from './ProgressRing.props';
 
 
-export const ProgressRing = ({ value=0, label, size=168, stroke=12, tone='primary', compact, className, ...props }: ProgressRingProps): JSX.Element => {
+export const ProgressRing = ({ value=0, display, label, size=168, stroke=12, tone='primary', compact, className, ...props }: ProgressRingProps): JSX.Element => {
     
     const radius = (size - stroke) * 0.5;
     const circumference = 2 * Math.PI * radius;
@@ -41,7 +41,7 @@ export const ProgressRing = ({ value=0, label, size=168, stroke=12, tone='primar
                 />
             </svg>
             <div className={styles.content}>
-                <span className={styles.percentage}>{value}%</span>
+                <span className={styles.percentage}>{display ?? `${value}%`}</span>
                 {label && <span className={styles.label}>{label}</span>}
             </div>
         </div>

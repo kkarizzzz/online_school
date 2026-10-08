@@ -15,6 +15,9 @@ export interface TaskAttempt {
     error: string | null;
 }
 
+/** Дольше этого время на задание не засчитываем — ученик, скорее всего, отошёл */
+const MAX_TASK_SECONDS = 30 * 60;
+
 const freshAttempt = (): TaskAttempt => ({ result: null, wrong: false, revealed: false, submitting: false, error: null });
 
 /**
@@ -35,13 +38,15 @@ export class PracticeFeed extends Observable {
     private readonly repository: PracticeRepository;
     private seen: number[] = [];
     private request = 0;
+    /** С какого момента идёт время на текущий ответ, мс */
+    private since = Date.now();
 
     constructor(repository: PracticeRepository) {
         super();
         this.repository = repository;
     }
 
-    /** Ответ принят (верно, на проверке у куратора) или решение открыто — можно идти дальше */
+    /** Ответ принят (верно, на проверке у преподавателя) или решение открыто — можно идти дальше */
     get isFinished(): boolean {
         const { result, revealed } = this.attempt;
         return revealed || (!!result && result.isCorrect !== false);
@@ -82,8 +87,10 @@ export class PracticeFeed extends Observable {
 
         this.attempt = { ...this.attempt, submitting: true, error: null };
         this.notify();
+        const seconds = Math.min(Math.round((Date.now() - this.since) / 1000), MAX_TASK_SECONDS);
+        this.since = Date.now();
         try {
-            const result = await this.repository.submit(task.id, answer);
+            const result = await this.repository.submit(task.id, answer, seconds);
             if (this.task !== task) return;
             if (result.isCorrect) {
                 this.solved += 1;
@@ -128,6 +135,7 @@ export class PracticeFeed extends Observable {
             const task = await fetch();
             if (request !== this.request) return;
             this.task = task;
+            this.since = Date.now();
             this.seen.push(task.id);
             this.attempt = freshAttempt();
         } catch (e) {

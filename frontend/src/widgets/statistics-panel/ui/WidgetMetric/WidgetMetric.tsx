@@ -1,15 +1,23 @@
+import { Flame, Target, Trophy } from 'lucide-react';
 import type { JSX } from 'react';
-import { MOCK_WIDGET_METRIC } from '../../../../shared/constants';
-import { cn } from '../../../../shared/lib';
+import { useMyStats, weekTotal } from '../../../../entities/stats';
+import { cn, pluralize } from '../../../../shared/lib';
+import type { StatItem } from '../../model/types';
 import styles from './WidgetMetric.module.css';
 import type { WidgetMetricProps } from './WidgetMetric.props';
 
 
 export const WidgetMetric = ({ 
-    stats = MOCK_WIDGET_METRIC, 
+    stats: given, 
     className, 
     ...props 
 }: WidgetMetricProps): JSX.Element => {
+    const { data } = useMyStats();
+    const stats: StatItem[] = given ?? [
+        { id: 'streak', icon: Flame, label: 'Серия', value: pluralize(data?.streak ?? 0, 'день', 'дня', 'дней') },
+        { id: 'tasks', icon: Target, label: 'Задач за неделю', value: weekTotal(data?.week ?? [], 'answered') },
+        { id: 'rating', icon: Trophy, label: 'Рейтинг', value: data?.rankPercent != null ? `Топ ${data.rankPercent}%` : '—' },
+    ];
     
     return (
         <div className={cn(styles.grid, className)} {...props}>

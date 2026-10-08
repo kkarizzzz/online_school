@@ -1,10 +1,10 @@
-import type { BankNumber } from '../model/types';
+import type { BankNumber, BankNumberTasks } from '../model/types';
 
 export interface BankRepository {
-    /** Номера 1–19 с темами и заданиями */
+    /** Номера 1–19 с темами и прогрессом ученика */
     getNumbers(): Promise<BankNumber[]>;
-    /** id заданий, отмеченных учеником решёнными */
-    getSolved(): Promise<string[]>;
-    /** Поставить или снять отметку «решено» */
-    setSolved(taskId: string, solved: boolean): Promise<void>;
+    /** Номер со всеми заданиями */
+    getNumber(n: number): Promise<BankNumberTasks>;
+    /** Поставить или снять свою отметку «решено» */
+    setMarked(taskId: number, marked: boolean): Promise<void>;
 }

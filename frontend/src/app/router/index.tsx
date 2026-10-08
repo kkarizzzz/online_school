@@ -5,10 +5,10 @@ import {
     HomeworkPage, HomeworkSolvePage,
     LearningHomePage, LessonPage, NotFoundPage, ParentsPage,
     PracticePage,
-    PricingPage, ProfilePage, PsychologistPage,
+    PricingPage, ProfilePage,
     PsychologistsPage, RepetionQuickPage, SettingsPage, StatisticsPage, TaskBankPage, TaskBankPrototypePage, TeachersPage,
     TheoryPage,
-    VariantsPage
+    VariantAttemptPage, VariantSolvePage, VariantsPage
 } from "../../pages";
 import { LearningLayout, MainLayout, ProfileLayout } from "../layouts";
 
@@ -42,7 +42,6 @@ export const router = createBrowserRouter(
                     children: [
                         { index: true, element: <ProfilePage />}, 
                         { path: 'settings', element: <SettingsPage />},
-                        { path: 'psychologist', element: <PsychologistPage />}, 
                         { path: 'statistics', element: <StatisticsPage />},
                     ]
                 },
@@ -59,6 +58,8 @@ export const router = createBrowserRouter(
                         { path: 'task-bank/:number', element: <TaskBankPrototypePage /> },
                         { path: 'practice', element: <PracticePage /> },
                         { path: 'variants', element: <VariantsPage /> },
+                        { path: 'variants/attempts/:attemptId', element: <VariantAttemptPage /> },
+                        { path: 'variants/:variantId', element: <VariantSolvePage /> },
                         { path: 'quick-review', element: <RepetionQuickPage /> },
                     ]
                 }

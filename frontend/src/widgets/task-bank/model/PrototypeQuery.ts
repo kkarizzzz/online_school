@@ -1,4 +1,4 @@
-import { BANK_LEVELS, type BankNumber, type BankTask } from '../../../entities/bank-task';
+import { BANK_LEVELS, type BankNumberTasks, type BankTask } from '../../../entities/bank-task';
 
 export type StatusId = 'todo' | 'done';
 export type SortId = 'date' | 'level' | 'solved';
@@ -13,7 +13,7 @@ export const STATUSES: Record<StatusId, { label: string; test: (solved: boolean)
 export const SORTS: Record<SortId, { label: string; key: (t: BankTask) => string | number; desc: string; asc: string }> = {
     date: { label: 'По дате добавления', key: (t) => t.date, desc: 'Сначала новые', asc: 'Сначала старые' },
     level: { label: 'По сложности', key: (t) => BANK_LEVELS[t.level].rank, desc: 'Сначала сложные', asc: 'Сначала простые' },
-    solved: { label: 'По числу решений', key: (t) => t.solved, desc: 'Сначала популярные', asc: 'Сначала редкие' },
+    solved: { label: 'По числу решений', key: (t) => t.solvedBy, desc: 'Сначала популярные', asc: 'Сначала редкие' },
 };
 
 const DEFAULT_SORT: SortId = 'date';
@@ -31,9 +31,9 @@ export class PrototypeQuery {
     readonly status: StatusId | null;
     readonly sort: SortId;
     readonly order: SortOrder;
-    private readonly number: BankNumber;
+    private readonly number: BankNumberTasks;
 
-    constructor(number: BankNumber, topics: Iterable<string>, status: StatusId | null, sort: SortId, order: SortOrder) {
+    constructor(number: BankNumberTasks, topics: Iterable<string>, status: StatusId | null, sort: SortId, order: SortOrder) {
         this.number = number;
         const known = new Set(number.topics.map((t) => t.id));
         const picked = new Set([...topics].filter((id) => known.has(id)));
@@ -44,7 +44,7 @@ export class PrototypeQuery {
         this.order = order;
     }
 
-    static fromParams(number: BankNumber, params: URLSearchParams): PrototypeQuery {
+    static fromParams(number: BankNumberTasks, params: URLSearchParams): PrototypeQuery {
         const status = params.get('status');
         const sort = params.get('sort');
         const order = params.get('order');
@@ -101,7 +101,7 @@ export class PrototypeQuery {
     }
 
     /** Задания по фильтрам, отсортированные; при равенстве — новые выше, затем по порядку в теме */
-    apply(tasks: BankTask[], solved: ReadonlySet<string>): BankTask[] {
+    apply(tasks: BankTask[], solved: ReadonlySet<number>): BankTask[] {
         const { key } = SORTS[this.sort];
         return tasks
             .filter((t) => this.inTopics(t) && (!this.status || STATUSES[this.status].test(solved.has(t.id))))

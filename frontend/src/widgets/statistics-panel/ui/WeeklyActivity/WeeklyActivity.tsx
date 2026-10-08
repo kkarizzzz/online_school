@@ -1,16 +1,21 @@
 import type { JSX } from 'react';
-import { MOCK_DATA_WEEKLY_ACTIVITY } from '../../../../shared/constants';
+import { useMyStats, weekdayOf } from '../../../../entities/stats';
 import { cn } from '../../../../shared/lib';
 import styles from './WeeklyActivity.module.css';
 import type { WeeklyActivityProps } from './WeeklyActivity.props';
 
 
+/** Столбики за 7 дней: высота — доля от самого активного дня */
 export const WeeklyActivity = ({ 
-    data = MOCK_DATA_WEEKLY_ACTIVITY, 
+    data: given, 
     className, 
     ...props 
 }: WeeklyActivityProps): JSX.Element => {
-    
+    const { data: stats } = useMyStats();
+    const week = stats?.week ?? [];
+    const top = Math.max(1, ...week.map((d) => d.seconds));
+    const data = given ?? week.map((d) => ({ day: weekdayOf(d.day), value: Math.round((d.seconds / top) * 100) }));
+
     return (
         <div className={cn(styles.wrapper, className)} {...props}>
             <div className={styles.header}>

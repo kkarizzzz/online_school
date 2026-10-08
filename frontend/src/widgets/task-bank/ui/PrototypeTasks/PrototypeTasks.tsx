@@ -5,7 +5,7 @@ import {
 import { useMemo, useState, type JSX, type ReactNode } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import {
-    BANK_PART_LABEL, BANK_ROUTE, BankTaskCard, bankNumberRoute, useSolvedTasks, useToggleSolved, type BankTask,
+    BANK_PART_LABEL, BANK_ROUTE, BankTaskCard, bankNumberRoute, useToggleMarked, type BankTask,
 } from '../../../../entities/bank-task';
 import { cn, pluralize } from '../../../../shared/lib';
 import { Button } from '../../../../shared/ui';
@@ -14,7 +14,6 @@ import styles from './PrototypeTasks.module.css';
 import type { PrototypeTasksProps } from './PrototypeTasks.props';
 
 const PAGE_SIZE = 12;
-const NO_SOLVED: ReadonlySet<string> = new Set();
 const STATUS_ICONS: Record<StatusId, LucideIcon> = { todo: CircleDashed, done: CircleCheck };
 const tasksLabel = (n: number) => pluralize(n, 'задание', 'задания', 'заданий');
 
@@ -26,14 +25,15 @@ const tasksLabel = (n: number) => pluralize(n, 'задание', 'задания
 export const PrototypeTasks = ({ number, numbers }: PrototypeTasksProps): JSX.Element => {
     const [params, setParams] = useSearchParams();
     const query = useMemo(() => PrototypeQuery.fromParams(number, params), [number, params]);
-    const { data: solved = NO_SOLVED } = useSolvedTasks();
-    const { mutate: toggleSolved } = useToggleSolved();
+    const { mutate: toggleMarked } = useToggleMarked(number.n);
     const [shown, setShown] = useState(PAGE_SIZE);
     // Отметка «решено» не убирает карточку из списка сразу, чтобы список не прыгал:
     // фильтр по статусу смотрит на отметки, какими они были до изменения, — до следующей смены фильтров
-    const [frozen, setFrozen] = useState<ReadonlySet<string> | null>(null);
+    const [frozen, setFrozen] = useState<ReadonlySet<number> | null>(null);
 
     const allTasks = useMemo(() => number.topics.flatMap((t) => t.tasks), [number]);
+    // Решено — засчитанным ответом или своей отметкой
+    const solved = useMemo(() => new Set(allTasks.filter((t) => t.autoSolved || t.marked).map((t) => t.id)), [allTasks]);
     const topicIndex = useMemo(() => new Map(number.topics.map((t, i) => [t.id, i + 1])), [number]);
     const topicName = useMemo(() => new Map(number.topics.map((t) => [t.id, t.name])), [number]);
 
@@ -51,11 +51,12 @@ export const PrototypeTasks = ({ number, numbers }: PrototypeTasksProps): JSX.El
     };
 
     const toggle = (task: BankTask) => {
+        if (task.autoSolved) return;
         if (!frozen) setFrozen(solved);
-        toggleSolved({ taskId: task.id, solved: !solved.has(task.id) });
+        toggleMarked({ taskId: task.id, marked: !task.marked });
     };
 
-    const i = numbers.indexOf(number);
+    const i = numbers.findIndex((b) => b.n === number.n);
     const prev = numbers[i - 1];
     const next = numbers[i + 1];
     const codeOf = (t: BankTask) => `${number.n}.${topicIndex.get(t.topic)}.${String(t.index).padStart(2, '0')}`;

@@ -1,8 +1,10 @@
-import type { Homework, HomeworkResult } from '../../../../entities/homework';
+import type { ReactNode } from 'react';
+import type { AttemptData } from '../../../../entities/attempt';
 
-export interface HomeworkResultsProps {
-    homework: Homework;
-    result: HomeworkResult;
+export interface AttemptResultsProps {
+    attempt: AttemptData;
     /** Только что сдано — иначе открыт разбор сданного раньше */
     justFinished?: boolean;
+    /** Кнопки под итогом: «К домашним заданиям», «Попробовать снова» */
+    actions?: ReactNode;
 }

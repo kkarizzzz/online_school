@@ -1,1 +1,1 @@
-export * from './ui/HomeworkSolver/HomeworkSolver';
+export * from './ui/AttemptSolver/AttemptSolver';

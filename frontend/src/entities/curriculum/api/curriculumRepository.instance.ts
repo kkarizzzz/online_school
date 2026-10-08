@@ -1,4 +1,4 @@
 import type { CurriculumRepository } from './CurriculumRepository';
-import { MockCurriculumRepository } from './MockCurriculumRepository';
+import { HttpCurriculumRepository } from './HttpCurriculumRepository';
 
-export const curriculumRepository: CurriculumRepository = new MockCurriculumRepository();
+export const curriculumRepository: CurriculumRepository = new HttpCurriculumRepository();

@@ -1,4 +1,5 @@
 import { Flame, ListChecks, Target } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState, type JSX } from 'react';
 import { useSearchParams } from 'react-router';
 import { useReviewQuestions, type ReviewQuestion } from '../../../../entities/review-question';
@@ -15,22 +16,34 @@ import styles from './QuickReview.module.css';
 
 /** «Быстрое повторение»: выбор режима → бесконечная лента коротких вопросов */
 export const QuickReview = (): JSX.Element => {
-    const { data: questions } = useReviewQuestions();
+    const { data: questions, isError } = useReviewQuestions();
+    // История — один раз на открытие страницы; дальше её дополняет сама лента
+    const { data: history, isError: historyError } = useQuery({
+        queryKey: ['review', 'sessions'],
+        queryFn: () => ReviewHistory.load(),
+        staleTime: Infinity,
+        gcTime: 0,
+    });
 
     return (
         <div className={styles.wrapper}>
-            {questions ? <QuickReviewFeed questions={questions} /> : <p className={styles.empty}>Загружаем вопросы…</p>}
+            {isError || historyError ? (
+                <p className={styles.empty}>Не удалось загрузить вопросы. Обновите страницу.</p>
+            ) : questions && history ? (
+                <QuickReviewFeed questions={questions} history={history} />
+            ) : (
+                <p className={styles.empty}>Загружаем вопросы…</p>
+            )}
             <p className={styles.note}>
-                Ответы проверяются в браузере, статистика хранится на этом устройстве. Позже вопросы будет подбирать алгоритм повторения.
+                Ответ проверяется сразу, история повторений сохраняется в вашем профиле. Позже вопросы будет подбирать алгоритм повторения.
             </p>
         </div>
     );
 };
 
 
-const QuickReviewFeed = ({ questions }: { questions: ReviewQuestion[] }): JSX.Element => {
+const QuickReviewFeed = ({ questions, history }: { questions: ReviewQuestion[]; history: ReviewHistory }): JSX.Element => {
     const [params, setParams] = useSearchParams();
-    const [history] = useState(() => new ReviewHistory());
     // ?mode=theory|calc|mix — продолжить ленту после перезагрузки
     const [feed] = useState(() => {
         const created = new ReviewFeed(questions, history);

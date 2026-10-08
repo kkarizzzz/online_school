@@ -1,4 +1,4 @@
 import type { LessonContentRepository } from './LessonContentRepository';
-import { MockLessonContentRepository } from './MockLessonContentRepository';
+import { HttpLessonContentRepository } from './HttpLessonContentRepository';
 
-export const lessonContentRepository: LessonContentRepository = new MockLessonContentRepository();
+export const lessonContentRepository: LessonContentRepository = new HttpLessonContentRepository();

@@ -170,3 +170,7 @@
 .mark[aria-pressed="true"]:hover {
     border-color: var(--done);
 }
+
+.mark:disabled {
+    cursor: default;
+}

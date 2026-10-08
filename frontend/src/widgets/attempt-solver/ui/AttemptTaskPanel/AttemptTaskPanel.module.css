@@ -92,3 +92,70 @@
     .answer input { max-width: none; }
     .actions > * { flex: 1; padding: 0 12px; }
 }
+
+.shared {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: var(--bg-primary);
+    font-size: 15px;
+}
+
+.attachments,
+.files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.attachments a,
+.files a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.attachments a:hover,
+.files a:hover {
+    border-color: var(--primary);
+}
+
+.detailed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detailed textarea {
+    min-height: 140px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: 400 16px/1.5 var(--font-sans);
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.detailed textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.upload {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload input[type="file"] {
+    display: none;
+}

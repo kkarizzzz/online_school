@@ -1,7 +1,7 @@
-import type { BankNumber } from '../../../../entities/bank-task';
+import type { BankNumber, BankNumberTasks } from '../../../../entities/bank-task';
 
 export interface PrototypeTasksProps {
-    number: BankNumber;
+    number: BankNumberTasks;
     /** Все номера — для стрелок «предыдущий / следующий» */
     numbers: BankNumber[];
 }

@@ -1,7 +1,6 @@
 import { useState, type JSX } from 'react';
 import { Container, Tabs } from '../../../shared/ui';
 import type { TabItem } from '../../../shared/ui/Tabs/Tabs.props';
-import { PaymentMethod } from '../../../widgets/payment-method';
 import { SubscriptionSubjects, SubscriptionTier } from '../../../widgets/subscription-manager';
 import { ProfileData } from '../../../widgets/user-profile-settings';
 import styles from './SettingsPage.module.css';
@@ -29,7 +28,6 @@ export const SettingsPage = (): JSX.Element => {
                 <>
                     <SubscriptionTier />
                     <SubscriptionSubjects />
-                    <PaymentMethod />
                 </>
             )}
         </Container>

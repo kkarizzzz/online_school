@@ -12,6 +12,15 @@ import styles from './LearningHomePage.module.css';
 
 const UPCOMING_COUNT = 3;
 
+/** Подпись к кольцу прогресса — по тому, сколько курса пройдено */
+const quoteFor = (percent: number): string => {
+    if (percent === 0) return '«Каждый эксперт когда-то был новичком. Начни с первого урока.»';
+    if (percent < 34) return '«Хорошее начало — главное не останавливаться.»';
+    if (percent < 67) return '«Треть пути позади. Дальше будет интереснее.»';
+    if (percent < 100) return '«Ты уже на финишной прямой — осталось совсем немного.»';
+    return '«Курс пройден! Время закреплять на вариантах.»';
+};
+
 
 export const LearningHomePage = (): JSX.Element => {
     const { data: user } = useUser();
@@ -37,8 +46,8 @@ export const LearningHomePage = (): JSX.Element => {
                 </div>
 
                 {/* Right column */}
-                <StatsPanel title='Ваш прогресс' subject={currentSubject?.label}>
-                    «Каждый эксперт когда-то был новичком. Ты уже на две трети пути.»
+                <StatsPanel title='Ваш прогресс' subject={currentSubject?.label} progress={progress?.percent ?? 0}>
+                    {quoteFor(progress?.percent ?? 0)}
                 </StatsPanel>
             </main>
         </Container>

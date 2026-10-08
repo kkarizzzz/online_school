@@ -1,11 +1,26 @@
-/** Ответ в виде, как его пишут на ЕГЭ: 0.25 → «0,25» */
-export const formatAnswer = (answer: number): string => String(answer).replace('.', ',');
+import type { AnswerType, Difficulty } from '../model/types';
 
 export const isBlankAnswer = (input: string | undefined | null): boolean => String(input ?? '').trim() === '';
 
-/** Ответ ученика совпадает с верным: «0,25» = «0.25» = «.25» */
-export const isCorrectAnswer = (input: string | undefined | null, answer: number): boolean => {
-    if (isBlankAnswer(input)) return false;
-    const x = Number(String(input).trim().replace(',', '.').replace(/\s/g, ''));
-    return Number.isFinite(x) && Math.abs(x - answer) < 1e-6;
+export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+    1: 'Базовый',
+    2: 'Средний',
+    3: 'Сложный',
+    4: 'Гроб',
+};
+
+/** Подсказка в пустом поле ответа */
+export const ANSWER_PLACEHOLDERS: Record<AnswerType, string> = {
+    short: 'Введите ответ',
+    digits_set: 'Например, 135',
+    sequence: 'Числа через пробел',
+    detailed: 'Кратко запишите решение и ответ',
+};
+
+/** Как записывать ответ */
+export const ANSWER_HINTS: Record<AnswerType, string> = {
+    short: 'Десятичную дробь можно писать через запятую или точку.',
+    digits_set: 'Номера ответов без пробелов, в любом порядке.',
+    sequence: 'Несколько чисел через пробел, в указанном порядке.',
+    detailed: 'Решение проверит преподаватель по критериям ЕГЭ. Можно приложить фото решения.',
 };

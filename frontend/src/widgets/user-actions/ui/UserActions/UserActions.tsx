@@ -8,6 +8,13 @@ import { Avatar, Button } from '../../../../shared/ui';
 import styles from './UserActions.module.css';
 import type { UserActionsProps } from './UserActions.props';
 
+const ROLE_LABELS: Record<string, string> = {
+    student: 'Ученик',
+    parent: 'Родитель',
+    teacher: 'Преподаватель',
+    admin: 'Администратор',
+};
+
 export const UserActions = ({ className, ...props }: UserActionsProps): JSX.Element => {
     const { data: user } = useUser();
 
@@ -32,8 +39,8 @@ export const UserActions = ({ className, ...props }: UserActionsProps): JSX.Elem
                 />
 
                 <span className={styles.userInfo}>
-                    <span className={styles.userName}>{user?.firstName || 'User01'}</span>
-                    <span className={styles.userRole}>{user?.role}</span>
+                    <span className={styles.userName}>{user?.firstName}</span>
+                    <span className={styles.userRole}>{user && ROLE_LABELS[user.role]}</span>
                 </span>
             </Button>
         </div>

@@ -1,35 +1,46 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { bankRepository } from '../api/bankRepository.instance';
+import type { BankNumberTasks } from './types';
 
 export const bankKeys = {
+    all: ['bank'] as const,
     numbers: ['bank', 'numbers'] as const,
-    solved: ['bank', 'solved'] as const,
+    number: (n: number) => ['bank', 'number', n] as const,
 };
 
+/** Номера 1–19 с темами и прогрессом */
 export const useBankNumbers = () =>
     useQuery({
         queryKey: bankKeys.numbers,
         queryFn: () => bankRepository.getNumbers(),
-        staleTime: Infinity,
     });
 
-/** id решённых заданий */
-export const useSolvedTasks = () =>
+/** Номер со всеми заданиями */
+export const useBankNumber = (n: number) =>
     useQuery({
-        queryKey: bankKeys.solved,
-        queryFn: () => bankRepository.getSolved(),
-        select: (ids) => new Set(ids),
+        queryKey: bankKeys.number(n),
+        queryFn: () => bankRepository.getNumber(n),
+        enabled: Number.isInteger(n) && n > 0,
+        retry: false,
     });
 
-/** Отметка «решено»: кэш меняется сразу, не дожидаясь ответа */
-export const useToggleSolved = () => {
+/** Своя отметка «решено»: кэш номера меняется сразу, не дожидаясь ответа */
+export const useToggleMarked = (n: number) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ taskId, solved }: { taskId: string; solved: boolean }) => bankRepository.setSolved(taskId, solved),
-        onMutate: ({ taskId, solved }) => {
-            queryClient.setQueryData<string[]>(bankKeys.solved, (ids = []) =>
-                solved ? [...new Set([...ids, taskId])] : ids.filter((id) => id !== taskId));
+        mutationFn: ({ taskId, marked }: { taskId: number; marked: boolean }) => bankRepository.setMarked(taskId, marked),
+        onMutate: ({ taskId, marked }) => {
+            queryClient.setQueryData<BankNumberTasks>(bankKeys.number(n), (prev) => prev && {
+                ...prev,
+                topics: prev.topics.map((topic) => ({
+                    ...topic,
+                    tasks: topic.tasks.map((t) => (t.id === taskId ? { ...t, marked } : t)),
+                })),
+            });
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: bankKeys.solved }),
+        onSettled: () => {
+            void queryClient.invalidateQueries({ queryKey: bankKeys.number(n) });
+            void queryClient.invalidateQueries({ queryKey: bankKeys.numbers });
+        },
     });
 };

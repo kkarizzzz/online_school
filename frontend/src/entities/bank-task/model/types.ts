@@ -1,34 +1,35 @@
-import type { ExamTaskNumber } from '../../exam-task';
+import type { ExamTask, ExamTaskNumber, TaskReveal } from '../../exam-task';
 
 /** Сложность: «гроб» — только во второй части */
 export type BankLevel = 'base' | 'medium' | 'hard' | 'coffin';
 
-/** Задание банка */
+/** Задание банка: ответ и разбор в банке открыты сразу */
 export interface BankTask {
-    /** «6-log-3» */
-    id: string;
+    id: number;
     n: ExamTaskNumber;
-    /** id темы */
+    /** id темы (строкой — так он живёт в адресе страницы) */
     topic: string;
     /** Порядковый номер в теме, с 1 */
     index: number;
-    /** Условие с формулами в $...$ */
-    text: string;
-    answer: number;
-    /** Разбор решения, с формулами в $...$ */
-    solution: string;
+    task: ExamTask;
+    reveal: TaskReveal;
     level: BankLevel;
+    /** Решено засчитанным ответом — в нарешке, ДЗ или варианте. Такую отметку не снять */
+    autoSolved: boolean;
+    /** Ученик сам отметил «решено» */
+    marked: boolean;
     /** Сколько учеников решило */
-    solved: number;
-    /** Дата добавления, YYYY-MM-DD */
+    solvedBy: number;
+    /** Дата добавления, ISO */
     date: string;
 }
 
-/** Тема (прототип) внутри номера */
-export interface BankTopic {
+/** Тема (прототип) в списке номеров — без заданий */
+export interface BankTopicSummary {
     id: string;
     name: string;
-    tasks: BankTask[];
+    taskCount: number;
+    solvedCount: number;
 }
 
 /** Номер ЕГЭ в банке */
@@ -36,6 +37,22 @@ export interface BankNumber {
     n: ExamTaskNumber;
     title: string;
     /** 1 — краткий ответ (1–12), 2 — развёрнутый (13–19) */
+    part: 1 | 2;
+    taskCount: number;
+    solvedCount: number;
+    topics: BankTopicSummary[];
+}
+
+export interface BankTopic {
+    id: string;
+    name: string;
+    tasks: BankTask[];
+}
+
+/** Номер со всеми темами и заданиями — для страницы номера */
+export interface BankNumberTasks {
+    n: ExamTaskNumber;
+    title: string;
     part: 1 | 2;
     topics: BankTopic[];
 }

@@ -1,24 +1,11 @@
 import { ArrowRight, Check, ChevronRight, CircleCheck, CircleX, Eye, Hourglass, Info, Shuffle, WifiOff } from 'lucide-react';
 import { useEffect, useRef, useState, type FormEvent, type JSX } from 'react';
-import type { AnswerType, SubmitResult } from '../../../../entities/practice-task';
+import { ANSWER_HINTS, ANSWER_PLACEHOLDERS, DIFFICULTY_LABELS } from '../../../../entities/exam-task';
+import type { SubmitResult } from '../../../../entities/practice-task';
 import { cn, plural, pluralize } from '../../../../shared/lib';
 import { Button, Markdown } from '../../../../shared/ui';
 import styles from './PracticeTaskCard.module.css';
 import type { PracticeTaskCardProps } from './PracticeTaskCard.props';
-
-const DIFFICULTY: Record<number, string> = { 1: 'Базовый', 2: 'Средний', 3: 'Сложный' };
-
-const PLACEHOLDERS: Partial<Record<AnswerType, string>> = {
-    short: 'Введите ответ',
-    digits_set: 'Например, 135',
-    sequence: 'Числа через пробел',
-};
-
-const HINTS: Partial<Record<AnswerType, string>> = {
-    short: 'Десятичную дробь можно писать через запятую или точку.',
-    digits_set: 'Номера ответов без пробелов, в любом порядке.',
-    sequence: 'Несколько чисел через пробел, в указанном порядке.',
-};
 
 
 /** Задание ленты: условие, ответ, проверка, решение и переход дальше */
@@ -59,7 +46,7 @@ export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Ele
     const meta = [
         task.subtopic ? task.topic : null,
         `Часть ${task.part}`,
-        DIFFICULTY[task.difficulty],
+        DIFFICULTY_LABELS[task.difficulty],
         pluralize(task.maxScore, 'балл', 'балла', 'баллов'),
         ...task.sources,
     ].filter(Boolean);
@@ -99,7 +86,7 @@ export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Ele
                         setAnswer(e.target.value);
                         setEmpty(false);
                     }}
-                    placeholder={PLACEHOLDERS[task.answerType] ?? 'Ответ'}
+                    placeholder={ANSWER_PLACEHOLDERS[task.answerType]}
                     aria-label="Ответ"
                     inputMode="decimal"
                     readOnly={finished}
@@ -108,7 +95,7 @@ export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Ele
                     <Button type="submit" size="m" isLoading={submitting}><Check size={20} />Проверить</Button>
                 )}
             </form>
-            {HINTS[task.answerType] && <p className={styles.hint}>{HINTS[task.answerType]}</p>}
+            <p className={styles.hint}>{ANSWER_HINTS[task.answerType]}</p>
 
             {error && (
                 <Result tone="fail" icon={<WifiOff size={22} />} title="Не удалось проверить ответ" text={error} />

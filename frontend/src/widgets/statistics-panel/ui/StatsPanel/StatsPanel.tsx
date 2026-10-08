@@ -6,7 +6,7 @@ import styles from './StatsPanel.module.css';
 import type { StatsPanelProps } from './StatsPanel.props';
 
 
-export const StatsPanel = ({ title, subject="Предмет", children, className, ...props }: StatsPanelProps): JSX.Element => {
+export const StatsPanel = ({ title, subject="Предмет", progress = 0, children, className, ...props }: StatsPanelProps): JSX.Element => {
     return (
         <Card variant="glass" className={className} {...props}>
             <div>
@@ -15,7 +15,7 @@ export const StatsPanel = ({ title, subject="Предмет", children, classNam
             </div>
 
             <div className={styles.progressSection}>
-                <ProgressRing value={77} label='курса пройдено'/>
+                <ProgressRing value={progress} label='курса пройдено'/>
                 <p className={styles.quote}>
                     {children}
                 </p>

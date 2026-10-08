@@ -7,4 +7,5 @@ export * from './RepetionQuickPage/RepetionQuickPage';
 export * from './TaskBankPage/TaskBankPage';
 export * from './TaskBankPrototypePage/TaskBankPrototypePage';
 export * from './TheoryPage/TheoryPage';
+export * from './VariantSolvePage/VariantSolvePage';
 export * from './VariantsPage/VariantsPage';

@@ -227,3 +227,21 @@
     gap: 8px;
     margin-top: 20px;
 }
+
+.chipWarn {
+    background: var(--warn-bg);
+    color: var(--warn);
+}
+
+.chipWarn .chipIcon,
+.chipWarn .chipText span {
+    color: inherit;
+}
+
+.saveError {
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--bad-bg);
+    color: var(--bad);
+    font-size: 14px;
+}

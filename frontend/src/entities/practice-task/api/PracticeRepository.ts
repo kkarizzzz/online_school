@@ -15,5 +15,6 @@ export interface PracticeRepository {
     nextTask(query: NextTaskQuery): Promise<PracticeTask>;
     /** Случайное задание из той же подтемы */
     similarTask(taskId: number, exclude: number[]): Promise<PracticeTask>;
-    submit(taskId: number, answer: string): Promise<SubmitResult>;
+    /** timeSpentSec — сколько думал над ответом: идёт в статистику времени */
+    submit(taskId: number, answer: string, timeSpentSec?: number): Promise<SubmitResult>;
 }

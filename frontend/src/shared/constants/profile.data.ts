@@ -2,7 +2,6 @@ import {
   Atom,
   BarChart3,
   BookOpen,
-  Brain,
   ClipboardList,
   FolderOpen, Home, Layers, Repeat,
   Settings,
@@ -18,12 +17,6 @@ export const PROFILE_DASHBOARD_CARDS = [
     description: "Курсы, уроки и домашние задания",
     icon: BookOpen,
     href: "learning",
-  },
-  {
-    title: "Психолог",
-    description: "Поддержка, чат и упражнения для ума",
-    icon: Brain,
-    href: "psychologist",
   },
   {
     title: "Статистика",
@@ -81,7 +74,7 @@ export const PROFILE_NAV_ITEMS: NavItem[] = [
     href: '/profile/learning/variants', 
     label: 'Каталог вариантов', 
     icon: FolderOpen,
-    description: 'Назначенные варианты ЕГЭ. Рейтинговые влияют на ваше место в общем зачёте.' 
+    description: 'Полные варианты как на ЕГЭ и отработки отдельных номеров. Зачётная — первая попытка: она идёт в статистику пробников.' 
   },
   { 
     id: 'quick-review', 

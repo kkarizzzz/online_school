@@ -1,3 +1,95 @@
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, color .2s;
+}
+
+.chip:hover {
+  border-color: var(--primary);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.select select {
+  height: 36px;
+  padding: 0 34px 0 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 13.5px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectIcon,
+.selectChevron {
+  position: absolute;
+  pointer-events: none;
+  color: var(--text-secondary);
+}
+
+.selectIcon { left: 11px; }
+.selectChevron { right: 10px; }
+
+.order {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -8,4 +100,15 @@
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.empty {
+  padding: 24px;
+  border-radius: var(--radius);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.loading {
+  color: var(--text-secondary);
 }

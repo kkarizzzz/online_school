@@ -50,8 +50,8 @@ export const TopicsDrawer = ({ number, onClose }: TopicsDrawerProps): JSX.Elemen
 
     const topics = number?.topics ?? [];
     const allChosen = topics.length > 0 && chosen.size === topics.length;
-    const total = topics.reduce((s, t) => s + t.tasks.length, 0);
-    const count = topics.filter((t) => chosen.has(t.id)).reduce((s, t) => s + t.tasks.length, 0);
+    const total = topics.reduce((s, t) => s + t.taskCount, 0);
+    const count = topics.filter((t) => chosen.has(t.id)).reduce((s, t) => s + t.taskCount, 0);
     // Все темы — без topics в адресе
     const to = number ? bankNumberRoute(number.n, allChosen ? undefined : [...chosen]) : '';
 
@@ -117,7 +117,9 @@ export const TopicsDrawer = ({ number, onClose }: TopicsDrawerProps): JSX.Elemen
                                             />
                                             <span className={styles.topicMain}>
                                                 <span className={styles.topicName}>{t.name}</span>
-                                                <span className={styles.topicMeta}>{tasksLabel(t.tasks.length)}</span>
+                                                <span className={styles.topicMeta}>
+                                                    {tasksLabel(t.taskCount)}{t.solvedCount > 0 && ` · решено ${t.solvedCount}`}
+                                                </span>
                                             </span>
                                         </label>
                                     </li>

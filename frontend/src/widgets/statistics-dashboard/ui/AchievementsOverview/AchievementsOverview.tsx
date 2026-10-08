@@ -1,16 +1,21 @@
 import { Award } from 'lucide-react';
 import type { JSX } from 'react';
-import { AchievementBadge, ACHIEVEMENTS_DICT } from '../../../../entities/achievement';
+import { AchievementBadge, ACHIEVEMENTS_DICT, type AchievementId } from '../../../../entities/achievement';
+import { useMyStats } from '../../../../entities/stats';
 import { Card } from '../../../../shared/ui';
 import styles from './AchievementsOverview.module.css';
 import type { AchievementsOverviewProps } from './AchievementsOverview.props';
 
 export const AchievementsOverview = ({ 
-    unlockedIds=[], 
+    unlockedIds: given, 
     className, 
     ...props 
 }: AchievementsOverviewProps): JSX.Element => {
-    
+    const { data: stats } = useMyStats();
+    const unlockedIds = given ?? (stats?.achievements ?? [])
+        .filter((a) => a.unlockedAt)
+        .map((a) => a.code as AchievementId);
+
     const unlockedCount = unlockedIds.length;
     const totalCount = ACHIEVEMENTS_DICT.length;
 

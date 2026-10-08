@@ -11,15 +11,14 @@ const TAB_IDS: HomeworkStatus[] = ['current', 'done', 'overdue'];
 
 
 export const HomeworkPage = (): JSX.Element => {
-    const { data: homework, isPending } = useHomeworkList();
+    const { data, isPending, isError } = useHomeworkList();
     // Вкладка — в адресе (?tab=done), чтобы «Назад» со страницы ДЗ вернул на неё же
     const [params, setParams] = useSearchParams();
     const tab = params.get('tab') as HomeworkStatus;
     const activeFilter: HomeworkStatus = TAB_IDS.includes(tab) ? tab : 'current';
 
-    const list = homework ?? [];
-    const visibleHomework = list.filter((hw) => hw.status === activeFilter);
-    const overdueCount = list.filter((hw) => hw.status === 'overdue').length;
+    const visibleHomework = (data?.items ?? []).filter((hw) => hw.status === activeFilter);
+    const overdueCount = data?.counts.overdue ?? 0;
 
     const tabsConfig: TabItem[] = [
         { id: 'current', label: 'Текущие' },
@@ -46,9 +45,15 @@ export const HomeworkPage = (): JSX.Element => {
                         <HomeworkCard key={hw.id} homework={hw} />
                     ))}
 
-                    {!isPending && visibleHomework.length === 0 && (
+                    {isError && (
                         <div className={cn('glass', styles.empty)}>
-                            Не найдено.
+                            Не удалось загрузить домашние задания. Обновите страницу.
+                        </div>
+                    )}
+
+                    {!isPending && !isError && visibleHomework.length === 0 && (
+                        <div className={cn('glass', styles.empty)}>
+                            {activeFilter === 'current' ? 'Текущих заданий нет.' : 'Не найдено.'}
                         </div>
                     )}
                 </div>

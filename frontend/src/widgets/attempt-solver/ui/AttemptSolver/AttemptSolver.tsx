@@ -1,71 +1,95 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, CalendarClock, Send } from 'lucide-react';
-import { useEffect, useState, type JSX } from 'react';
+import { useCallback, useEffect, useState, type JSX } from 'react';
 import { Link } from 'react-router';
-import {
-    HOMEWORK_LIST_ROUTE, homeworkKeys, homeworkRepository, useSubmitHomework, type HomeworkResult,
-} from '../../../../entities/homework';
-import { cn, formatDayMonth, pluralize, useObservable } from '../../../../shared/lib';
+import { attemptRepository, type AttemptData } from '../../../../entities/attempt';
+import { cn, formatDayMonth, parseApiError, pluralize, useObservable } from '../../../../shared/lib';
 import { Button, ModalWindow } from '../../../../shared/ui';
-import { HomeworkAttempt } from '../../model/HomeworkAttempt';
+import { AttemptSession } from '../../model/AttemptSession';
+import { AttemptResults } from '../AttemptResults/AttemptResults';
+import { AttemptTaskPanel } from '../AttemptTaskPanel/AttemptTaskPanel';
+import { CountdownTimer } from '../CountdownTimer/CountdownTimer';
 import { ElapsedTimer } from '../ElapsedTimer/ElapsedTimer';
-import { HomeworkResults } from '../HomeworkResults/HomeworkResults';
-import { HomeworkTaskPanel } from '../HomeworkTaskPanel/HomeworkTaskPanel';
-import styles from './HomeworkSolver.module.css';
-import type { HomeworkSolverProps } from './HomeworkSolver.props';
+import styles from './AttemptSolver.module.css';
+import type { AttemptSolverProps } from './AttemptSolver.props';
 
 
 /**
- * Выполнение ДЗ — как решение варианта-отработки, но без обратного отсчёта: вместо него срок сдачи
- * и секундомер «в работе». «Сдать» → подтверждение → результаты. Сданное ДЗ переписать нельзя.
+ * Прохождение набора — ДЗ, варианта или отработки. Ответы сохраняются на сервере сразу,
+ * у варианта на время — обратный отсчёт (когда время выходит, вариант сдаётся сам),
+ * иначе секундомер «в работе». «Сдать» → подтверждение → результаты с разбором.
  */
-export const HomeworkSolver = ({ homework }: HomeworkSolverProps): JSX.Element => {
-    const queryClient = useQueryClient();
-    const { mutate: submit } = useSubmitHomework();
-    // Результат держим у себя: сразу после сдачи показываем его, не дожидаясь перезагрузки списка
-    const [result, setResult] = useState<HomeworkResult | null>(homework.result);
+export const AttemptSolver = ({ attempt, back, kicker, resultActions, onSubmitted }: AttemptSolverProps): JSX.Element => {
+    const [result, setResult] = useState<AttemptData | null>(attempt.submittedAt ? attempt : null);
     const [justFinished, setJustFinished] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const [attempt] = useState(() => (homework.result ? null : new HomeworkAttempt(homework, homeworkRepository)));
+    const [submitting, setSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
+    const [session] = useState(() => (attempt.submittedAt ? null : new AttemptSession(attempt, attemptRepository)));
 
-    // Уходим со страницы — список ДЗ должен увидеть сохранённые ответы
+    // Уходим со страницы — досохраняем ответы, которые ещё ждут отправки
     useEffect(() => () => {
-        queryClient.invalidateQueries({ queryKey: homeworkKeys.all });
-    }, [queryClient]);
+        void session?.flush();
+    }, [session]);
 
-    const finish = () => {
-        if (!attempt) return;
-        const final = attempt.toResult();
-        setConfirmOpen(false);
-        setResult(final);
-        setJustFinished(true);
-        submit({ id: homework.id, result: final });
-        window.scrollTo({ top: 0 });
-    };
+    const finish = useCallback(async () => {
+        if (!session) return;
+        setSubmitting(true);
+        setSubmitError(null);
+        try {
+            const final = await session.submit();
+            setConfirmOpen(false);
+            setResult(final);
+            setJustFinished(true);
+            onSubmitted?.(final);
+            window.scrollTo({ top: 0 });
+        } catch (error) {
+            setSubmitError(parseApiError(error, 'Не удалось сдать — проверьте интернет и попробуйте ещё раз'));
+            // Время могло выйти, и сервер сдал попытку сам — тогда показываем её
+            try {
+                const fresh = await attemptRepository.get(attempt.id);
+                if (fresh.submittedAt) {
+                    setConfirmOpen(false);
+                    setResult(fresh);
+                    onSubmitted?.(fresh);
+                }
+            } catch {
+                // остаёмся на странице решения с сообщением об ошибке
+            }
+        } finally {
+            setSubmitting(false);
+        }
+    }, [session, attempt.id, onSubmitted]);
 
-    const kicker = `Домашнее задание · ${homework.topic} · ${homework.sizeLabel}`;
+    // Срок проверяем один раз при открытии — пока решают, плашка не перекрашивается
+    const [isOverdue] = useState(() => !!attempt.deadlineAt && new Date(attempt.deadlineAt).getTime() < Date.now());
 
     return (
         <div className={styles.solve}>
             <header className={cn('glass', styles.top, { [styles.topResults]: result })}>
-                <Link className={styles.back} to={result ? `${HOMEWORK_LIST_ROUTE}?tab=done` : HOMEWORK_LIST_ROUTE}>
-                    <ArrowLeft size={18} /><span>Домашние задания</span>
+                <Link className={styles.back} to={back.to}>
+                    <ArrowLeft size={18} /><span>{back.label}</span>
                 </Link>
                 <div className={styles.heading}>
                     <p className={styles.kicker}>{kicker}</p>
-                    <h1 className={styles.title}>{homework.title}</h1>
+                    <h1 className={styles.title}>{attempt.set.title}</h1>
                 </div>
 
-                {!result && attempt && (
+                {!result && session && (
                     <>
-                        <div className={cn(styles.chip, { [styles.chipDanger]: homework.isOverdue })}>
-                            <CalendarClock className={styles.chipIcon} size={20} />
-                            <span className={styles.chipText}>
-                                <b>{formatDayMonth(homework.deadline)}</b>
-                                <span>{homework.isOverdue ? 'срок истёк' : 'срок · до 23:59'}</span>
-                            </span>
-                        </div>
-                        <ElapsedTimer since={attempt.startedAt} className={styles.timer} />
+                        {attempt.deadlineAt && (
+                            <div className={cn(styles.chip, { [styles.chipDanger]: isOverdue })}>
+                                <CalendarClock className={styles.chipIcon} size={20} />
+                                <span className={styles.chipText}>
+                                    <b>{formatDayMonth(attempt.deadlineAt)}</b>
+                                    <span>{isOverdue ? 'срок истёк' : 'срок сдачи'}</span>
+                                </span>
+                            </div>
+                        )}
+                        {session.expiresAt !== null ? (
+                            <CountdownTimer until={session.expiresAt} onExpire={finish} />
+                        ) : (
+                            <ElapsedTimer since={session.startedAt} className={styles.timer} />
+                        )}
                         <Button size="m" radius={12} className={styles.finish} onClick={() => setConfirmOpen(true)}>
                             <Send size={18} />Сдать
                         </Button>
@@ -74,14 +98,16 @@ export const HomeworkSolver = ({ homework }: HomeworkSolverProps): JSX.Element =
             </header>
 
             {result ? (
-                <HomeworkResults homework={homework} result={result} justFinished={justFinished} />
-            ) : attempt && (
+                <AttemptResults attempt={result} justFinished={justFinished} actions={resultActions} />
+            ) : session && (
                 <>
-                    <HomeworkWork attempt={attempt} onSubmit={() => setConfirmOpen(true)} />
+                    <AttemptWork session={session} onSubmit={() => setConfirmOpen(true)} />
                     <SubmitDialog
                         open={confirmOpen}
-                        unanswered={attempt.unansweredCount}
-                        late={homework.isOverdue}
+                        unanswered={session.unansweredCount}
+                        late={isOverdue}
+                        submitting={submitting}
+                        error={submitError}
                         onCancel={() => setConfirmOpen(false)}
                         onConfirm={finish}
                     />
@@ -92,25 +118,27 @@ export const HomeworkSolver = ({ homework }: HomeworkSolverProps): JSX.Element =
 };
 
 
-const HomeworkWork = ({ attempt, onSubmit }: { attempt: HomeworkAttempt; onSubmit: () => void }): JSX.Element => {
-    useObservable(attempt);
+const AttemptWork = ({ session, onSubmit }: { session: AttemptSession; onSubmit: () => void }): JSX.Element => {
+    useObservable(session);
+    const standard = session.data.set.isStandard;
 
     return (
         <section className={styles.work}>
-            <nav className={cn('glass', styles.nav)} aria-label="Задачи домашнего задания">
+            <nav className={cn('glass', styles.nav)} aria-label="Задания">
                 <div className={styles.navHead}>
-                    <span className={styles.navTitle}>Задачи</span>
-                    <span className={styles.navProgress}>Отвечено {attempt.answeredCount} из {attempt.tasks.length}</span>
+                    <span className={styles.navTitle}>Задания</span>
+                    <span className={styles.navProgress}>Отвечено {session.answeredCount} из {session.items.length}</span>
                 </div>
                 <div className={styles.navStrip}>
-                    {attempt.tasks.map((_, i) => (
+                    {session.items.map((item, i) => (
                         <button
-                            key={i}
+                            key={item.position}
                             type="button"
-                            className={cn(styles.navTask, { [styles.navTaskAnswered]: attempt.isAnswered(i) })}
-                            aria-current={i === attempt.current ? 'step' : undefined}
-                            aria-label={`Задача ${i + 1}${attempt.isAnswered(i) ? ', есть ответ' : ''}`}
-                            onClick={() => attempt.goTo(i)}
+                            className={cn(styles.navTask, { [styles.navTaskAnswered]: session.isAnswered(i) })}
+                            aria-current={i === session.current ? 'step' : undefined}
+                            aria-label={`Задание ${i + 1}${session.isAnswered(i) ? ', есть ответ' : ''}`}
+                            title={standard ? `№${item.task.taskNumber}` : undefined}
+                            onClick={() => session.goTo(i)}
                         >
                             {i + 1}
                         </button>
@@ -118,11 +146,9 @@ const HomeworkWork = ({ attempt, onSubmit }: { attempt: HomeworkAttempt; onSubmi
                 </div>
             </nav>
 
-            <HomeworkTaskPanel attempt={attempt} onSubmit={onSubmit} />
+            {session.saveError && <p className={styles.saveError} role="alert">{session.saveError}</p>}
 
-            <p className={styles.note}>
-                Задачи собраны генератором, ответы проверяются в браузере. Позже ДЗ будет проверять преподаватель и оставлять комментарии.
-            </p>
+            <AttemptTaskPanel session={session} onSubmit={onSubmit} />
         </section>
     );
 };
@@ -132,21 +158,26 @@ interface SubmitDialogProps {
     open: boolean;
     unanswered: number;
     late: boolean;
+    submitting: boolean;
+    error: string | null;
     onCancel: () => void;
     onConfirm: () => void;
 }
 
-const SubmitDialog = ({ open, unanswered, late, onCancel, onConfirm }: SubmitDialogProps): JSX.Element | null => (
-    <ModalWindow isOpen={open} onClose={onCancel} title="Сдать домашнее задание?">
+const SubmitDialog = ({ open, unanswered, late, submitting, error, onCancel, onConfirm }: SubmitDialogProps): JSX.Element | null => (
+    <ModalWindow isOpen={open} onClose={onCancel} title="Сдать работу?">
         <p className={styles.confirmText}>
             {unanswered
-                ? `Без ответа ${pluralize(unanswered, 'задача', 'задачи', 'задач')} — они будут засчитаны как неверные.`
-                : 'Ответы даны на все задачи. После сдачи изменить их будет нельзя.'}
-            {late && ' Срок уже прошёл — преподаватель увидит, что ДЗ сдано после дедлайна.'}
+                ? `Без ответа ${pluralize(unanswered, 'задание', 'задания', 'заданий')} — они будут засчитаны как неверные.`
+                : 'Ответы даны на все задания. После сдачи изменить их будет нельзя.'}
+            {late && ' Срок уже прошёл — преподаватель увидит, что работа сдана после дедлайна.'}
         </p>
+        {error && <p className={styles.saveError} role="alert">{error}</p>}
         <div className={styles.confirmActions}>
-            <Button variant="outline" size="m" radius={12} onClick={onCancel}>Вернуться к задачам</Button>
-            <Button size="m" radius={12} onClick={onConfirm}><Send size={18} />Сдать и посмотреть результаты</Button>
+            <Button variant="outline" size="m" radius={12} onClick={onCancel}>Вернуться к заданиям</Button>
+            <Button size="m" radius={12} isLoading={submitting} onClick={onConfirm}>
+                <Send size={18} />Сдать и посмотреть результаты
+            </Button>
         </div>
     </ModalWindow>
 );

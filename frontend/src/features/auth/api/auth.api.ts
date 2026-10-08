@@ -30,7 +30,7 @@ export const verifyAuthCode = async (data: VerifyCodePayload, mode: AuthMode): P
         user: {
             id: userData.id,
             firstName: userData.first_name,
-            lastName: userData.last_name,
+            lastName: userData.last_name ?? undefined,
             phoneNumber: userData.phone_number,
             role: userData.role
         }
