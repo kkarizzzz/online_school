@@ -2,7 +2,9 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import Depends, HTTPException, status
 from app.core.token import verify_token
 from app.db.database import SessionDep
-from app.repositories.users import UserModel, get_user_by_id
+from app.db.enums import UserRole
+from app.db.models import UserModel
+from app.repositories.users import get_user_by_id
 from typing import Annotated
 
 
@@ -34,9 +36,9 @@ async def get_current_user(
         )
     
     # Идем в БД за пользователем
-    user = await get_user_by_id(session, int(user_id), role)
+    user = await get_user_by_id(session, int(user_id))
     
-    if not user:
+    if not user or not user.is_active or user.role.value != role:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Пользователь не найден",
@@ -45,3 +47,16 @@ async def get_current_user(
     return user
 
 UserDep = Annotated[UserModel, Depends(get_current_user)]
+
+
+def require_roles(*roles: UserRole):
+    """Зависимость: пускает только пользователей с указанными ролями"""
+    async def checker(user: UserDep) -> UserModel:
+        if user.role not in roles:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Недостаточно прав")
+        return user
+    return checker
+
+
+StudentDep = Annotated[UserModel, Depends(require_roles(UserRole.student))]
+StaffDep = Annotated[UserModel, Depends(require_roles(UserRole.teacher, UserRole.admin))]

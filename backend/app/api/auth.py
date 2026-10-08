@@ -4,8 +4,10 @@ from fastapi import APIRouter, status, BackgroundTasks, HTTPException, Cookie, R
 from app.core.config import settings
 from app.core.token import create_access_token, create_refresh_token, verify_token
 from app.db.database import SessionDep
-from app.repositories.users import get_model_for_role, get_user_by_id, get_user_and_role_by_phone
-from app.schemas.auth_schemas import SendCodeRequest, UserRegisterRequest, UserLoginRequest, RoleEnum, ActionEnum
+from app.db.enums import UserRole
+from app.db.models import UserModel
+from app.repositories.users import create_user, get_user_by_id, get_user_by_phone
+from app.schemas.auth_schemas import SendCodeRequest, UserRegisterRequest, UserLoginRequest, ActionEnum
 from app.schemas.user_schemas import UserOut, AuthResponse, TokenResponse
 
 router = APIRouter(prefix='/auth', tags=['Авторизация'])
@@ -18,11 +20,11 @@ def send_mock_sms(phone: str, code: str):
     print(f"{'=' * 40}\n")
 
 
-def set_auth_cookies_and_tokens(user, role: RoleEnum, response: Response):
+def set_auth_cookies_and_tokens(user: UserModel, response: Response):
     """Вспомогательная функция, чтобы не дублировать код создания токенов"""
     token_payload = {
         "sub": str(user.id),
-        "role": role.value
+        "role": user.role.value
     }
 
     access_token = create_access_token(data=token_payload)
@@ -46,7 +48,7 @@ async def request_code(
         session: SessionDep
 ):
     # Ищем пользователя в базе
-    user, role = await get_user_and_role_by_phone(session, data.phone_number)
+    user = await get_user_by_phone(session, data.phone_number)
     
     # 1. Если человек хочет войти, но его нет в базе -> ошибка
     if data.action == ActionEnum.login and not user:
@@ -85,7 +87,7 @@ async def register_user(
             detail="Неверный или просроченный код подтверждения"
         )
     
-    existing_user, _ = await get_user_and_role_by_phone(session, data.phone_number)
+    existing_user = await get_user_by_phone(session, data.phone_number)
     
     # 1. Проверяем, нет ли уже такого пользователя
     if existing_user:
@@ -94,25 +96,23 @@ async def register_user(
             detail="Пользователь с таким номером уже существует. Пожалуйста, выполните вход."
         )
     
-    model_cls = get_model_for_role(data.role)
-    
     # 2. Создаем нового
-    user = model_cls(
+    user = await create_user(
+        session,
+        role=UserRole(data.role.value),
         first_name=data.first_name,
         last_name=data.last_name,
-        phone_number=data.phone_number
+        phone_number=data.phone_number,
     )
-    session.add(user)
     await session.commit()
-    await session.refresh(user)
     
     # 3. Выдаем токены
-    access_token = set_auth_cookies_and_tokens(user, data.role, response)
+    access_token = set_auth_cookies_and_tokens(user, response)
     
     return AuthResponse(
         message="Успешная регистрация",
         access_token=access_token,
-        user=UserOut.from_user(user, data.role)
+        user=UserOut.from_user(user)
     )
 
 
@@ -128,22 +128,22 @@ async def login_user(
             detail="Неверный или просроченный код подтверждения"
         )
     
-    user, role = await get_user_and_role_by_phone(session, data.phone_number)
+    user = await get_user_by_phone(session, data.phone_number)
     
     # 1. Проверяем, существует ли пользователь
-    if not user:
+    if not user or not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Пользователь не найден. Пожалуйста, зарегистрируйтесь."
         )
     
     # 2. Выдаем токены
-    access_token = set_auth_cookies_and_tokens(user, role, response)
+    access_token = set_auth_cookies_and_tokens(user, response)
     
     return AuthResponse(
         message="Успешный вход",
         access_token=access_token,
-        user=UserOut.from_user(user, role)
+        user=UserOut.from_user(user)
     )
 
 
@@ -160,15 +160,16 @@ async def refresh_tokens(
         )
     
     payload = verify_token(refresh_token, expected_type="refresh")
-    user = await get_user_by_id(session, int(payload["sub"]), payload["role"])
+    user = await get_user_by_id(session, int(payload["sub"]))
     
-    if not user:
+    # Роль сверяем: после объединения таблиц старый токен родителя мог указывать на чужой id
+    if not user or not user.is_active or user.role.value != payload.get("role"):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Пользователь не найден или был удален"
         )
     
-    new_access_token = set_auth_cookies_and_tokens(user, RoleEnum(payload["role"]), response)
+    new_access_token = set_auth_cookies_and_tokens(user, response)
     
     return TokenResponse(access_token=new_access_token)
 

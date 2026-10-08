@@ -4,6 +4,7 @@ import re
 
 
 class RoleEnum(str, Enum):
+    """Роли, доступные при самостоятельной регистрации. Преподавателей и админов заводит админ"""
     student = 'student'
     parent = 'parent'
 

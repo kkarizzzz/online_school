@@ -1,45 +1,30 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.models import StudentModel, ParentModel
-from app.schemas.auth_schemas import RoleEnum
+from app.db.enums import UserRole
+from app.db.models import StudentProfileModel, UserModel
 
 
-UserModel = StudentModel | ParentModel
-
-ROLE_MODELS: dict[RoleEnum, type[StudentModel] | type[ParentModel]] = {
-    RoleEnum.student: StudentModel,
-    RoleEnum.parent: ParentModel,
-}
+async def get_user_by_id(session: AsyncSession, user_id: int) -> UserModel | None:
+    return await session.get(UserModel, user_id)
 
 
-def get_model_for_role(role: str | RoleEnum):
-    """Возвращает класс модели по роли или None, если роль неизвестна"""
-    try:
-        return ROLE_MODELS[RoleEnum(role)]
-    except ValueError:
-        return None
-
-
-def get_role_of(user: UserModel) -> RoleEnum:
-    return RoleEnum.student if isinstance(user, StudentModel) else RoleEnum.parent
-
-
-async def get_user_by_id(session: AsyncSession, user_id: int, role: str | RoleEnum) -> UserModel | None:
-    model_cls = get_model_for_role(role)
-    if model_cls is None:
-        return None
-
-    query = select(model_cls).where(model_cls.id == user_id)
+async def get_user_by_phone(session: AsyncSession, phone: str) -> UserModel | None:
+    query = select(UserModel).where(UserModel.phone_number == phone)
     return (await session.execute(query)).scalar_one_or_none()
 
 
-async def get_user_and_role_by_phone(session: AsyncSession, phone: str) -> tuple[UserModel | None, RoleEnum | None]:
-    # Сначала ищем среди учеников, потом среди родителей
-    for role, model_cls in ROLE_MODELS.items():
-        query = select(model_cls).where(model_cls.phone_number == phone)
-        user = (await session.execute(query)).scalar_one_or_none()
-        if user:
-            return user, role
-
-    return None, None
+async def create_user(
+        session: AsyncSession,
+        role: UserRole,
+        first_name: str,
+        last_name: str | None,
+        phone_number: str,
+) -> UserModel:
+    """Создаёт пользователя, а ученику — ещё и пустой профиль. Коммит — за вызывающим"""
+    user = UserModel(role=role, first_name=first_name, last_name=last_name, phone_number=phone_number)
+    session.add(user)
+    await session.flush()
+    if role == UserRole.student:
+        session.add(StudentProfileModel(user_id=user.id))
+    return user

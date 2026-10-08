@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
-from app.schemas.auth_schemas import RoleEnum
+from app.db.enums import UserRole
+from app.db.models import UserModel
 
 
 class UserOut(BaseModel):
@@ -8,16 +9,16 @@ class UserOut(BaseModel):
     first_name: str
     last_name: str | None
     phone_number: str
-    role: RoleEnum
+    role: UserRole
 
     @classmethod
-    def from_user(cls, user, role: RoleEnum) -> "UserOut":
+    def from_user(cls, user: UserModel) -> "UserOut":
         return cls(
             id=user.id,
             first_name=user.first_name,
             last_name=user.last_name,
             phone_number=user.phone_number,
-            role=role,
+            role=user.role,
         )
 
 

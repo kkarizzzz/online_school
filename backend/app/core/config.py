@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRE_DAYS: int = 60
     COOKIE_SECURE: bool = False  # в проде на HTTPS выставить True в .env
+    # Файлы заданий. Пока это папка, которую раздаёт сам бэкенд; позже — S3/MinIO
+    STORAGE_DIR: str = 'storage'
+    STORAGE_PUBLIC_URL: str = '/storage'  # префикс ссылок на файлы в ответах API
 
     @property
     def DATABASE_URL(self):

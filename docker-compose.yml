@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:17-alpine
@@ -26,18 +24,9 @@ services:
       - db
     env_file:
       - ./backend/.env
-
-  # Нарешка пока живёт на сервере концепта (concepts/tasks_page, FastAPI + SQLite).
-  # Образ бэкенда переиспользуется ради зависимостей; убрать, когда API нарешки переедет в backend/.
-  practice:
-    build: ./backend
-    restart: always
-    working_dir: /repo/concepts/tasks_page
-    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8100"]
     volumes:
-      - ./concepts/tasks_page:/repo/concepts/tasks_page
-      - ./frontend/public/fonts:/repo/frontend/public/fonts:ro
-      - ./frontend/src/shared/assets/icons:/repo/frontend/src/shared/assets/icons:ro
+      # Картинки заданий и фото решений (app/services/storage.py), пока нет S3/MinIO
+      - storage_data:/app/storage
 
   frontend:
     build: ./frontend
@@ -46,7 +35,7 @@ services:
       - "80:80"
     depends_on:
       - backend
-      - practice
 
 volumes:
   postgres_data:
+  storage_data:
