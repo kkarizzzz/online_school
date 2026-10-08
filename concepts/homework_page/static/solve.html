@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Выполнение ДЗ — Из нуля в сотку</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <!-- Разметка и стили — со страницы решения варианта; сама страница без сайдбара, чтобы ничего не отвлекало -->
+    <link rel="stylesheet" href="../../theory_page/static/shell.css?v=20261008b">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.19.0/katex.min.css">
+    <link rel="stylesheet" href="../../variants_page/static/exam.css?v=20261008b">
+    <link rel="stylesheet" href="../../variants_page/static/solve.css?v=20261008c">
+    <link rel="stylesheet" href="solve.css?v=20261008c">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.19.0/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script>
+        // Тема до отрисовки, чтобы не мигало
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body>
+<div class="solve">
+
+    <!-- Верхняя панель: назад, название, срок, время в работе, сдача -->
+    <header class="glass solve-top">
+        <a class="back-link" href="index.html" id="back-link"><i data-lucide="arrow-left"></i><span>Домашние задания</span></a>
+        <div class="solve-heading">
+            <p class="solve-kicker" id="kicker"></p>
+            <h1 class="solve-title" id="title"></h1>
+        </div>
+        <div class="timer deadline" id="deadline">
+            <i data-lucide="calendar-clock"></i>
+            <span class="timer-text">
+                <b id="deadline-value"></b>
+                <span id="deadline-label"></span>
+            </span>
+        </div>
+        <div class="timer" id="timer" title="Сколько времени идёт выполнение">
+            <i data-lucide="timer"></i>
+            <span class="timer-text">
+                <b id="timer-value">0:00</b>
+                <span>в работе</span>
+            </span>
+        </div>
+        <button type="button" class="btn btn-primary finish-btn" id="finish-btn"><i data-lucide="send"></i><span>Сдать</span></button>
+    </header>
+
+    <!-- Экран 1: выполнение -->
+    <section id="work" class="work" hidden>
+        <nav class="glass task-nav" aria-label="Задачи домашнего задания">
+            <div class="nav-head">
+                <span class="nav-title">Задачи</span>
+                <span class="nav-progress" id="nav-progress"></span>
+            </div>
+            <div class="nav-strip" id="nav-strip"></div>
+        </nav>
+
+        <article class="glass card task" aria-live="polite">
+            <div class="task-head">
+                <span class="task-num" id="task-num"></span>
+                <span class="task-meta" id="task-meta"></span>
+            </div>
+            <div class="task-text" id="task-text"></div>
+
+            <label class="answer">
+                <span class="answer-label">Ответ</span>
+                <input type="text" id="answer" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="Введите число">
+            </label>
+            <p class="answer-hint">Целое число или десятичная дробь, например <b>0,25</b>. Ответ сохраняется сразу —
+                можно закрыть страницу и вернуться позже.</p>
+
+            <div class="task-actions">
+                <button type="button" class="btn btn-ghost" id="prev"><i data-lucide="arrow-left"></i>Предыдущая</button>
+                <button type="button" class="btn btn-primary" id="next">Следующая<i data-lucide="arrow-right"></i></button>
+            </div>
+        </article>
+
+        <p class="demo-note">Концепт: задачи собраны генератором каталога вариантов, ответы проверяются в браузере.
+            Позже ДЗ будет проверять преподаватель и оставлять комментарии.</p>
+    </section>
+
+    <!-- Экран 2: результаты -->
+    <section id="results" class="results" hidden>
+        <div class="glass card">
+            <div class="results-head">
+                <p class="results-kicker" id="results-kicker"></p>
+                <h2 class="results-title">Результаты</h2>
+            </div>
+            <div id="results-stats"></div>
+            <div class="results-actions">
+                <a class="btn btn-primary" href="index.html?tab=done"><i data-lucide="clipboard-list"></i>К домашним заданиям</a>
+            </div>
+        </div>
+
+        <div class="glass card">
+            <h2 class="card-title">Ответы по задачам</h2>
+            <p class="card-sub">Нажмите на задачу, чтобы увидеть условие и решение.</p>
+            <div class="review" id="review"></div>
+        </div>
+    </section>
+
+    <section id="missing" class="glass card missing" hidden>
+        <i data-lucide="file-question"></i>
+        <p class="missing-title">Домашнее задание не найдено</p>
+        <a class="btn btn-outline" href="index.html"><i data-lucide="arrow-left"></i>К домашним заданиям</a>
+    </section>
+</div>
+
+<!-- Подтверждение сдачи -->
+<dialog class="confirm" id="confirm" aria-labelledby="confirm-title">
+    <h2 class="confirm-title" id="confirm-title">Сдать домашнее задание?</h2>
+    <p class="confirm-text" id="confirm-text"></p>
+    <div class="confirm-actions">
+        <button type="button" class="btn btn-outline" id="confirm-cancel">Вернуться к задачам</button>
+        <button type="button" class="btn btn-primary" id="confirm-ok"><i data-lucide="send"></i>Сдать и посмотреть результаты</button>
+    </div>
+</dialog>
+
+<script src="homework.js?v=20261008b"></script>
+<script src="../../variants_page/static/tasks.js?v=20261008b"></script>
+<script src="../../variants_page/static/exam.js?v=20261008c"></script>
+<script src="common.js?v=20261008b"></script>
+<script src="solve.js?v=20261008c"></script>
+</body>
+</html>

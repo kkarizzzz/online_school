@@ -177,7 +177,7 @@ function showResults(result) {
         const p = result.points[i] ?? 0;
         const given = result.answers?.[i] ?? '';
         const cls = p >= t.max ? 'is-full' : p > 0 ? 'is-part' : 'is-zero';
-        return `<details class="review-row ${cls}">
+        return `<details name="review" class="review-row ${cls}">
             <summary>
                 <span class="review-num">${i + 1}</span>
                 <span class="review-ege">№${t.number}</span>
@@ -188,7 +188,7 @@ function showResults(result) {
                 <span class="review-points">${p}/${t.max}</span>
                 <i data-lucide="chevron-down" class="review-chevron"></i>
             </summary>
-            <div class="review-text">${tex(t.text)}</div>
+            ${taskReviewHtml(t)}
         </details>`;
     }).join('');
 

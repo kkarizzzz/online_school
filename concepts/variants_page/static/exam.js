@@ -55,6 +55,27 @@ const tex = (src) => src.replace(/\$([^$]+)\$/g, (_, f) => katex.renderToString(
 
 const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
+// Строки результатов — аккордеон (<details name="review">): открылась одна, предыдущая закрылась.
+// Если закрылся длинный разбор выше, открытая строка уезжает под липкую шапку — возвращаем её в поле зрения.
+// toggle не всплывает, поэтому слушаем на захвате.
+document.addEventListener('toggle', (e) => {
+    const row = e.target;
+    if (!row.matches?.('.review-row') || !row.open) return;
+    const header = document.querySelector('.solve-top');
+    const top = header ? header.getBoundingClientRect().bottom : 0;
+    if (row.getBoundingClientRect().top < top) row.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}, true);
+
+/** Раскрытая строка результатов: условие задания, разбор и верный ответ */
+const taskReviewHtml = (t) => `<div class="review-body">
+    <div class="review-text">${tex(t.text)}</div>
+    <div class="review-solution">
+        <p class="review-solution-title"><i data-lucide="lightbulb"></i>Решение</p>
+        <div class="review-solution-text">${tex(t.solution ?? '')}</div>
+        <p class="review-solution-answer">Ответ: <b>${String(t.answer).replace('.', ',')}</b></p>
+    </div>
+</div>`;
+
 const variantById = (id) => window.VARIANTS.find((v) => v.id === id);
 const isStandard = (v) => v.kind === 'standard';
 const timeLimit = (v) => (isStandard(v) ? EXAM.minutes * 60 : null); // секунды; у отработки времени нет

@@ -155,7 +155,8 @@
 
 .review { display: flex; flex-direction: column; gap: 6px; }
 
-.review-row { border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; }
+/* scroll-margin — чтобы при подкрутке к открытой строке её не закрывала липкая шапка */
+.review-row { border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; scroll-margin-top: 140px; }
 
 .review-row summary {
     display: grid; grid-template-columns: 34px 44px 1fr auto 18px; align-items: center; gap: 12px;
@@ -189,12 +190,31 @@
 .review-chevron { width: 16px; height: 16px; color: var(--text-secondary); transition: transform .2s; }
 .review-row[open] .review-chevron { transform: rotate(180deg); }
 
-.review-text { padding: 4px 14px 14px 60px; font-size: 15px; line-height: 1.6; text-wrap: pretty; }
+/* Раскрытая строка: условие, под ним разбор */
+.review-body { display: flex; flex-direction: column; gap: 12px; padding: 4px 14px 14px 60px; }
+
+.review-text { font-size: 15px; line-height: 1.6; text-wrap: pretty; }
+
+.review-solution {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 12px 14px; border-radius: 10px; background: var(--bg-secondary);
+    border-left: 3px solid var(--primary);
+}
+
+.review-solution-title {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--primary-text);
+}
+
+.review-solution-title svg { width: 14px; height: 14px; }
+.review-solution-text { font-size: 15px; line-height: 1.6; text-wrap: pretty; overflow-x: auto; }
+.review-solution-answer { font-size: 14px; color: var(--text-secondary); }
+.review-solution-answer b { font-family: var(--font-mono); color: var(--text-primary); }
 
 @media (max-width: 560px) {
     .review-row summary { grid-template-columns: 30px 1fr auto 16px; gap: 10px; }
     .review-ege { display: none; }
-    .review-text { padding-left: 14px; }
+    .review-body { padding-left: 14px; }
 }
 
 /* ------------------------------ не найден ------------------------------ */

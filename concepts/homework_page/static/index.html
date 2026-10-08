@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Банк заданий — Из нуля в сотку</title>
+    <title>Домашнее задание — Из нуля в сотку</title>
     <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
-    <!-- Оболочка кабинета общая со страницей «Теория» -->
+    <!-- Оболочка кабинета общая со страницей «Теория», кнопки и статистика — из каталога вариантов -->
     <link rel="stylesheet" href="../../theory_page/static/shell.css?v=20261008b">
+    <link rel="stylesheet" href="../../variants_page/static/exam.css?v=20261008b">
     <link rel="stylesheet" href="styles.css?v=20261008b">
 
     <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
@@ -33,8 +34,8 @@
             <nav class="nav" aria-label="Основная навигация">
                 <a class="nav-btn" href="#"><i data-lucide="house"></i><span>Главная</span></a>
                 <a class="nav-btn" href="../../theory_page/static/index.html"><i data-lucide="book-open"></i><span>Теория</span></a>
-                <a class="nav-btn" href="../../homework_page/static/index.html"><i data-lucide="clipboard-list"></i><span>Домашнее задание</span></a>
-                <a class="nav-btn active" href="index.html" aria-current="page"><i data-lucide="layers"></i><span>Банк заданий</span></a>
+                <a class="nav-btn active" href="index.html" aria-current="page"><i data-lucide="clipboard-list"></i><span>Домашнее задание</span></a>
+                <a class="nav-btn" href="../../bank_page/static/index.html"><i data-lucide="layers"></i><span>Банк заданий</span></a>
                 <a class="nav-btn" href="#"><i data-lucide="zap"></i><span>Нарешка</span></a>
                 <a class="nav-btn" href="../../variants_page/static/index.html"><i data-lucide="folder-open"></i><span>Каталог вариантов</span></a>
                 <a class="nav-btn" href="../../review_page/static/index.html"><i data-lucide="repeat"></i><span>Быстрое повторение</span></a>
@@ -68,38 +69,28 @@
             <main class="page">
                 <div class="page-header">
                     <p class="eyebrow">Математика · Профильный уровень</p>
-                    <h1 class="title">Банк заданий</h1>
-                    <p class="description">Все прототипы ЕГЭ по номерам. Выберите номер, отметьте нужные темы — и решайте задания,
-                        отмечая решённые.</p>
+                    <h1 class="title">Домашнее задание</h1>
+                    <p class="description">Задания от преподавателя по пройденным темам. Решайте до дедлайна — ответы
+                        сохраняются сразу, к начатому заданию можно вернуться в любой момент.</p>
                 </div>
 
-                <section class="part-block" aria-labelledby="part1-title">
-                    <h2 class="part-title" id="part1-title">Часть 1 <span>краткий ответ · задания 1–12</span></h2>
-                    <ul class="numbers" id="part1"></ul>
-                </section>
+                <!-- Вкладки: как shared/ui/Tabs -->
+                <div class="glass tabs" role="tablist" id="tabs"></div>
 
-                <section class="part-block" aria-labelledby="part2-title">
-                    <h2 class="part-title" id="part2-title">Часть 2 <span>развёрнутый ответ · задания 13–19</span></h2>
-                    <ul class="numbers" id="part2"></ul>
-                </section>
+                <ul class="hw-list" id="list"></ul>
 
-                <p class="demo-note">Концепт: задания генерируются заглушкой из bank.js, отметки «решено» хранятся только в этом браузере.</p>
+                <div class="glass empty" id="empty" hidden>Не найдено.</div>
+
+                <p class="demo-note">Концепт: список — заглушка из homework.js, задачи собирает генератор каталога вариантов,
+                    свои попытки хранятся только в этом браузере.</p>
             </main>
         </div>
     </div>
 </div>
 
-<!-- Панель справа: темы выбранного номера -->
-<div class="backdrop" id="backdrop" hidden></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
-    <button type="button" class="icon-btn drawer-close" id="drawer-close" aria-label="Закрыть"><i data-lucide="x"></i></button>
-    <div class="drawer-body" id="drawer-body"></div>
-    <div class="drawer-foot">
-        <a class="btn btn-primary" id="go" href="#"><span id="go-label">К заданиям</span><i data-lucide="arrow-right"></i></a>
-    </div>
-</aside>
-
-<script src="bank.js?v=20261008b"></script>
+<script src="homework.js?v=20261008b"></script>
+<script src="../../variants_page/static/tasks.js?v=20261008b"></script>
+<script src="../../variants_page/static/exam.js?v=20261008c"></script>
 <script src="common.js?v=20261008b"></script>
 <script src="index.js?v=20261008b"></script>
 </body>

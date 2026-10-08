@@ -1,0 +1,12 @@
+/* Поверх variants_page/static/solve.css: плашка срока рядом с секундомером */
+
+.deadline.is-danger { background: var(--bad-bg); color: var(--bad); }
+
+@media (max-width: 720px) {
+    .solve-top .timer { flex: 1; }
+}
+
+/* На телефоне секундомер прячем — срок важнее */
+@media (max-width: 420px) {
+    #timer { display: none; }
+}

@@ -11,6 +11,7 @@
 | [`review_page/`](review_page/README.md) | «Быстрое повторение»: микс вопросов по теории и вычислениям с вариантами ответа | http://localhost:8202/concepts/review_page/static/index.html |
 | [`variants_page/`](variants_page/README.md) | «Каталог вариантов»: список с фильтрами, панель варианта, решение на время и результаты | http://localhost:8203/concepts/variants_page/static/index.html |
 | [`bank_page/`](bank_page/README.md) | «Банк заданий»: номера 1–19 → выбор тем → задания прототипа с отметками «решено» и сортировкой | http://localhost:8204/concepts/bank_page/static/index.html |
+| [`homework_page/`](homework_page/README.md) | «Домашнее задание»: вкладки текущие / выполненные / просроченные, выполнение ДЗ и результаты | http://localhost:8205/concepts/homework_page/static/index.html |
 
 Все команды в README запускаются **из корня репозитория** (`online_school/`), а не из папки концепта: страницы берут шрифты и логотип из `frontend/`.
 
@@ -36,4 +37,4 @@ python concepts/theory_page/build.py
 
 ## Запуск через Claude Code
 
-В `.claude/launch.json` есть конфиги `concept-theory`, `concept-lesson`, `concept-tasks`, `concept-review`, `concept-variants`, `concept-bank` — их можно запускать во встроенном браузере приложения.
+В `.claude/launch.json` есть конфиги `concept-theory`, `concept-lesson`, `concept-tasks`, `concept-review`, `concept-variants`, `concept-bank`, `concept-homework` — их можно запускать во встроенном браузере приложения.
