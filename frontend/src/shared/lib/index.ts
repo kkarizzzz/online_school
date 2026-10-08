@@ -1,4 +1,5 @@
 export * from './cn';
+export * from './date';
 export * from './error/error.helpers';
 export * from './error/types';
 export * from './formatPhone';
@@ -6,6 +7,7 @@ export * from './math';
 export * from './model/Observable';
 export * from './model/useObservable';
 export * from './plural';
+export * from './random';
 export * from './storage/JsonStorage';
 export * from './useClickOutside';
 export * from './useScrollToTop';

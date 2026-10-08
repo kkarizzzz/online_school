@@ -2,11 +2,11 @@ import { createBrowserRouter, Outlet } from "react-router";
 import { RequireAuth } from "../../features/auth";
 import {
     AuthPage, ErrorPage, GraduatesPage, HomePage,
-    HomeworkPage,
+    HomeworkPage, HomeworkSolvePage,
     LearningHomePage, LessonPage, NotFoundPage, ParentsPage,
     PracticePage,
     PricingPage, ProfilePage, PsychologistPage,
-    PsychologistsPage, RepetionQuickPage, SettingsPage, StatisticsPage, TaskBankPage, TeachersPage,
+    PsychologistsPage, RepetionQuickPage, SettingsPage, StatisticsPage, TaskBankPage, TaskBankPrototypePage, TeachersPage,
     TheoryPage,
     VariantsPage
 } from "../../pages";
@@ -54,7 +54,9 @@ export const router = createBrowserRouter(
                         { path: 'theory', element: <TheoryPage /> }, 
                         { path: 'theory/lesson/:lessonId', element: <LessonPage /> },
                         { path: 'homework', element: <HomeworkPage /> }, 
+                        { path: 'homework/:homeworkId', element: <HomeworkSolvePage /> },
                         { path: 'task-bank', element: <TaskBankPage /> },
+                        { path: 'task-bank/:number', element: <TaskBankPrototypePage /> },
                         { path: 'practice', element: <PracticePage /> },
                         { path: 'variants', element: <VariantsPage /> },
                         { path: 'quick-review', element: <RepetionQuickPage /> },

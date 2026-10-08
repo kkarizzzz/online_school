@@ -1,2 +1,7 @@
+export * from './api/HomeworkRepository'
+export * from './api/homeworkRepository.instance'
+export * from './lib/routes'
+export * from './model/Homework'
+export * from './model/hooks'
 export * from './model/types'
 export * from './ui/HomeworkCard/HomeworkCard'

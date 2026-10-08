@@ -1,12 +1,5 @@
 .list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-}
-
-.notFound {
-    padding: 2rem;
-    text-align: center;
-    color: var(--text-secondary); 
-    border-radius: var(--radius);
+    gap: 24px;
 }

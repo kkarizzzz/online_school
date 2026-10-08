@@ -1,0 +1,215 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(10, 12, 20, .45);
+    backdrop-filter: blur(2px);
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    width: min(460px, 100%);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, .18);
+    visibility: hidden;
+}
+
+/* Панель монтируется заново для каждого номера, поэтому въезд — анимацией, а не переходом */
+.on {
+    visibility: visible;
+    animation: drawer-in .25s cubic-bezier(.2, .8, .2, 1);
+}
+
+.backdrop {
+    animation: fade-in .2s ease;
+}
+
+@keyframes drawer-in {
+    from { transform: translateX(100%); }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .on, .backdrop { animation: none; }
+}
+
+.close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1;
+}
+
+.body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 28px 24px 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.partTag {
+    align-self: flex-start;
+    padding: 2px 10px;
+    border-radius: 9999px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding-right: 44px;
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-wrap: balance;
+}
+
+.num {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    color: var(--primary-text);
+}
+
+.sub {
+    margin-top: -4px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-wrap: pretty;
+}
+
+.foot {
+    padding: 14px 24px 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.go {
+    width: 100%;
+    gap: 8px;
+}
+
+.topics {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.topic {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: border-color .2s, background-color .2s;
+}
+
+.topic:hover {
+    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+}
+
+.topic:has(.check:checked) {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+}
+
+.topic:has(.check:focus-visible) {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.topicAll,
+.topicAll:has(.check:checked) {
+    background: var(--bg-secondary);
+    border-color: transparent;
+}
+
+.topicMain {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.topicName {
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.topicMeta {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+/* Галочка: свой квадрат с отметкой и прочерком для «выбрана часть» */
+.check {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    display: grid;
+    place-content: center;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border-radius: 6px;
+    border: 1.5px solid var(--gray);
+    background: var(--bg-primary);
+    cursor: pointer;
+    transition: background-color .15s, border-color .15s;
+}
+
+.check::before {
+    content: '';
+    width: 10px;
+    height: 6px;
+    margin-top: -2px;
+    border: 2px solid var(--white);
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg) scale(0);
+    transition: transform .15s;
+}
+
+.check:checked,
+.check:indeterminate {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.check:checked::before {
+    transform: rotate(-45deg) scale(1);
+}
+
+.check:indeterminate::before {
+    width: 10px;
+    height: 0;
+    margin-top: 0;
+    border-left: none;
+    transform: none;
+}
+
+.check:focus-visible {
+    outline: none;
+}

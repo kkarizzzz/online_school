@@ -1,0 +1,172 @@
+.task {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    list-style: none;
+    transition: border-color .2s;
+}
+
+.isSolved {
+    border-color: color-mix(in srgb, var(--done) 45%, transparent);
+}
+
+.head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.code {
+    font: 700 13px var(--font-mono);
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.topic {
+    padding: 1px 9px;
+    border-radius: 9999px;
+    background: var(--primary-soft);
+    color: var(--primary-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.facts {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-left: auto;
+}
+
+.facts span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+    .facts { margin-left: 0; flex-basis: 100%; }
+}
+
+.text {
+    display: block;
+    font-size: 15.5px;
+    line-height: 1.6;
+    text-wrap: pretty;
+    overflow: auto hidden;
+    padding-block: 2px;
+}
+
+.text :global(.katex) {
+    font-size: 1.05em;
+}
+
+.foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+}
+
+.linkBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    background: none;
+    color: var(--primary-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.linkBtn:hover {
+    text-decoration: underline;
+}
+
+.linkBtn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Разбор: как в результатах ДЗ */
+.solution {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--primary);
+}
+
+.solutionTitle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 600 11px var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--primary-text);
+}
+
+.solutionText {
+    display: block;
+    font-size: 15px;
+    line-height: 1.6;
+    text-wrap: pretty;
+    overflow-x: auto;
+}
+
+.solutionAnswer {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.solutionAnswer b {
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+.mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: auto;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 13.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all .2s;
+}
+
+.mark:hover {
+    border-color: var(--done);
+    color: var(--done);
+}
+
+.mark:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.mark[aria-pressed="true"] {
+    background: var(--done-bg);
+    border-color: transparent;
+    color: var(--done);
+}
+
+.mark[aria-pressed="true"]:hover {
+    border-color: var(--done);
+}

@@ -1,6 +1,6 @@
 import type { DetailedHTMLProps, HTMLAttributes } from 'react';
-import type { HomeworkModel } from '../../model/types';
+import type { Homework } from '../../model/Homework';
 
 export interface HomeworkCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    homework: HomeworkModel;
+    homework: Homework;
 }

@@ -1,5 +1,4 @@
 import { BookOpenCheck, CheckCircle2, Clock, Flame, Target, Trophy } from "lucide-react";
-import type { HomeworkModel } from "../../entities/homework";
 import type { PsychologistModel, PsychologistNoteModel } from "../../entities/psychologist/model/types";
 import PsychologistElena from '../assets/images/psychologist-elena.webp';
 import PsychologistMikhail from '../assets/images/psychologist-mikhail.webp';
@@ -66,89 +65,6 @@ export const MOCK_VARIANTS = [
     status: 'assigned',
     deadline: 'до 22 июня',
   },
-];
-
-// TaskBankPage component
-export const MOCK_TASK_BANK = [
-  {
-    number: '№7',
-    title: 'Производная и первообразная',
-    meta: '4 темы · 120 задач',
-    topics: [
-      { title: 'Физический смысл производной', total: 30, solved: 18 },
-      { title: 'Наибольшее и наименьшее значение', total: 40, solved: 12 },
-      { title: 'Первообразная функции', total: 25, solved: 0 },
-      { title: 'Площадь криволинейной трапеции', total: 25, solved: 4 },
-    ],
-  },
-  {
-    number: '№11',
-    title: 'Текстовые задачи',
-    meta: '3 темы · 90 задач',
-    topics: [
-      { title: 'Задачи на движение', total: 35, solved: 20 },
-      { title: 'Задачи на работу', total: 30, solved: 8 },
-      { title: 'Задачи на смеси и сплавы', total: 25, solved: 0 },
-    ],
-  },
-  {
-    number: '№13',
-    title: 'Тригонометрические уравнения',
-    meta: '3 темы · 75 задач',
-    topics: [
-      { title: 'Простейшие уравнения', total: 30, solved: 30 },
-      { title: 'Отбор корней на отрезке', total: 25, solved: 6 },
-      { title: 'Однородные уравнения', total: 20, solved: 2 },
-    ],
-  },
-  {
-    number: '№18',
-    title: 'Задачи с параметром',
-    meta: '2 темы · 48 задач',
-    topics: [
-      { title: 'Графический метод', total: 24, solved: 3 },
-      { title: 'Аналитический метод', total: 24, solved: 0 },
-    ],
-  },
-];
-
-// // HomeworkPage component
-export const MOCK_HOMEWORK: HomeworkModel[] = [
-    {
-        title: 'Производная сложной функции',
-        topic: 'Начала анализа · 8 задач',
-        deadline: 'до 13 июня, 23:59',
-        progress: 'Не начато',
-        status: 'current',
-    },
-    {
-        title: 'Тригонометрические уравнения',
-        topic: 'Тригонометрия · 10 задач',
-        deadline: 'до 15 июня, 23:59',
-        progress: '3 из 10 решено',
-        status: 'current',
-    },
-    {
-        title: 'Стереометрия: сечения',
-        topic: 'Геометрия · 6 задач',
-        deadline: 'до 18 июня, 23:59',
-        progress: 'Не начато',
-        status: 'current',
-    },
-    {
-        title: 'Показательные неравенства',
-        topic: 'Алгебра · 9 задач',
-        deadline: 'сдано 8 июня',
-        progress: '9 из 9',
-        status: 'done',
-    },
-    {
-        title: 'Планиметрия: углы окружности',
-        topic: 'Геометрия · 7 задач',
-        deadline: 'дедлайн истёк 5 июня',
-        progress: '2 из 7 решено',
-        status: 'overdue',
-    },
 ];
 
 // SettingsPage component

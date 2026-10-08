@@ -6,13 +6,13 @@ import type { MathTextProps } from './MathText.props';
 const escapeHtml = (s: string): string =>
     s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
 
-/** Строка с формулами в $...$ → HTML: текст экранируется, формулы рендерит KaTeX */
+/** Строка с формулами в $...$ → HTML: текст экранируется (перевод строки → <br>), формулы рендерит KaTeX */
 const renderInlineMath = (src: string): string =>
     src
         .split(/(\$[^$]+\$)/g)
         .map((part) => (part.length > 2 && part.startsWith('$') && part.endsWith('$')
             ? katex.renderToString(part.slice(1, -1), { throwOnError: false })
-            : escapeHtml(part)))
+            : escapeHtml(part).replace(/\n/g, '<br>')))
         .join('');
 
 

@@ -1,0 +1,47 @@
+.level {
+    --lvl: var(--done);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--lvl);
+    white-space: nowrap;
+}
+
+.base { --lvl: #0f9d63; }
+.medium { --lvl: #c98a00; }
+.hard { --lvl: #e0532f; }
+.coffin { --lvl: #7b2ff2; }
+
+:global([data-theme="dark"]) .base { --lvl: #3fd39a; }
+:global([data-theme="dark"]) .medium { --lvl: #e6b84a; }
+:global([data-theme="dark"]) .hard { --lvl: #ff8a72; }
+:global([data-theme="dark"]) .coffin { --lvl: #b48cff; }
+
+.skull {
+    margin-right: -3px;
+}
+
+.bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 13px;
+}
+
+.bars i {
+    display: block;
+    width: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+}
+
+.bars i:nth-child(1) { height: 4px; }
+.bars i:nth-child(2) { height: 7px; }
+.bars i:nth-child(3) { height: 10px; }
+.bars i:nth-child(4) { height: 13px; }
+
+.bars i.on {
+    background: var(--lvl);
+}

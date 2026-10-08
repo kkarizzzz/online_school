@@ -1,0 +1,344 @@
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px;
+    border-radius: var(--radius);
+}
+
+@media (max-width: 560px) {
+    .card { padding: 18px; }
+}
+
+.kicker {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.title {
+    margin-top: 2px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cardSub {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ------------------------------ кольцо ------------------------------ */
+
+.score {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 24px 32px;
+    padding: 4px 0;
+}
+
+/* Легенда — как HomeworkOverview */
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-color: var(--gray);
+}
+
+.dotPrimary {
+    background-color: var(--primary);
+}
+
+/* ------------------------------ факты ------------------------------ */
+
+.facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+}
+
+.facts > div {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+}
+
+.facts dt {
+    font: 600 10.5px var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.facts dd {
+    margin: 3px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.factsWide {
+    grid-column: 1 / -1;
+}
+
+/* ------------------------------ сетка задач ------------------------------ */
+
+.cellsWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cellsTitle {
+    font: 600 11px var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.cells {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+    gap: 6px;
+}
+
+.cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    height: 46px;
+    border-radius: 10px;
+    font-variant-numeric: tabular-nums;
+}
+
+.cell b {
+    font-size: 14px;
+}
+
+.cell small {
+    font: 600 10px var(--font-mono);
+    opacity: .8;
+}
+
+.cell.full,
+.cellsLegend i.full {
+    background: var(--done-bg);
+    color: var(--done);
+}
+
+.cell.zero,
+.cellsLegend i.zero {
+    background: var(--bad-bg);
+    color: var(--bad);
+}
+
+.cellsLegend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.cellsLegend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cellsLegend i {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 480px) {
+    .actions > * { flex: 1; }
+}
+
+/* ------------------------------ ответы ------------------------------ */
+
+.review {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.row {
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 34px 44px 1fr auto 18px;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    background: transparent;
+    color: var(--text-primary);
+    text-align: left;
+}
+
+.summary:hover {
+    background: var(--bg-secondary);
+}
+
+.summary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+.rowNum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.row.full .rowNum { background: var(--done-bg); color: var(--done); }
+.row.zero .rowNum { background: var(--bad-bg); color: var(--bad); }
+
+.rowEge {
+    font: 600 12px var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    min-width: 0;
+    font: 600 14px var(--font-mono);
+}
+
+.answers > span {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.answers small {
+    font: 400 11px var(--font-sans);
+    color: var(--text-secondary);
+}
+
+.answers em {
+    font: italic 400 13px var(--font-sans);
+    color: var(--text-secondary);
+}
+
+.points {
+    font: 600 13px var(--font-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+.row.full .points { color: var(--done); }
+.row.zero .points { color: var(--bad); }
+
+.chevron {
+    color: var(--text-secondary);
+    transition: transform .2s;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+/* Раскрытая строка: условие, под ним разбор */
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px 14px 14px 60px;
+}
+
+.bodyText {
+    font-size: 15px;
+    line-height: 1.6;
+    text-wrap: pretty;
+}
+
+.solution {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--primary);
+}
+
+.solutionTitle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 600 11px var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--primary-text);
+}
+
+.solutionText {
+    font-size: 15px;
+    line-height: 1.6;
+    text-wrap: pretty;
+    overflow-x: auto;
+}
+
+.solutionAnswer {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.solutionAnswer b {
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+@media (max-width: 560px) {
+    .summary { grid-template-columns: 30px 1fr auto 16px; gap: 10px; }
+    .rowEge { display: none; }
+    .body { padding-left: 14px; }
+}
