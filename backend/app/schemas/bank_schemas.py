@@ -10,7 +10,7 @@ class BankTopicOut(BaseModel):
     name: str
     subtopics: list[str]
     task_count: int
-    solved_count: int
+    solved_count: int  # решено или отмечено решённым
 
 
 class BankNumberOut(BaseModel):
@@ -28,7 +28,23 @@ class BankTaskOut(BaseModel):
     index: int                # порядковый номер в теме, с 1
     task: TaskPublic
     reveal: TaskReveal
-    is_solved: bool
+    is_solved: bool           # засчитанный ответ на полный балл (нарешка, ДЗ, варианты)
+    is_marked: bool           # ученик сам отметил «решено»
     tries: int
     solved_students: int
     created_at: datetime
+
+
+class BankTopicTasks(BaseModel):
+    id: int
+    name: str
+    tasks: list[BankTaskOut]
+
+
+class BankNumberDetail(BaseModel):
+    """Номер со всеми темами и заданиями — фильтры и сортировку делает страница"""
+    number: int
+    title: str | None
+    part: int
+    max_score: int
+    topics: list[BankTopicTasks]

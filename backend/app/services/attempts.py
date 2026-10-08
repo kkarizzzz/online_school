@@ -223,7 +223,9 @@ async def submit_attempt(session: AsyncSession, attempt: AttemptModel, now: date
     await session.flush()
 
     scored = [a for a in answers if a.score is not None]
-    await refresh_student_stats(session, attempt.student_id, [a.task_id for a in scored], [a.answered_at for a in scored])
+    await refresh_student_stats(
+        session, attempt.student_id, [a.task_id for a in scored], [a.answered_at for a in scored] + [now],
+    )
     await check_achievements(session, attempt.student_id)
     return attempt
 
@@ -314,7 +316,7 @@ async def grade_answer(
                 session, attempt.student_id, NotificationType.attempt_graded,
                 title=f'Проверено: {task_set.title}',
                 body=result,
-                payload={'attempt_id': attempt.id},
+                payload={'attempt_id': attempt.id, 'student_assignment_id': attempt.student_assignment_id},
                 dedup_key=f'attempt_graded:{attempt.id}',
             )
     else:

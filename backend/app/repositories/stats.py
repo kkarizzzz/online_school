@@ -4,14 +4,14 @@ from datetime import date, timedelta
 from sqlalchemy import and_, case, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.enums import AttemptStatus, Subject
+from app.db.enums import AttemptStatus, Subject, UserRole
 from app.db.models import (
     AchievementModel, AttemptModel, StudentAchievementModel, StudentAssignmentModel, StudentDailyActivityModel,
-    StudentTaskStatusModel, StudentTopicStatsModel, TaskSetModel, UserModel,
+    StudentTaskStatusModel, StudentTopicStatsModel, TaskModel, TaskSetModel, UserModel,
 )
 from app.repositories.tasks import root_topic, topic_progress, topics_map
 from app.schemas.stats_schemas import (
-    AchievementOut, DayActivity, HomeworkSummary, MockExamResult, StudentStatsOut, TopicStatsOut, Totals,
+    AchievementOut, DayActivity, HomeworkSummary, MockExamResult, StudentStatsOut, SubjectTasks, TopicStatsOut, Totals,
 )
 from app.services.stats import current_streak
 
@@ -102,10 +102,44 @@ async def student_stats(session: AsyncSession, student: UserModel) -> StudentSta
         for a in (await session.execute(select(AchievementModel).order_by(AchievementModel.code))).scalars()
     ]
 
+    by_subject = dict((await session.execute(
+        select(TaskModel.subject, func.count())
+        .join(StudentTaskStatusModel, StudentTaskStatusModel.task_id == TaskModel.id)
+        .where(StudentTaskStatusModel.student_id == sid, StudentTaskStatusModel.is_solved)
+        .group_by(TaskModel.subject)
+    )).all())
+    totals_by_subject = dict((await session.execute(
+        select(TaskModel.subject, func.count()).where(TaskModel.is_active).group_by(TaskModel.subject)
+    )).all())
+    subjects = [
+        SubjectTasks(subject=subject, tasks_solved=by_subject.get(subject, 0), task_count=count)
+        for subject, count in sorted(totals_by_subject.items(), key=lambda kv: list(Subject).index(kv[0]))
+    ]
+
     return StudentStatsOut(
-        streak=await current_streak(session, sid), totals=totals, week=week,
+        streak=await current_streak(session, sid), rank_percent=await _rank_percent(session, solved),
+        subjects=subjects, totals=totals, week=week,
         homework=homework, mock_exams=mock_exams, achievements=achievements,
     )
+
+
+async def _rank_percent(session: AsyncSession, solved: int) -> int | None:
+    """Место по числу решённых заданий: «Топ 8%» — решивших больше меньше 8% учеников"""
+    if not solved:
+        return None
+    per_student = (
+        select(StudentTaskStatusModel.student_id, func.count().label('solved'))
+        .where(StudentTaskStatusModel.is_solved)
+        .group_by(StudentTaskStatusModel.student_id)
+        .subquery()
+    )
+    ahead = (await session.execute(
+        select(func.count()).select_from(per_student).where(per_student.c.solved > solved)
+    )).scalar_one()
+    students = (await session.execute(
+        select(func.count()).select_from(UserModel).where(UserModel.role == UserRole.student, UserModel.is_active)
+    )).scalar_one()
+    return max(1, -(-100 * (ahead + 1) // max(students, 1)))
 
 
 async def student_topic_stats(session: AsyncSession, student_id: int, subject: Subject) -> list[TopicStatsOut]:

@@ -47,8 +47,16 @@ class AchievementOut(BaseModel):
     unlocked_at: datetime | None  # None — ещё не получено
 
 
+class SubjectTasks(BaseModel):
+    subject: Subject
+    tasks_solved: int
+    task_count: int
+
+
 class StudentStatsOut(BaseModel):
     streak: int
+    rank_percent: int | None   # «Топ N%» по решённым заданиям среди учеников; None — пока нечего сравнивать
+    subjects: list[SubjectTasks]
     totals: Totals
     week: list[DayActivity]  # последние 7 дней в поясе ученика, сегодня — последний
     homework: HomeworkSummary

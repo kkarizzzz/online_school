@@ -1,10 +1,10 @@
 """
 Демо-наполнение для локальной разработки: задания из концепта нарешки (concepts/tasks_page),
-ДЗ всем ученикам и два варианта в каталоге.
+ДЗ всем ученикам и две отработки, затем учебное содержимое (app/scripts/import_content.py).
 
     python -m app.scripts.seed_demo
 
-Повторный запуск ничего не делает, если демо-задания уже есть.
+Повторный запуск ничего не дублирует: каждая часть пропускается, если уже есть.
 """
 import asyncio
 from datetime import datetime, timedelta, timezone
@@ -14,6 +14,7 @@ from sqlalchemy import exists, select
 from app.db.database import engine, new_session
 from app.db.enums import AnswerType, FileKind, Subject, TaskSetKind, UserRole
 from app.db.models import SourceModel, TaskFileModel, TaskModel, TopicModel, UserModel
+from app.scripts import import_content
 from app.scripts.demo_figures import FIGURES
 from app.services import storage
 from app.services.assignments import assign_set
@@ -234,7 +235,7 @@ def build_specs() -> list[dict]:
 async def seed() -> None:
     async with new_session() as session:
         if (await session.execute(select(exists().where(TaskModel.external_source == SOURCE)))).scalar_one():
-            print('Демо-задания уже есть — пропускаю')
+            print('демо-нарешка: уже есть')
             return
 
         for key, draw in FIGURES.items():
@@ -303,8 +304,13 @@ async def seed() -> None:
 
         await session.commit()
         print(f'Заданий: {len(tasks)}, тем: {len(roots)}, подтем: {len(subs)}, ДЗ назначено ученикам: {len(students)}')
+
+
+async def main() -> None:
+    await seed()
+    await import_content.run()
     await engine.dispose()
 
 
 if __name__ == '__main__':
-    asyncio.run(seed())
+    asyncio.run(main())

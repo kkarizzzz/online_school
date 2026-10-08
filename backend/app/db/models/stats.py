@@ -27,6 +27,18 @@ class StudentTaskStatusModel(Model):
     last_answer_at: Mapped[datetime | None] = optional_datetime_column()
 
 
+class BankMarkModel(Model):
+    """
+    Отметка «решено» в банке, которую ученик ставит сам. Это не засчитанный ответ:
+    в статистику не попадает и rebuild_stats её не трогает
+    """
+    __tablename__ = 'bank_marks'
+
+    student_id: Mapped[int] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    task_id: Mapped[int] = mapped_column(ForeignKey('tasks.id', ondelete='CASCADE'), primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), init=False)
+
+
 class StudentTopicStatsModel(Model):
     """Успехи по теме банка (по листовым подтемам): прогресс и слабые темы"""
     __tablename__ = 'student_topic_stats'

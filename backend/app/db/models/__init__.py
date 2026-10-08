@@ -7,14 +7,15 @@ from app.db.models.bank import (
     task_sources,
 )
 from app.db.models.progress import (
-    AchievementModel, LessonModel, LessonProgressModel, ReviewCardModel, ReviewQuestionModel,
-    StudentAchievementModel,
+    AchievementModel, CurriculumModel, LessonModel, LessonProgressModel, ReviewCardModel, ReviewQuestionModel,
+    ReviewSessionModel, StudentAchievementModel,
 )
 from app.db.models.work import (
     AnswerFileModel, AnswerModel, AssignmentModel, AttemptModel, StudentAssignmentModel, TaskSetItemModel,
     TaskSetModel,
 )
 from app.db.models.stats import (
-    StudentDailyActivityModel, StudentTaskStatusModel, StudentTopicStatsModel, TaskSetStatsModel, TaskStatsModel,
+    BankMarkModel, StudentDailyActivityModel, StudentTaskStatusModel, StudentTopicStatsModel, TaskSetStatsModel,
+    TaskStatsModel,
 )
 from app.db.models.notifications import NotificationDeliveryModel, NotificationModel, NotificationSettingModel

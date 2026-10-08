@@ -1,6 +1,8 @@
-from pydantic import BaseModel
+from datetime import datetime
 
-from app.db.enums import UserRole
+from pydantic import BaseModel, Field
+
+from app.db.enums import Subject, UserRole
 from app.db.models import UserModel
 
 
@@ -20,6 +22,25 @@ class UserOut(BaseModel):
             phone_number=user.phone_number,
             role=user.role,
         )
+
+
+class UserUpdate(BaseModel):
+    first_name: str | None = Field(default=None, min_length=1, max_length=100)
+    last_name: str | None = Field(default=None, max_length=100)
+
+
+class SubjectAccess(BaseModel):
+    subject: Subject
+    target_score: int | None
+    access_until: datetime | None
+
+
+class ProfileOut(BaseModel):
+    """Подробности для кабинета: класс, год ЕГЭ, подключённые предметы"""
+    grade: int | None
+    exam_year: int | None
+    created_at: datetime
+    subjects: list[SubjectAccess]
 
 
 class TokenResponse(BaseModel):

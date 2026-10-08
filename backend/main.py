@@ -9,6 +9,7 @@ from app.api.attempts import router as attempts_router
 from app.api.auth import router as auth_router
 from app.api.bank import router as bank_router
 from app.api.homework import router as homework_router
+from app.api.learning import router as learning_router
 from app.api.notifications import router as notifications_router
 from app.api.practice import router as practice_router
 from app.api.stats import router as stats_router
@@ -44,6 +45,7 @@ app.include_router(bank_router)
 app.include_router(homework_router)
 app.include_router(variants_router)
 app.include_router(attempts_router)
+app.include_router(learning_router)
 app.include_router(stats_router)
 app.include_router(notifications_router)
 app.include_router(admin_router)

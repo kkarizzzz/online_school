@@ -51,30 +51,33 @@ ON CONFLICT (student_id, topic_id) DO UPDATE SET
     last_answer_at = EXCLUDED.last_answer_at
 """
 
-# День считается в часовом поясе ученика: решил в 00:30 по Москве — это новый день
+# День считается в часовом поясе ученика: решил в 00:30 по Москве — это новый день.
+# Время: у нарешки — с каждого ответа, у попыток (ДЗ, варианты) — целиком в день сдачи
 _DAILY_SQL = """
-WITH ans AS (
+WITH events AS (
     SELECT a.student_id, (a.answered_at AT TIME ZONE u.timezone)::date AS day,
-           count(*) AS answered,
-           count(*) FILTER (WHERE a.score = a.max_score) AS correct,
-           coalesce(sum(a.time_spent_sec), 0) AS seconds
+           1 AS answered,
+           (a.score = a.max_score)::int AS correct,
+           CASE WHEN a.attempt_id IS NULL THEN coalesce(a.time_spent_sec, 0) ELSE 0 END AS seconds,
+           0 AS lessons_done
     FROM answers a
     JOIN users u ON u.id = a.student_id
     WHERE a.score IS NOT NULL {where_answers}
-    GROUP BY 1, 2
-), les AS (
-    SELECT lp.student_id, (lp.completed_at AT TIME ZONE u.timezone)::date AS day,
-           count(*) AS lessons_done
+    UNION ALL
+    SELECT at.student_id, (at.submitted_at AT TIME ZONE u.timezone)::date, 0, 0, at.time_spent_sec, 0
+    FROM attempts at
+    JOIN users u ON u.id = at.student_id
+    WHERE at.submitted_at IS NOT NULL AND at.status <> 'abandoned' {where_attempts}
+    UNION ALL
+    SELECT lp.student_id, (lp.completed_at AT TIME ZONE u.timezone)::date, 0, 0, 0, 1
     FROM lesson_progress lp
     JOIN users u ON u.id = lp.student_id
     WHERE lp.completed_at IS NOT NULL {where_lessons}
-    GROUP BY 1, 2
 )
 INSERT INTO student_daily_activity (student_id, day, answered, correct, seconds, lessons_done)
-SELECT coalesce(ans.student_id, les.student_id), coalesce(ans.day, les.day),
-       coalesce(ans.answered, 0), coalesce(ans.correct, 0), coalesce(ans.seconds, 0), coalesce(les.lessons_done, 0)
-FROM ans
-FULL JOIN les ON les.student_id = ans.student_id AND les.day = ans.day
+SELECT student_id, day, sum(answered), sum(correct), sum(seconds), sum(lessons_done)
+FROM events
+GROUP BY student_id, day
 ON CONFLICT (student_id, day) DO UPDATE SET
     answered = EXCLUDED.answered,
     correct = EXCLUDED.correct,
@@ -122,12 +125,13 @@ async def refresh_student_stats(
 
 
 async def refresh_daily_activity(session: AsyncSession, student_id: int, moments: list[datetime]) -> None:
-    """Пересчитать дни активности, в которые попадают moments (ответы, завершённые уроки)"""
+    """Пересчитать дни активности, в которые попадают moments (ответы, сдачи попыток, уроки)"""
     if not moments:
         return
     await session.execute(
         text(_DAILY_SQL.format(
             where_answers=_DAYS_FILTER.format(alias='a', column='a.answered_at'),
+            where_attempts=_DAYS_FILTER.format(alias='at', column='at.submitted_at'),
             where_lessons=_DAYS_FILTER.format(alias='lp', column='lp.completed_at'),
         )),
         {'student_id': student_id, 'moments': list(moments)},
@@ -177,7 +181,7 @@ async def rebuild_all(session: AsyncSession) -> None:
     ))
     await session.execute(text(_TASK_STATUS_SQL.format(where='')))
     await session.execute(text(_TOPIC_STATS_SQL.format(where='')))
-    await session.execute(text(_DAILY_SQL.format(where_answers='', where_lessons='')))
+    await session.execute(text(_DAILY_SQL.format(where_answers='', where_attempts='', where_lessons='')))
     await refresh_global_stats(session)
 
 

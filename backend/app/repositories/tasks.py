@@ -1,12 +1,12 @@
 """Запросы к банку заданий и сборка заданий для ответа API"""
 from dataclasses import dataclass, field
 
-from sqlalchemy import Select, and_, func, or_, select
+from sqlalchemy import Select, exists, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.db.enums import FileKind, Subject
-from app.db.models import StudentTaskStatusModel, TaskModel, TopicModel
+from app.db.models import BankMarkModel, StudentTaskStatusModel, TaskModel, TopicModel
 from app.schemas.task_schemas import FileOut, TaskPublic, TaskReveal
 from app.services.errors import NotFoundError
 from app.services.storage import public_url, resolve_links
@@ -116,16 +116,26 @@ class TopicProgress:
     solved_count: int = 0
 
 
-async def topic_progress(session: AsyncSession, subject: Subject, student_id: int) -> list[TopicProgress]:
+def solved_condition(student_id: int, with_marks: bool = False):
+    """Задание решено учеником: засчитанный ответ на полный балл, а в банке — ещё и своя отметка"""
+    solved = exists().where(
+        StudentTaskStatusModel.task_id == TaskModel.id,
+        StudentTaskStatusModel.student_id == student_id,
+        StudentTaskStatusModel.is_solved,
+    )
+    if not with_marks:
+        return solved
+    marked = exists().where(BankMarkModel.task_id == TaskModel.id, BankMarkModel.student_id == student_id)
+    return or_(solved, marked)
+
+
+async def topic_progress(
+        session: AsyncSession, subject: Subject, student_id: int, with_marks: bool = False,
+) -> list[TopicProgress]:
     """По порядку: номер ЕГЭ, позиция темы. Темы без активных заданий не попадают"""
     topics = await topics_map(session, {subject})
     rows = (await session.execute(
-        select(TaskModel.topic_id, func.count(), func.count(StudentTaskStatusModel.task_id))
-        .outerjoin(StudentTaskStatusModel, and_(
-            StudentTaskStatusModel.task_id == TaskModel.id,
-            StudentTaskStatusModel.student_id == student_id,
-            StudentTaskStatusModel.is_solved,
-        ))
+        select(TaskModel.topic_id, func.count(), func.count().filter(solved_condition(student_id, with_marks)))
         .where(TaskModel.is_active, TaskModel.subject == subject, TaskModel.topic_id.is_not(None))
         .group_by(TaskModel.topic_id)
     )).all()
