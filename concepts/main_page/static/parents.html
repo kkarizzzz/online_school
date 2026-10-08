@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Родителям — Из нуля в сотку</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css?v=20261009b">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script>
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body data-page="parents">
+<div id="header"></div>
+
+<main>
+    <section class="page-hero hero">
+        <div class="container page-hero-grid" style="align-items:center">
+            <div>
+                <p class="eyebrow">Родителям</p>
+                <div class="rule"></div>
+                <h1 class="page-title">Видно, как идёт подготовка. <span class="accent">Без допросов.</span></h1>
+                <p class="hero-desc">Отдельный кабинет родителя показывает то же, что видит ученик: занятия по дням, домашние
+                    задания и сроки, результаты пробников и темы, где пока проседает. Ничего не нужно спрашивать за ужином.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#trial">Попробовать неделю<i data-lucide="arrow-right"></i></a>
+                    <a class="btn btn-outline" href="#report">Пример отчёта</a>
+                </div>
+            </div>
+
+            <div class="mock reveal" aria-label="Пример кабинета родителя">
+                <span class="glass mock-floating"><span class="dot"></span>Сегодня занимался 42 мин</span>
+                <div class="mock-card mock-row">
+                    <div class="ring" style="--p:34"><span>34%</span></div>
+                    <div>
+                        <span class="mock-label">Программа · Математика</span>
+                        <p style="margin-top:4px;font-size:15px;font-weight:600">Пройдено 41 урок из 120</p>
+                        <p style="font-size:13px;color:var(--text-secondary)">по плану — к 15 октября 38</p>
+                    </div>
+                </div>
+                <div class="mock-split">
+                    <div class="mock-card mock-stat">
+                        <span class="mock-label">Домашки</span>
+                        <b>9 / 10</b>
+                        <small>сданы в срок</small>
+                    </div>
+                    <div class="mock-card mock-stat">
+                        <span class="mock-label">Последний пробник</span>
+                        <b>72</b>
+                        <small><span class="chip chip-done"><i data-lucide="trending-up"></i>+6</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Что видно в кабинете родителя: те же блоки, что в статистике ученика -->
+    <section class="section section-alt" id="dashboard">
+        <div class="container">
+            <div class="section-head reveal">
+                <div>
+                    <p class="eyebrow">§ 01 · Кабинет родителя</p>
+                    <div class="rule"></div>
+                    <h2 class="h2">Четыре вопроса —<br><span class="accent">четыре ответа.</span></h2>
+                </div>
+                <p class="lead">Данные берутся прямо из вкладки «Обучение» ученика: ничего не нужно заполнять вручную, и
+                    ничего нельзя «подкрутить».</p>
+            </div>
+
+            <div class="dash reveal" id="dash">
+                <article class="card dash-card">
+                    <div class="dash-head">
+                        <div><h3>Занимается ли?</h3><p id="week-total">—</p></div>
+                        <span class="tool-icon" style="--c:var(--b1)"><i data-lucide="activity"></i></span>
+                    </div>
+                    <div class="week" id="week"></div>
+                </article>
+
+                <article class="card dash-card">
+                    <div class="dash-head">
+                        <div><h3>Делает ли домашку?</h3><p>Октябрь · 10 заданий</p></div>
+                        <span class="tool-icon" style="--c:var(--b2)"><i data-lucide="clipboard-list"></i></span>
+                    </div>
+                    <div class="hw-stats">
+                        <div class="is-done"><b>7</b><span>сдано</span></div>
+                        <div><b>2</b><span>в работе</span></div>
+                        <div class="is-bad"><b>1</b><span>просрочено</span></div>
+                    </div>
+                    <div class="hw-lines">
+                        <div class="hw-line"><span>Логарифмические уравнения</span><span class="chip chip-warn">до 13 окт</span></div>
+                        <div class="hw-line"><span>Производная: геометрический смысл</span><span class="chip chip-bad">просрочено</span></div>
+                        <div class="hw-line"><span>Вероятность: сложные события</span><span class="chip chip-done">8 из 9 верно</span></div>
+                    </div>
+                </article>
+
+                <article class="card dash-card">
+                    <div class="dash-head">
+                        <div><h3>Растёт ли балл?</h3><p>Пробники в формате ЕГЭ, тестовый балл</p></div>
+                        <span class="tool-icon" style="--c:var(--b5)"><i data-lucide="trending-up"></i></span>
+                    </div>
+                    <svg class="chart" id="chart" viewBox="0 0 400 170" role="img" aria-label="Баллы за пробники"></svg>
+                </article>
+
+                <article class="card dash-card">
+                    <div class="dash-head">
+                        <div><h3>Где проседает?</h3><p>Доля верных ответов по номерам</p></div>
+                        <span class="tool-icon" style="--c:var(--b3)"><i data-lucide="target"></i></span>
+                    </div>
+                    <div class="topics" id="topics"></div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Еженедельный отчёт -->
+    <section class="section" id="report">
+        <div class="container report-wrap">
+            <div class="reveal">
+                <p class="eyebrow">§ 02 · Отчёт за неделю</p>
+                <div class="rule"></div>
+                <h2 class="h2">Пять минут<br>в <span class="accent">воскресенье.</span></h2>
+                <p class="lead">Раз в неделю приходит короткая сводка на почту или в Telegram: сколько занимался, что сдал,
+                    как изменился балл и на что обратить внимание. Если что-то пошло не так — отчёт скажет об этом первым.</p>
+            </div>
+
+            <article class="card report reveal" style="--d:100ms">
+                <div class="report-top">
+                    <img src="../../../frontend/src/shared/assets/icons/logo.svg" alt="">
+                    <div><b>Из нуля в сотку</b><small>Отчёт за 29 сентября — 5 октября</small></div>
+                </div>
+                <div class="report-body">
+                    <h4>Хорошая неделя: Алексей занимался 5 дней из 7</h4>
+                    <div class="report-kpis">
+                        <div><b>4 ч 20 м</b><span>в кабинете</span></div>
+                        <div><b>6</b><span>уроков</span></div>
+                        <div><b>2 / 2</b><span>ДЗ в срок</span></div>
+                        <div><b>72</b><span>пробник</span> <em>+6</em></div>
+                    </div>
+                    <div class="report-note"><b>Обратите внимание:</b> в номере 8 (производная) 4 ошибки из 10. Тема уже
+                        добавлена в быстрое повторение и в домашку на следующую неделю.</div>
+                    <a class="btn btn-outline btn-s" style="align-self:flex-start" href="#dashboard">Открыть кабинет родителя<i data-lucide="arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Как устроено обучение — коротко для родителя -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-head reveal">
+                <div>
+                    <p class="eyebrow">§ 03 · Как мы учим</p>
+                    <div class="rule"></div>
+                    <h2 class="h2">Понятная система<br>вместо <span class="accent">«сиди и решай».</span></h2>
+                </div>
+                <a class="btn btn-outline" href="index.html#learning">Все вкладки обучения<i data-lucide="arrow-right"></i></a>
+            </div>
+            <ul class="promise">
+                <li class="card reveal">
+                    <span class="tool-icon" style="--c:var(--b1)"><i data-lucide="route"></i></span>
+                    <h4>Программа по шагам</h4>
+                    <p>Вся подготовка разбита на короткие уроки по плану ЕГЭ. Ребёнок всегда знает, что делать сегодня, а вы — насколько он идёт по графику.</p>
+                </li>
+                <li class="card reveal" style="--d:80ms">
+                    <span class="tool-icon" style="--c:var(--b3)"><i data-lucide="check-check"></i></span>
+                    <h4>Проверка сразу</h4>
+                    <p>Ответы в первой части проверяются мгновенно, вторая часть — с комментариями. Ошибки не копятся до пробника.</p>
+                </li>
+                <li class="card reveal" style="--d:160ms">
+                    <span class="tool-icon" style="--c:var(--b5)"><i data-lucide="timer"></i></span>
+                    <h4>Пробники как на экзамене</h4>
+                    <p>3 часа 55 минут, бланк, тестовый балл по шкале ФИПИ. К июню формат экзамена уже привычный.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Вопросы -->
+    <section class="section">
+        <div class="container">
+            <div class="section-head reveal">
+                <div>
+                    <p class="eyebrow">§ 04 · Вопросы</p>
+                    <div class="rule"></div>
+                    <h2 class="h2">Частые <span class="accent">вопросы.</span></h2>
+                </div>
+            </div>
+            <div class="faq reveal">
+                <details>
+                    <summary>Как подключить кабинет родителя?<i data-lucide="plus"></i></summary>
+                    <p>В профиле ученика есть кнопка «Пригласить родителя» — придёт ссылка по SMS. Кабинет родителя только
+                        для просмотра: в нём нельзя решить задачу за ребёнка или изменить ответы.</p>
+                </details>
+                <details>
+                    <summary>Сколько времени в день нужно заниматься?<i data-lucide="plus"></i></summary>
+                    <p>План рассчитан на 3 занятия в неделю по 40–60 минут плюс 10–15 минут повторения в остальные дни.
+                        Если начинать после Нового года — около 5 занятий в неделю.</p>
+                </details>
+                <details>
+                    <summary>Что будет, если ребёнок пропустит неделю?<i data-lucide="plus"></i></summary>
+                    <p>План сдвинется, а в отчёте вы увидите, на сколько уроков он отстаёт. Просроченные домашки можно досдать —
+                        они попадут во вкладку «Просроченные», но не пропадут.</p>
+                </details>
+                <details>
+                    <summary>Видит ли ребёнок, что я смотрю его статистику?<i data-lucide="plus"></i></summary>
+                    <p>Да, в профиле ученика видно, что кабинет родителя подключён. Мы за прозрачность с обеих сторон — так
+                        меньше поводов для конфликтов.</p>
+                </details>
+                <details>
+                    <summary>Можно ли сменить тариф или вернуть деньги?<i data-lucide="plus"></i></summary>
+                    <p>Тариф можно повысить в любой момент с доплатой за оставшиеся дни. Если обучение не подошло, в течение
+                        14 дней после оплаты вернём деньги полностью.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="trial"></div>
+<div id="footer"></div>
+
+<script src="parents.js?v=20261009b"></script>
+<script src="main.js?v=20261009b"></script>
+</body>
+</html>
