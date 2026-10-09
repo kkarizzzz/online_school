@@ -1,4 +1,4 @@
-import { ArrowRight, Check, ChevronRight, CircleCheck, CircleX, Eye, Hourglass, Info, Shuffle, WifiOff } from 'lucide-react';
+import { ArrowRight, Check, CircleCheck, CircleX, EyeOff, Hourglass, Lightbulb, Shuffle, WifiOff } from 'lucide-react';
 import { useEffect, useRef, useState, type FormEvent, type JSX } from 'react';
 import { ANSWER_HINTS, ANSWER_PLACEHOLDERS, DIFFICULTY_LABELS } from '../../../../entities/exam-task';
 import type { SubmitResult } from '../../../../entities/practice-task';
@@ -8,7 +8,10 @@ import styles from './PracticeTaskCard.module.css';
 import type { PracticeTaskCardProps } from './PracticeTaskCard.props';
 
 
-/** Задание ленты: условие, ответ, проверка, решение и переход дальше */
+/**
+ * Задание ленты: условие, ответ, проверка, решение и переход дальше.
+ * Решение можно открыть в любой момент; «Похожее» появляется после ответа (верного или нет) или просмотра решения.
+ */
 export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Element => {
     const [answer, setAnswer] = useState('');
     const [empty, setEmpty] = useState(false);
@@ -16,17 +19,17 @@ export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Ele
     const inputRef = useRef<HTMLInputElement>(null);
     const nextRef = useRef<HTMLButtonElement>(null);
 
-    const { result, wrong, revealed, submitting, error } = feed.attempt;
-    const finished = feed.isFinished;
+    const { result, wrong, solution, revealed, submitting, revealing, error } = feed.attempt;
+    const accepted = feed.isAccepted;
 
     useEffect(() => {
         inputRef.current?.focus({ preventScroll: true });
     }, []);
 
     useEffect(() => {
-        if (finished) nextRef.current?.focus({ preventScroll: true });
+        if (accepted) nextRef.current?.focus({ preventScroll: true });
         else if (wrong) inputRef.current?.select();
-    }, [finished, wrong, result]);
+    }, [accepted, wrong, result]);
 
     const submit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -78,7 +81,7 @@ export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Ele
                 <input
                     ref={inputRef}
                     className={cn(styles.input, {
-                        [styles.inputError]: empty || (wrong && !revealed),
+                        [styles.inputError]: empty || wrong,
                         [styles.inputSuccess]: result?.isCorrect === true,
                     })}
                     value={answer}
@@ -89,63 +92,65 @@ export const PracticeTaskCard = ({ feed, task }: PracticeTaskCardProps): JSX.Ele
                     placeholder={ANSWER_PLACEHOLDERS[task.answerType]}
                     aria-label="Ответ"
                     inputMode="decimal"
-                    readOnly={finished}
+                    readOnly={accepted}
                 />
-                {!finished && (
+                {!accepted && (
                     <Button type="submit" size="m" isLoading={submitting}><Check size={20} />Проверить</Button>
                 )}
             </form>
             <p className={styles.hint}>{ANSWER_HINTS[task.answerType]}</p>
 
-            {error && (
-                <Result tone="fail" icon={<WifiOff size={22} />} title="Не удалось проверить ответ" text={error} />
+            {error && <Result tone="fail" icon={<WifiOff size={22} />} title="Не удалось связаться с сервером" text={error} />}
+            {result && <ResultBlock result={result} streak={feed.streak} />}
+
+            {revealed && solution && (
+                <section className={styles.solution} aria-label="Решение">
+                    <p className={styles.solutionTitle}><Lightbulb size={16} />Решение</p>
+                    {solution.solution
+                        ? <Markdown className={styles.solutionBody} source={solution.solution} />
+                        : <p className={styles.solutionEmpty}>Разбора к этому заданию пока нет.</p>}
+                    <p className={styles.solutionAnswer}>Ответ: <b>{solution.correctAnswer}</b></p>
+                </section>
             )}
 
-            {result && (
-                <ResultBlock
-                    result={result}
-                    revealed={revealed}
-                    streak={feed.streak}
-                    onReveal={() => feed.reveal()}
-                />
-            )}
-
-            {finished && (
-                <div className={styles.next}>
-                    <Button ref={nextRef} size="m" disabled={feed.loading} onClick={() => goNext(() => feed.next())}>
-                        Следующее задание<ArrowRight size={20} />
-                    </Button>
+            <div className={styles.actions}>
+                <Button
+                    variant="ghost-secondary"
+                    size="m"
+                    isLoading={revealing}
+                    aria-expanded={revealed}
+                    onClick={() => feed.toggleSolution()}
+                >
+                    {revealed ? <><EyeOff size={18} />Скрыть решение</> : <><Lightbulb size={18} />Показать решение</>}
+                </Button>
+                <span className={styles.spacer} />
+                {feed.canTakeSimilar && (
                     <Button
-                        variant="outline-primary"
+                        variant="outline"
                         size="m"
                         disabled={feed.loading || !task.similarCount}
-                        title={task.similarCount ? undefined : 'Похожих заданий пока нет'}
+                        title={task.similarCount ? 'Ещё задание из той же подтемы' : 'Похожих заданий пока нет'}
                         onClick={() => goNext(() => feed.similar())}
                     >
-                        <Shuffle size={20} />Решить похожее
+                        <Shuffle size={18} />Похожее
                     </Button>
-                </div>
-            )}
-
-            {result?.solution && finished && (
-                <details className={styles.solution} open={revealed}>
-                    <summary><ChevronRight size={16} />Решение</summary>
-                    <Markdown className={styles.solutionBody} source={result.solution} />
-                </details>
-            )}
+                )}
+                <Button
+                    ref={nextRef}
+                    variant={accepted ? 'primary' : 'outline'}
+                    size="m"
+                    disabled={feed.loading}
+                    onClick={() => goNext(() => feed.next())}
+                >
+                    Следующее<ArrowRight size={18} />
+                </Button>
+            </div>
         </article>
     );
 };
 
 
-interface ResultBlockProps {
-    result: SubmitResult;
-    revealed: boolean;
-    streak: number;
-    onReveal: () => void;
-}
-
-const ResultBlock = ({ result, revealed, streak, onReveal }: ResultBlockProps): JSX.Element => {
+const ResultBlock = ({ result, streak }: { result: SubmitResult; streak: number }): JSX.Element => {
     if (result.isCorrect === true) {
         const score = result.score ?? result.maxScore;
         const streakText = streak >= 3 ? ` · серия ${streak} 🔥` : '';
@@ -169,25 +174,7 @@ const ResultBlock = ({ result, revealed, streak, onReveal }: ResultBlockProps): 
         );
     }
 
-    if (revealed) {
-        return (
-            <Result
-                tone="fail"
-                icon={<Info size={22} />}
-                title={`Правильный ответ: ${result.correctAnswer}`}
-                text="Разберите решение и закрепите тему похожей задачей."
-            />
-        );
-    }
-
-    return (
-        <>
-            <Result tone="fail" icon={<CircleX size={22} />} title="Неверно" text="Проверьте вычисления и попробуйте ещё раз." />
-            <Button variant="ghost-secondary" size="s" className={styles.reveal} onClick={onReveal}>
-                <Eye size={18} />Показать ответ и решение
-            </Button>
-        </>
-    );
+    return <Result tone="fail" icon={<CircleX size={22} />} title="Неверно" text="Попробуйте ещё раз или посмотрите решение." />;
 };
 
 

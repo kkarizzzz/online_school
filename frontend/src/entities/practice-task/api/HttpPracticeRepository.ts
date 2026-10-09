@@ -1,11 +1,12 @@
 import type { AxiosInstance } from 'axios';
 import {
     PracticeMapper,
+    type PracticeNumberDto,
     type PracticeTaskDto,
-    type PracticeTopicsDto,
     type SubmitResultDto,
+    type TaskSolutionDto,
 } from '../model/dto';
-import type { PracticeTask, PracticeTopics, SubmitResult } from '../model/types';
+import type { Difficulty, PracticeNumber, PracticeTask, SubmitResult, TaskSolution } from '../model/types';
 import type { NextTaskQuery, PracticeRepository } from './PracticeRepository';
 
 /** exclude=1&exclude=2 — так списки принимает FastAPI */
@@ -21,9 +22,9 @@ export class HttpPracticeRepository implements PracticeRepository {
         this.prefix = prefix;
     }
 
-    async getTopics(): Promise<PracticeTopics> {
-        const { data } = await this.http.get<PracticeTopicsDto>(`${this.prefix}/topics`);
-        return PracticeMapper.topics(data);
+    async getNumbers(): Promise<PracticeNumber[]> {
+        const { data } = await this.http.get<PracticeNumberDto[]>(`${this.prefix}/numbers`);
+        return PracticeMapper.numbers(data);
     }
 
     async getTask(taskId: number): Promise<PracticeTask> {
@@ -31,20 +32,31 @@ export class HttpPracticeRepository implements PracticeRepository {
         return PracticeMapper.task(data);
     }
 
-    async nextTask({ topicId, currentId, exclude }: NextTaskQuery): Promise<PracticeTask> {
+    async nextTask({ topicIds, part, difficulties, currentId, exclude }: NextTaskQuery): Promise<PracticeTask> {
         const { data } = await this.http.get<PracticeTaskDto>(`${this.prefix}/tasks/random`, {
-            params: { topic_id: topicId ?? undefined, current_id: currentId ?? undefined, exclude },
+            params: {
+                topic_id: topicIds,
+                part: part ?? undefined,
+                difficulty: difficulties,
+                current_id: currentId ?? undefined,
+                exclude,
+            },
             paramsSerializer,
         });
         return PracticeMapper.task(data);
     }
 
-    async similarTask(taskId: number, exclude: number[]): Promise<PracticeTask> {
+    async similarTask(taskId: number, exclude: number[], difficulties: Difficulty[]): Promise<PracticeTask> {
         const { data } = await this.http.get<PracticeTaskDto>(`${this.prefix}/tasks/${taskId}/similar`, {
-            params: { exclude },
+            params: { exclude, difficulty: difficulties },
             paramsSerializer,
         });
         return PracticeMapper.task(data);
+    }
+
+    async getSolution(taskId: number): Promise<TaskSolution> {
+        const { data } = await this.http.get<TaskSolutionDto>(`${this.prefix}/tasks/${taskId}/solution`);
+        return PracticeMapper.solution(data);
     }
 
     async submit(taskId: number, answer: string, timeSpentSec?: number): Promise<SubmitResult> {

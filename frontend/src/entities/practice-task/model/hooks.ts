@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { practiceRepository } from '../api/practiceRepository.instance';
 
 export const practiceKeys = {
-    topics: ['practice', 'topics'] as const,
+    numbers: ['practice', 'numbers'] as const,
 };
 
-export const usePracticeTopics = () =>
+/** Номера ЕГЭ с темами — для главной нарешки и настройки персонального режима */
+export const usePracticeNumbers = () =>
     useQuery({
-        queryKey: practiceKeys.topics,
-        queryFn: () => practiceRepository.getTopics(),
+        queryKey: practiceKeys.numbers,
+        queryFn: () => practiceRepository.getNumbers(),
     });

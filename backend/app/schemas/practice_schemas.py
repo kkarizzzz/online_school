@@ -1,18 +1,25 @@
 from pydantic import BaseModel, Field
 
 
-class PracticeTopicOut(BaseModel):
-    id: int
-    task_number: int
-    name: str
-    subtopics: list[str]
+class PracticeLevelOut(BaseModel):
+    """Задания темы одной сложности"""
+    difficulty: int     # 1 — базовый, 2 — средний, 3 — сложный, 4 — «гроб»
     task_count: int
     solved_count: int
 
 
-class PracticeTopicsOut(BaseModel):
+class PracticeTopicOut(BaseModel):
+    """Тема номера (в интерфейсе — подтема): по ней собирают персональную подборку"""
+    id: int
+    name: str
+    levels: list[PracticeLevelOut]  # только сложности, в которых есть задания
+
+
+class PracticeNumberOut(BaseModel):
+    number: int
+    title: str | None
+    part: int
     topics: list[PracticeTopicOut]
-    last_topic_id: int | None  # тема последнего ответа ученика — её предлагаем продолжить
 
 
 class SubmitRequest(BaseModel):

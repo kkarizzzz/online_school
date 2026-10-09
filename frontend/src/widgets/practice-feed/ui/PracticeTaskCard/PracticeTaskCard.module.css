@@ -170,44 +170,57 @@
     color: var(--dark-red);
 }
 
-.reveal { align-self: flex-start; }
+/* ------------------------------ решение и кнопки ------------------------------ */
 
-.next {
+.solution {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    background: var(--bg-secondary);
     animation: appear .3s ease;
 }
 
-.solution {
-    border-radius: var(--radius);
-    border: 1px solid var(--border-color);
-}
-
-.solution summary {
+.solutionTitle {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.solutionTitle svg { color: #c98a00; }
+
+.solutionEmpty {
     font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    list-style: none;
+    color: var(--text-secondary);
 }
 
-.solution summary::-webkit-details-marker { display: none; }
-
-.solution summary svg {
-    color: var(--primary);
-    transition: transform .2s;
+.solutionAnswer {
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
 }
 
-.solution[open] summary svg { transform: rotate(90deg); }
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
 
-.solutionBody { padding: 0 16px 16px; }
+.spacer { flex: 1; }
 
 @media (max-width: 560px) {
     .task { padding: 18px; }
     .answer { flex-direction: column; }
-    .next > * { flex: 1 1 100%; }
+    .spacer { display: none; }
+    .actions > * { flex: 1 1 auto; }
 }
+
+.solutionBody { font-size: 15px; }

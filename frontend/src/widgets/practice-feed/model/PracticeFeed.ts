@@ -1,6 +1,6 @@
-import type { PracticeRepository, PracticeTask, SubmitResult } from '../../../entities/practice-task';
+import type { PracticeRepository, PracticeTask, SubmitResult, TaskSolution } from '../../../entities/practice-task';
 import { Observable, parseApiError } from '../../../shared/lib';
-import type { FeedMode } from './FeedMode';
+import { difficultyFilter, type PracticeScope } from './scope';
 
 /** Сколько последних заданий не повторять */
 const SEEN_LIMIT = 30;
@@ -10,22 +10,29 @@ export interface TaskAttempt {
     result: SubmitResult | null;
     /** Последний ответ был неверным — можно попробовать снова или открыть решение */
     wrong: boolean;
+    /** Ответ и решение — из проверки ответа или открытые без попытки */
+    solution: TaskSolution | null;
+    /** Решение раскрыто */
     revealed: boolean;
     submitting: boolean;
+    /** Решение загружается */
+    revealing: boolean;
     error: string | null;
 }
 
 /** Дольше этого время на задание не засчитываем — ученик, скорее всего, отошёл */
 const MAX_TASK_SECONDS = 30 * 60;
 
-const freshAttempt = (): TaskAttempt => ({ result: null, wrong: false, revealed: false, submitting: false, error: null });
+const freshAttempt = (): TaskAttempt => ({
+    result: null, wrong: false, solution: null, revealed: false, submitting: false, revealing: false, error: null,
+});
 
 /**
- * Бесконечная лента «Нарешки»: задания по теме или «Торнадо», ответы, серия верных ответов.
+ * Бесконечная лента «Нарешки»: задания «Торнадо» или подборки, ответы, серия верных ответов.
  * Ответы проверяет сервер; лента лишь следит, чтобы задания не повторялись, пока есть новые.
  */
 export class PracticeFeed extends Observable {
-    mode: FeedMode | null = null;
+    scope: PracticeScope | null = null;
     task: PracticeTask | null = null;
     attempt: TaskAttempt = freshAttempt();
     loading = false;
@@ -46,14 +53,19 @@ export class PracticeFeed extends Observable {
         this.repository = repository;
     }
 
-    /** Ответ принят (верно, на проверке у преподавателя) или решение открыто — можно идти дальше */
-    get isFinished(): boolean {
-        const { result, revealed } = this.attempt;
-        return revealed || (!!result && result.isCorrect !== false);
+    /** Ответ принят (верно или на проверке у преподавателя) — поле ответа больше не нужно */
+    get isAccepted(): boolean {
+        const { result } = this.attempt;
+        return !!result && result.isCorrect !== false;
     }
 
-    async start(mode: FeedMode, taskId: number | null = null): Promise<void> {
-        this.mode = mode;
+    /** «Похожее» появляется после любого ответа или после просмотра решения */
+    get canTakeSimilar(): boolean {
+        return !!this.attempt.result || this.attempt.revealed;
+    }
+
+    async start(scope: PracticeScope, taskId: number | null = null): Promise<void> {
+        this.scope = scope;
         this.task = null;
         this.seen = [];
         await this.load(async () => {
@@ -64,7 +76,7 @@ export class PracticeFeed extends Observable {
 
     exit(): void {
         this.request += 1;
-        this.mode = null;
+        this.scope = null;
         this.task = null;
         this.loading = false;
         this.error = null;
@@ -78,12 +90,12 @@ export class PracticeFeed extends Observable {
     similar(): Promise<void> {
         const task = this.task;
         if (!task) return Promise.resolve();
-        return this.load(() => this.repository.similarTask(task.id, this.recentSeen()));
+        return this.load(() => this.repository.similarTask(task.id, this.recentSeen(), this.difficulties()));
     }
 
     async submit(answer: string): Promise<void> {
         const task = this.task;
-        if (!task || this.attempt.submitting || this.isFinished) return;
+        if (!task || this.attempt.submitting || this.isAccepted) return;
 
         this.attempt = { ...this.attempt, submitting: true, error: null };
         this.notify();
@@ -98,7 +110,13 @@ export class PracticeFeed extends Observable {
             } else if (result.isCorrect === false) {
                 this.streak = 0;
             }
-            this.attempt = { ...this.attempt, result, wrong: result.isCorrect === false, submitting: false };
+            this.attempt = {
+                ...this.attempt,
+                result,
+                wrong: result.isCorrect === false,
+                solution: { correctAnswer: result.correctAnswer, solution: result.solution },
+                submitting: false,
+            };
         } catch (e) {
             if (this.task !== task) return;
             this.attempt = { ...this.attempt, submitting: false, error: parseApiError(e, 'Не удалось связаться с сервером') };
@@ -106,16 +124,39 @@ export class PracticeFeed extends Observable {
         this.notify();
     }
 
-    /** Показать ответ и решение после неверной попытки */
-    reveal(): void {
-        if (!this.attempt.result) return;
-        this.attempt = { ...this.attempt, revealed: true };
+    /** Показать или скрыть решение; до ответа решение загружается отдельно */
+    async toggleSolution(): Promise<void> {
+        const task = this.task;
+        if (!task || this.attempt.revealing) return;
+        if (this.attempt.revealed || this.attempt.solution) {
+            this.attempt = { ...this.attempt, revealed: !this.attempt.revealed };
+            this.notify();
+            return;
+        }
+
+        this.attempt = { ...this.attempt, revealing: true, error: null };
+        this.notify();
+        try {
+            const solution = await this.repository.getSolution(task.id);
+            if (this.task !== task) return;
+            this.attempt = { ...this.attempt, solution, revealed: true, revealing: false };
+        } catch (e) {
+            if (this.task !== task) return;
+            this.attempt = { ...this.attempt, revealing: false, error: parseApiError(e, 'Не удалось загрузить решение') };
+        }
         this.notify();
     }
 
+    private difficulties() {
+        return difficultyFilter(this.scope?.difficulties ?? []);
+    }
+
     private fetchNext(): Promise<PracticeTask> {
+        const scope = this.scope;
         return this.repository.nextTask({
-            topicId: this.mode?.topicId ?? null,
+            topicIds: scope?.topicIds ?? [],
+            part: scope?.kind === 'tornado' ? 1 : null,
+            difficulties: this.difficulties(),
             currentId: this.task?.id ?? null,
             exclude: this.recentSeen(),
         });

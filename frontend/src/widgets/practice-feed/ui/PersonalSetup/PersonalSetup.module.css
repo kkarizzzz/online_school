@@ -1,0 +1,233 @@
+.setup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back:hover { color: var(--text-primary); }
+
+.sectionTitle {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.empty {
+    padding: 32px 0;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.error b { color: var(--dark-red); }
+
+/* ------------------------------ сложность ------------------------------ */
+
+.levels {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    padding: 16px 18px;
+    border-radius: 16px;
+}
+
+.levelsTitle {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.levelsHint {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.levelChip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    transition: all .2s ease;
+}
+
+.levelChip:hover { border-color: var(--text-secondary); }
+
+.levelChip[aria-pressed="true"] {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+/* Невыбранная сложность — серая */
+.levelChip[aria-pressed="false"] > span { filter: grayscale(1); opacity: .55; }
+
+.levelChip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* ------------------------------ номера ------------------------------ */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+    align-items: start;
+}
+
+@media (max-width: 400px) {
+    .grid { grid-template-columns: 1fr; }
+}
+
+.number {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 12px 6px;
+    border-radius: var(--radius);
+}
+
+.picked { border-color: color-mix(in srgb, var(--primary) 40%, transparent); }
+
+.numberHead {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px;
+    margin: -4px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.numberHead:hover { background: var(--bg-secondary); }
+
+.check {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    color: var(--primary);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.numberText {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.numberTitle {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.numberMeta {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.topics {
+    margin: 0 -6px;
+    padding: 4px 0 0;
+    list-style: none;
+    border-top: 1px dashed var(--border-color);
+}
+
+.topic {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color .15s;
+}
+
+.topic:hover { background: var(--bg-secondary); }
+.selected { background: color-mix(in srgb, var(--primary) 10%, transparent); }
+
+.topicName {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.topicCount {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* ------------------------------ панель снизу ------------------------------ */
+
+.bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 10px 10px 18px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+}
+
+.barInfo {
+    flex: 1;
+    font-size: 14px;
+}
+
+.barInfo b { font-family: var(--font-mono); }
+
+@media (max-width: 560px) {
+    .bar { flex-wrap: wrap; }
+    .barInfo { flex-basis: 100%; }
+    .bar > button:last-child { flex: 1; }
+}

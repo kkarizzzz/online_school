@@ -30,6 +30,12 @@ def in_topic(topic_id: int):
     return TaskModel.topic_id.in_(subtree)
 
 
+def in_topics(topic_ids: list[int]):
+    """Задания любой из тем и их подтем"""
+    subtree = select(TopicModel.id).where(or_(TopicModel.id.in_(topic_ids), TopicModel.parent_id.in_(topic_ids)))
+    return TaskModel.topic_id.in_(subtree)
+
+
 async def get_active_task(session: AsyncSession, task_id: int, subject: Subject | None = None) -> TaskModel:
     task = (await session.execute(active_tasks(subject).where(TaskModel.id == task_id))).scalar_one_or_none()
     if task is None:

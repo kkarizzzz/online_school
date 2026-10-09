@@ -1,20 +1,25 @@
 // Формат ответа сервера (snake_case) и перевод в модели фронтенда
 
 import { ExamTaskMapper, type ExamTaskDto } from '../../exam-task';
-import type { PracticeTask, PracticeTopic, PracticeTopics, SubmitResult } from './types';
+import type { Difficulty, PracticeNumber, PracticeTask, SubmitResult, TaskSolution } from './types';
 
-export interface PracticeTopicDto {
-    id: number;
-    task_number: number;
-    name: string;
-    subtopics: string[];
+export interface PracticeLevelDto {
+    difficulty: Difficulty;
     task_count: number;
     solved_count: number;
 }
 
-export interface PracticeTopicsDto {
+export interface PracticeTopicDto {
+    id: number;
+    name: string;
+    levels: PracticeLevelDto[];
+}
+
+export interface PracticeNumberDto {
+    number: number;
+    title: string | null;
+    part: number;
     topics: PracticeTopicDto[];
-    last_topic_id: number | null;
 }
 
 export type PracticeTaskDto = ExamTaskDto;
@@ -28,20 +33,22 @@ export interface SubmitResultDto {
     grade_criteria: string | null;
 }
 
-const toTopic = (t: PracticeTopicDto): PracticeTopic => ({
-    id: t.id,
-    taskNumber: t.task_number,
-    name: t.name,
-    subtopics: t.subtopics,
-    taskCount: t.task_count,
-    solvedCount: t.solved_count,
-});
+export interface TaskSolutionDto {
+    correct_answer: string;
+    solution: string | null;
+}
 
 export const PracticeMapper = {
-    topics: (dto: PracticeTopicsDto): PracticeTopics => ({
-        topics: dto.topics.map(toTopic),
-        lastTopicId: dto.last_topic_id,
-    }),
+    numbers: (dto: PracticeNumberDto[]): PracticeNumber[] => dto.map((n) => ({
+        number: n.number,
+        title: n.title,
+        part: n.part,
+        topics: n.topics.map((t) => ({
+            id: t.id,
+            name: t.name,
+            levels: t.levels.map((l) => ({ difficulty: l.difficulty, taskCount: l.task_count, solvedCount: l.solved_count })),
+        })),
+    })),
 
     task: (t: PracticeTaskDto): PracticeTask => ExamTaskMapper.task(t),
 
@@ -53,4 +60,6 @@ export const PracticeMapper = {
         solution: r.solution,
         gradeCriteria: r.grade_criteria,
     }),
+
+    solution: (s: TaskSolutionDto): TaskSolution => ({ correctAnswer: s.correct_answer, solution: s.solution }),
 };
