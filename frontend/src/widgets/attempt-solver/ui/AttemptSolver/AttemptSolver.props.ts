@@ -11,4 +11,6 @@ export interface AttemptSolverProps {
     resultActions?: ReactNode;
     /** Попытка сдана — обновить списки, счётчики и т.п. */
     onSubmitted?: (attempt: AttemptData) => void;
+    /** Можно уйти и вернуться к попытке позже. У вариантов — нет: каждый старт начинает новую */
+    resumable?: boolean;
 }

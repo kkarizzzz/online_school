@@ -10,7 +10,7 @@ const PHOTO_TYPES = 'image/jpeg,image/png,image/webp,image/heic,application/pdf'
 
 
 /** Текущее задание: условие, поле ответа и переход по заданиям. Enter — следующее, ← → — когда фокус не в поле */
-export const AttemptTaskPanel = ({ session, onSubmit }: AttemptTaskPanelProps): JSX.Element => {
+export const AttemptTaskPanel = ({ session, onSubmit, resumable = true }: AttemptTaskPanelProps): JSX.Element => {
     useObservable(session);
     const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
     const fileRef = useRef<HTMLInputElement>(null);
@@ -124,7 +124,9 @@ export const AttemptTaskPanel = ({ session, onSubmit }: AttemptTaskPanelProps): 
                 </label>
             )}
             <p className={styles.hint}>
-                {ANSWER_HINTS[task.answerType]} Ответ сохраняется сам — можно закрыть страницу и вернуться позже.
+                {ANSWER_HINTS[task.answerType]} {resumable
+                    ? 'Ответ сохраняется сам — можно закрыть страницу и вернуться позже.'
+                    : 'Ответ сохраняется сам, но попытку нельзя отложить — не уходите со страницы до сдачи.'}
             </p>
 
             <div className={styles.actions}>

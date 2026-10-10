@@ -18,7 +18,7 @@ import type { AttemptSolverProps } from './AttemptSolver.props';
  * у варианта на время — обратный отсчёт (когда время выходит, вариант сдаётся сам),
  * иначе секундомер «в работе». «Сдать» → подтверждение → результаты с разбором.
  */
-export const AttemptSolver = ({ attempt, back, kicker, resultActions, onSubmitted }: AttemptSolverProps): JSX.Element => {
+export const AttemptSolver = ({ attempt, back, kicker, resultActions, onSubmitted, resumable = true }: AttemptSolverProps): JSX.Element => {
     const [result, setResult] = useState<AttemptData | null>(attempt.submittedAt ? attempt : null);
     const [justFinished, setJustFinished] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -101,7 +101,7 @@ export const AttemptSolver = ({ attempt, back, kicker, resultActions, onSubmitte
                 <AttemptResults attempt={result} justFinished={justFinished} actions={resultActions} />
             ) : session && (
                 <>
-                    <AttemptWork session={session} onSubmit={() => setConfirmOpen(true)} />
+                    <AttemptWork session={session} resumable={resumable} onSubmit={() => setConfirmOpen(true)} />
                     <SubmitDialog
                         open={confirmOpen}
                         unanswered={session.unansweredCount}
@@ -118,7 +118,11 @@ export const AttemptSolver = ({ attempt, back, kicker, resultActions, onSubmitte
 };
 
 
-const AttemptWork = ({ session, onSubmit }: { session: AttemptSession; onSubmit: () => void }): JSX.Element => {
+const AttemptWork = ({ session, resumable, onSubmit }: {
+    session: AttemptSession;
+    resumable: boolean;
+    onSubmit: () => void;
+}): JSX.Element => {
     useObservable(session);
     const standard = session.data.set.isStandard;
 
@@ -148,7 +152,7 @@ const AttemptWork = ({ session, onSubmit }: { session: AttemptSession; onSubmit:
 
             {session.saveError && <p className={styles.saveError} role="alert">{session.saveError}</p>}
 
-            <AttemptTaskPanel session={session} onSubmit={onSubmit} />
+            <AttemptTaskPanel session={session} resumable={resumable} onSubmit={onSubmit} />
         </section>
     );
 };

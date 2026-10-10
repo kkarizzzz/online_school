@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock, Hourglass, Play, RotateCcw, Users } from 'lucide-react';
+import { CheckCircle2, Clock, Hourglass, RotateCcw, Users } from 'lucide-react';
 import type { JSX } from 'react';
 import { Link } from 'react-router';
 import { scoreLabel } from '../../../attempt';
@@ -17,7 +17,6 @@ const formatLabel = (v: Variant): string =>
 
 export const VariantCard = ({ variant, className, ...props }: VariantCardProps): JSX.Element => {
     const last = variant.lastAttempt;
-    const inProgress = variant.inProgressAttemptId !== null;
     const meta = [
         variant.publisher,
         formatLabel(variant),
@@ -50,13 +49,11 @@ export const VariantCard = ({ variant, className, ...props }: VariantCardProps):
             <div className={styles.footer}>
                 <span className={cn(styles.status, { [styles.statusDone]: last })}>
                     {last ? <CheckCircle2 size={14} /> : <Clock size={14} />}
-                    {inProgress
-                        ? 'Начат, не сдан'
-                        : last ? `${scoreLabel(last)} · ${formatDayMonth(last.submittedAt ?? last.startedAt)}` : 'Не решён'}
+                    {last ? `${scoreLabel(last)} · ${formatDayMonth(last.submittedAt ?? last.startedAt)}` : 'Не решён'}
                 </span>
 
                 <div className={styles.actions}>
-                    {last && !inProgress && (
+                    {last && (
                         <Button as={Link} to={variantAttemptRoute(last.id)} variant="outline" size="xs" radius={16} disableJump>
                             Разбор
                         </Button>
@@ -64,12 +61,12 @@ export const VariantCard = ({ variant, className, ...props }: VariantCardProps):
                     <Button
                         as={Link}
                         to={variantSolveRoute(variant.id)}
-                        variant={last && !inProgress ? 'ghost' : 'primary'}
+                        variant={last ? 'ghost' : 'primary'}
                         size="xs"
                         radius={16}
                         disableJump
                     >
-                        {inProgress ? <><Play size={14} />Продолжить</> : last ? <><RotateCcw size={14} />Ещё раз</> : 'Начать'}
+                        {last ? <><RotateCcw size={14} />Ещё раз</> : 'Начать'}
                     </Button>
                 </div>
             </div>

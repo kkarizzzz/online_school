@@ -21,6 +21,32 @@
     border: 1px solid var(--border-color);
 }
 
+/* фильтр инверсии действует и на рамку, поэтому у чертежей банка её нет */
+.md img:is([src*="/storage/bank/"], [src*="/storage/fipi/"]) { background: transparent; border-color: transparent; }
+
+/* чертежи банка и формулы-картинки ФИПИ — чёрные линии на прозрачном фоне; в тёмной теме — белые.
+   Остальные картинки (фото в уроках и т. п.) не трогаем */
+:global([data-theme="dark"]) .md img:is([src*="/storage/bank/"], [src*="/storage/fipi/"]) {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .md img:is([src*="/storage/bank/"], [src*="/storage/fipi/"]) {
+        filter: invert(1) hue-rotate(180deg);
+    }
+}
+
+/* формула-картинка посреди фразы (в банке ФИПИ часть формул — изображения): в строку, без рамки */
+.md img[alt='formula'] {
+    display: inline-block;
+    vertical-align: middle;
+    max-height: 3em;
+    margin: 0 2px;
+    padding: 1px 2px;
+    border: none;
+    border-radius: 3px;
+}
+
 .md :global(.katex-display) {
     margin: 12px 0;
     padding: 4px 0;

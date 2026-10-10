@@ -1,6 +1,6 @@
 export const VARIANTS_ROUTE = '/profile/learning/variants';
 
-/** Начать вариант или продолжить незаконченную попытку */
+/** Стартовая страница варианта: правила и «Приступить к варианту» */
 export const variantSolveRoute = (variantId: number): string => `${VARIANTS_ROUTE}/${variantId}`;
 
 /** Разбор сданной попытки */

@@ -1,12 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { attemptRepository } from '../../attempt';
 import { variantRepository } from '../api/variantRepository';
 
-// Попытки — отдельные корни ключей: сброс каталога не должен перезапрашивать «начать вариант»,
-// иначе сервер создаст следующую попытку
 export const variantKeys = {
     list: ['variants', 'list'] as const,
-    start: (variantId: number) => ['variant-start', variantId] as const,
+    one: (variantId: number) => ['variants', 'one', variantId] as const,
     attempt: (attemptId: number) => ['variant-attempt', attemptId] as const,
 };
 
@@ -16,15 +14,19 @@ export const useVariants = () =>
         queryFn: () => variantRepository.getAll(),
     });
 
-/** Начатая или новая попытка варианта. Повторный запрос продолжает ту же незаконченную попытку */
-export const useVariantStart = (variantId: number) =>
+/** Вариант для стартовой страницы */
+export const useVariant = (variantId: number) =>
     useQuery({
-        queryKey: variantKeys.start(variantId),
-        queryFn: () => variantRepository.start(variantId),
+        queryKey: variantKeys.one(variantId),
+        queryFn: () => variantRepository.getOne(variantId),
         enabled: Number.isInteger(variantId) && variantId > 0,
         retry: false,
-        staleTime: Infinity,
-        gcTime: 0,
+    });
+
+/** «Приступить к варианту»: сервер создаёт новую попытку, начатую продолжить нельзя */
+export const useStartVariant = () =>
+    useMutation({
+        mutationFn: (variantId: number) => variantRepository.start(variantId),
     });
 
 /** Сданная попытка — для разбора */

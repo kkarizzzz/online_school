@@ -29,7 +29,13 @@ export const variantRepository = {
         return data.map(toVariant);
     },
 
-    /** Начать вариант или продолжить незаконченную попытку */
+    /** Один вариант — для стартовой страницы */
+    async getOne(variantId: number): Promise<Variant> {
+        const { data } = await apiClient.get<VariantDto>(API.variants.one(variantId));
+        return toVariant(data);
+    },
+
+    /** Приступить к варианту: всегда новая попытка, незаконченная бросается */
     async start(variantId: number): Promise<AttemptData> {
         const { data } = await apiClient.post<AttemptDto>(API.variants.start(variantId));
         return AttemptMapper.attempt(data);
