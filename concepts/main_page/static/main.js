@@ -25,8 +25,11 @@ const MENU = [
     { id: 'pricing', href: 'index.html#pricing', label: 'Тарифы' },
 ];
 
-// Ориентировочная дата профильной математики: по расписанию прошлых лет — начало июня
+// Ориентировочное начало основного периода ЕГЭ: по расписанию прошлых лет — начало июня
 const EXAM_DATE = new Date('2027-06-01T10:00:00+03:00');
+
+// Куда ведут кнопки «7 дней бесплатно»: на главной — к блоку пробной недели
+const TRIAL = 'index.html#trial-week';
 
 const page = document.body.dataset.page;
 
@@ -46,14 +49,15 @@ function renderHeader() {
                     <i data-lucide="moon" class="theme-dark-hidden"></i>
                     <i data-lucide="sun" class="theme-light-hidden"></i>
                 </button>
-                <a class="btn btn-primary btn-s header-login" href="${CABINET.theory}">Войти<i data-lucide="arrow-right"></i></a>
+                <a class="icon-btn header-login" href="${CABINET.theory}" aria-label="Войти" title="Войти"><i data-lucide="log-in"></i></a>
+                <a class="btn btn-primary btn-s header-login" href="${TRIAL}">7 дней бесплатно</a>
                 <button type="button" class="icon-btn burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
                     <i data-lucide="menu"></i>
                 </button>
             </div>
         </div>
         <div class="mobile-menu" id="mobile-menu">
-            <nav aria-label="Меню">${links}<a class="btn btn-primary" href="${CABINET.theory}">Войти в кабинет</a></nav>
+            <nav aria-label="Меню">${links}<a class="btn btn-primary" href="${TRIAL}">7 дней бесплатно</a><a class="btn btn-outline" href="${CABINET.theory}">Войти</a></nav>
         </div>
     </header>`;
 }
@@ -65,16 +69,17 @@ function renderTrial() {
     <section class="trial" id="trial">
         <div class="container">
             <p class="eyebrow">Пробная неделя</p>
-            <h2>Твой тест-<br>драйв<span class="dot">.</span></h2>
-            <p>7 дней полного доступа к кабинету: уроки с роликами, банк заданий, нарешка и первый пробник на время. Карта не нужна.</p>
-            <a class="btn btn-primary btn-xl" href="${CABINET.theory}">Начать бесплатно<i data-lucide="arrow-right"></i></a>
+            <h2>7 дней<br>бесплатно<span class="dot">.</span></h2>
+            <p>Полный доступ ко всем четырём предметам: математика, русский, информатика, физика. Входной тест, уроки,
+                домашка, нарешка и пробник на время. Без карты и автосписаний — продолжать или нет, решите по результату.</p>
+            <a class="btn btn-primary btn-xl" href="${CABINET.theory}">Начать бесплатную неделю<i data-lucide="arrow-right"></i></a>
             <p class="trial-phone">Или позвони <a href="tel:+78000000000">8 (800) 000-00-00</a> — подберём программу</p>
         </div>
         <div class="marquee" style="--speed:50s"><div class="marquee-track" data-marquee>
             <span class="marquee-item">7 ДНЕЙ БЕСПЛАТНО</span>
-            <span class="marquee-item">ЕГЭ 2027</span>
+            <span class="marquee-item">БЕЗ КАРТЫ</span>
+            <span class="marquee-item">МАТЕМАТИКА · РУССКИЙ · ИНФОРМАТИКА · ФИЗИКА</span>
             <span class="marquee-item">СТАРТ В ЛЮБОЙ МОМЕНТ</span>
-            <span class="marquee-item">ОТ НУЛЯ ДО 100</span>
         </div></div>
     </section>`;
 }
@@ -119,7 +124,7 @@ function renderFooter() {
         </div>
         <div class="footer-mark" aria-hidden="true">100</div>
     </footer>
-    <p class="demo-note">Концепт главной: данные на странице — заглушки, кнопки «Войти» и вкладки ведут в соседние концепты.</p>`;
+    <p class="demo-note">Концепт главной: данные на странице — заглушки, цены — пример, кнопки «Войти» и вкладки ведут в соседние концепты.</p>`;
 }
 
 function initTheme() {

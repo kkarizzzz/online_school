@@ -348,25 +348,35 @@ svg.lucide { width: 18px; height: 18px; stroke-width: 1.8; flex-shrink: 0; }
 @media (min-width: 1024px) { .page-hero-grid { grid-template-columns: 7fr 5fr; gap: 64px; } .page-hero { padding: 80px 0 96px; } }
 .page-title { font-size: clamp(44px, 7.5vw, 88px); line-height: .98; font-weight: 700; letter-spacing: -.035em; text-wrap: balance; }
 
-.exam-clock { padding: 28px; border-radius: 24px; background: #0d0e1a; color: #ededed; border: 1px solid #23253a; }
-.exam-clock .mock-label { color: #a4a7b8; }
-.exam-clock-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
-.exam-clock-grid div { padding: 14px 8px; border-radius: 14px; background: rgba(255, 255, 255, .05); text-align: center; }
-.exam-clock-grid b { display: block; font-size: 36px; line-height: 1; font-variant-numeric: tabular-nums; }
-.exam-clock-grid span { font-size: 12px; color: #a4a7b8; }
-.exam-clock p { margin-top: 16px; font-size: 13px; line-height: 1.5; color: #a4a7b8; }
+.exam-clock { padding: 28px; border-radius: 24px; box-shadow: 0 24px 60px -28px rgba(18, 25, 243, .35); }
+.exam-clock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
+.exam-clock-grid div { padding: 14px 4px; border-radius: 14px; background: var(--bg-secondary); text-align: center; min-width: 0; }
+.exam-clock-grid b { display: block; font-size: clamp(26px, 6vw, 36px); line-height: 1; font-variant-numeric: tabular-nums; color: var(--primary-text); }
+.exam-clock-grid span { display: block; margin-top: 4px; font-size: 12px; color: var(--text-secondary); }
+.exam-clock-sum { margin-top: 14px; font-size: 14px; font-weight: 600; }
+.exam-clock p:last-child { margin-top: 8px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+
+/* закреплённая панель выбора предмета */
+.subject-bar { position: sticky; top: 72px; z-index: 40; padding: 12px 0; background: var(--glass-bg); border-block: 1px solid var(--glass-border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.subject-bar .subject-tabs { margin: 0; display: flex; width: fit-content; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+.subject-bar .subject-tabs button { flex-shrink: 0; white-space: nowrap; }
+@media (max-width: 559px) { .subject-bar .subject-tabs button { padding: 8px 12px; font-size: 13px; } }
 
 /* план по месяцам */
 .plan { display: grid; gap: 12px; }
-@media (min-width: 900px) { .plan { grid-template-columns: repeat(5, 1fr); } }
-.plan-item { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 24px; }
+@media (min-width: 640px) { .plan { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .plan { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .plan { grid-template-columns: repeat(5, 1fr); } }
+.plan-item h4, .plan-item p { overflow-wrap: break-word; hyphens: auto; }
+.plan-item { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 24px; min-width: 0; }
+.plan-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 8px; }
 .plan-item.is-now { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
 .plan-item.is-past { opacity: .55; }
 .plan-when { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary); }
 .plan-item h4 { font-size: 18px; line-height: 1.25; }
 .plan-item p { font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 .plan-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
-.plan-now { position: absolute; top: -11px; right: 16px; }
+.plan-now { flex-shrink: 0; }
 
 /* карта 19 номеров */
 .map-part { margin-bottom: 32px; }
@@ -382,6 +392,9 @@ svg.lucide { width: 18px; height: 18px; stroke-width: 1.8; flex-shrink: 0; }
 .map-cell .n span { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); }
 .map-cell .t { font-size: 13px; line-height: 1.4; color: var(--text-secondary); }
 .map-cell.part2 .n b { color: var(--b4); }
+/* чем больше баллов за номер, тем заметнее рамка */
+.map-cell { border-color: color-mix(in srgb, var(--primary) calc((var(--w, 1) - 1) * 18%), var(--border-color)); }
+div.map-cell:hover { transform: none; }
 
 /* калькулятор баллов */
 .calc { display: grid; gap: 32px; padding: 36px; border-radius: 28px; }
@@ -394,7 +407,7 @@ svg.lucide { width: 18px; height: 18px; stroke-width: 1.8; flex-shrink: 0; }
 .calc input[type="range"] { width: 100%; margin: 24px 0 8px; accent-color: var(--primary); height: 28px; }
 .calc-scale { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); }
 .calc-hint { margin-top: 20px; padding: 16px 18px; border-radius: 14px; background: var(--bg-secondary); font-size: 15px; line-height: 1.55; }
-.calc-bar { display: grid; grid-template-columns: repeat(19, 1fr); gap: 3px; margin-top: 16px; }
+.calc-bar { display: grid; grid-template-columns: repeat(19, 1fr); gap: 2px; margin-top: 16px; }
 .calc-bar i { height: 22px; border-radius: 4px; background: var(--bg-secondary); transition: background .2s; }
 .calc-bar i.on { background: var(--primary); }
 .calc-bar i.part2.on { background: var(--b4); }
@@ -476,3 +489,85 @@ svg.lucide { width: 18px; height: 18px; stroke-width: 1.8; flex-shrink: 0; }
 .faq summary svg.lucide { transition: transform .25s; color: var(--text-secondary); }
 .faq details[open] summary svg.lucide { transform: rotate(45deg); color: var(--primary-text); }
 .faq p { padding: 0 0 22px; max-width: 46rem; font-size: 16px; line-height: 1.65; color: var(--text-secondary); }
+
+/* ======================================================================================
+   Предметы, минутные ролики, пробная неделя, оплата
+   ====================================================================================== */
+
+.hero-note { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 14px; color: var(--text-secondary); }
+.hero-note svg.lucide { width: 16px; height: 16px; color: var(--done); }
+.hero .btn-xl { height: 56px; padding: 0 26px; font-size: 16px; }
+
+/* ролики урока: просмотренные, текущий, остальные */
+.mock-clips { display: flex; gap: 4px; }
+.mock-clips i { flex: 1; height: 26px; border-radius: 6px; background: var(--bg-secondary); }
+.mock-clips i.on { background: var(--primary); }
+.mock-clips i.cur { background: var(--primary-soft); box-shadow: inset 0 0 0 1.5px var(--primary); }
+
+.mock-subjects { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.mock-subjects li { display: grid; grid-template-columns: 120px 1fr 40px; align-items: center; gap: 10px; font-size: 14px; }
+.mock-subjects li > span:first-child { display: inline-flex; align-items: center; gap: 6px; }
+.mock-subjects svg.lucide { width: 15px; height: 15px; color: var(--primary-text); }
+.mock-subjects b { text-align: right; font-size: 13px; }
+
+.subjects { display: grid; gap: 16px; }
+@media (min-width: 640px) { .subjects { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .subjects { grid-template-columns: repeat(4, 1fr); } }
+.subject { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-top: 3px solid var(--c); }
+.subject h3 { font-size: 21px; }
+.subject p { font-size: 15px; line-height: 1.55; color: var(--text-secondary); }
+.subject dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: auto 0 0; padding-top: 12px; border-top: 1px solid var(--border-color); }
+.subject dt { font-size: 11px; color: var(--text-secondary); }
+.subject dd { margin: 2px 0 0; font-family: var(--font-mono); font-size: 18px; font-weight: 600; }
+.fine-print { margin-top: 20px; font-size: 13px; color: var(--text-secondary); }
+
+/* пробная неделя */
+.trial-week { background: linear-gradient(180deg, var(--primary-soft), transparent 70%); }
+.days { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 640px) { .days { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .days { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1200px) { .days { grid-template-columns: repeat(7, 1fr); } }
+.days li { display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 18px; }
+.days .day { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-secondary); }
+.days svg.lucide { width: 22px; height: 22px; color: var(--primary-text); }
+.days h4 { font-size: 16px; }
+.days p { font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+.days li.is-final { background: var(--primary); border-color: var(--primary); color: var(--white); }
+.days li.is-final .day, .days li.is-final p, .days li.is-final svg.lucide { color: rgba(255, 255, 255, .8); }
+
+.trial-cta { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; margin-top: 32px; padding: 28px; border-radius: 24px; background: var(--card-bg); border: 1px solid var(--primary); box-shadow: 0 0 0 1px rgba(18, 25, 243, .3), 0 8px 40px -8px rgba(18, 25, 243, .4); }
+@media (min-width: 960px) { .trial-cta { flex-direction: row; align-items: center; justify-content: space-between; } }
+.guarantees { display: grid; gap: 10px 28px; font-size: 15px; font-weight: 500; }
+@media (min-width: 560px) { .guarantees { grid-template-columns: 1fr 1fr; } }
+.guarantees li { display: flex; align-items: center; gap: 10px; }
+.guarantees svg.lucide { color: var(--done); }
+@media (max-width: 559px) { .trial-cta .btn-xl { width: 100%; white-space: normal; text-align: center; } }
+
+/* оплата */
+.billing { display: inline-flex; gap: 4px; padding: 4px; border-radius: 16px; border: 1px solid var(--border-color); align-self: flex-start; }
+@media (min-width: 1024px) { .billing { align-self: flex-end; } }
+.billing button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.billing button[aria-checked="true"] { background: var(--primary); color: var(--white); }
+.billing button[aria-checked="true"] .chip { background: rgba(255, 255, 255, .2); color: var(--white); }
+.tier-name { margin-top: 8px; }
+.price { display: flex; align-items: baseline; gap: 8px; }
+.price b { font-size: 44px; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.price span { font-size: 15px; color: var(--text-secondary); }
+.price s { font-size: 15px; color: var(--text-secondary); }
+.tier .btn { white-space: normal; text-align: center; }
+.addon { display: flex; gap: 18px; align-items: flex-start; margin-top: 16px; padding: 24px 28px; }
+.addon h4 { font-size: 17px; margin-bottom: 6px; }
+.addon p { font-size: 15px; line-height: 1.55; color: var(--text-secondary); }
+.addon b { color: var(--text-primary); }
+
+/* переключатель предмета на «Выпускникам» */
+.subject-tabs { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+.subject-tabs button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.subject-tabs button:hover:not([aria-selected="true"]) { color: var(--text-primary); }
+.subject-tabs button[aria-selected="true"] { background: var(--primary); color: var(--white); }
+.subject-tabs svg.lucide { width: 16px; height: 16px; }
+.exam-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+@media (min-width: 720px) { .exam-facts { grid-template-columns: repeat(4, 1fr); } }
+.exam-facts div { padding: 16px 18px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--border-color); }
+.exam-facts b { display: block; font-size: 24px; }
+.exam-facts span { font-size: 13px; color: var(--text-secondary); }

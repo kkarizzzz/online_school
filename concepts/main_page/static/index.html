@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Из нуля в сотку — подготовка к ЕГЭ</title>
     <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css?v=20261009b">
+    <link rel="stylesheet" href="styles.css?v=20261009e">
     <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
     <script>
         // Тема до отрисовки, чтобы не мигало — ключ общий со всеми концептами
@@ -20,11 +20,11 @@
 <div id="header"></div>
 
 <main>
-    <!-- Первый экран: вместо фото — живой кусок кабинета -->
+    <!-- Первый экран: вместо фото — живой кусок кабинета, главный призыв — бесплатная неделя -->
     <section class="hero">
         <div class="container hero-grid">
             <div>
-                <p class="eyebrow">Из нуля в сотку / ЕГЭ 2027</p>
+                <p class="eyebrow">ЕГЭ 2027 · математика · русский · информатика · физика</p>
                 <div class="rule"></div>
                 <h1 class="hero-title">
                     <span class="line">Твой путь</span>
@@ -33,16 +33,17 @@
                         <svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 50 4, 120 4, 197 10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
                     </span></span>
                 </h1>
-                <p class="hero-desc">Вся подготовка в одном кабинете: уроки с короткими роликами, домашние задания с дедлайнами,
-                    банк прототипов по всем 19 номерам и пробники на время. Каждый ответ проверяется сразу — видно, что уже
-                    получается, а что нужно повторить.</p>
+                <p class="hero-desc">Четыре предмета в одном кабинете. Каждая тема — серия коротких роликов по 60–90 секунд
+                    с вопросом после каждого, дальше домашка, банк заданий по всем номерам и пробники на время. Ответы проверяются
+                    сразу — видно, что уже получается, а что нужно повторить.</p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="#trial">Бесплатная неделя<i data-lucide="arrow-right"></i></a>
-                    <a class="btn btn-outline" href="#learning">Как устроено обучение</a>
+                    <a class="btn btn-primary btn-xl" href="#trial-week">7 дней бесплатно<i data-lucide="arrow-right"></i></a>
+                    <a class="btn btn-outline btn-xl" href="#learning">Как устроено обучение</a>
                 </div>
+                <p class="hero-note"><i data-lucide="shield-check"></i>Без карты и автосписаний · все 4 предмета · полный доступ</p>
                 <ul class="hero-stats">
-                    <li><i data-lucide="play-circle"></i>Уроки по 5–7 минут</li>
-                    <li><i data-lucide="layers"></i>Все 19 номеров</li>
+                    <li><i data-lucide="play-circle"></i>Уроки по 90 секунд</li>
+                    <li><i data-lucide="library"></i>4 предмета ЕГЭ</li>
                     <li><i data-lucide="timer"></i>Пробники на время</li>
                     <li><i data-lucide="eye"></i>Кабинет родителя</li>
                 </ul>
@@ -52,18 +53,20 @@
                 <span class="glass mock-floating"><span class="dot"></span>12 дней подряд</span>
 
                 <div class="mock-card mock-lesson">
-                    <span class="mock-label">Следующий урок · 1.10.2</span>
+                    <span class="mock-label">Математика · следующий урок 1.10.2</span>
                     <h3>Логарифмы: свойства и переход к новому основанию</h3>
-                    <div class="meta">5 роликов · 8 вопросов · практика</div>
-                    <div class="mock-progress" style="--p:40%"><span></span></div>
+                    <div class="mock-clips" aria-label="Ролики урока: 3 из 6 просмотрено">
+                        <i class="on"></i><i class="on"></i><i class="on"></i><i class="cur"></i><i></i><i></i>
+                    </div>
+                    <div class="meta">6 роликов по 60–90 секунд · вопрос после каждого · практика</div>
                 </div>
 
-                <div class="mock-card mock-row">
-                    <div class="ring" style="--p:34"><span>34%</span></div>
-                    <div>
-                        <span class="mock-label">Ваш прогресс</span>
-                        <p style="margin-top:4px;font-size:14px;line-height:1.45">«Треть пути позади. Дальше будет интереснее.»</p>
-                    </div>
+                <div class="mock-card">
+                    <span class="mock-label">Ваш прогресс</span>
+                    <ul class="mock-subjects">
+                        <li><span><i data-lucide="sigma"></i>Математика</span><span class="mock-progress" style="--p:34%"><span></span></span><b>34%</b></li>
+                        <li><span><i data-lucide="book-open"></i>Русский</span><span class="mock-progress" style="--p:52%"><span></span></span><b>52%</b></li>
+                    </ul>
                 </div>
 
                 <div class="mock-split">
@@ -83,32 +86,73 @@
     </section>
 
     <div class="marquee"><div class="marquee-track" data-marquee>
-        <span class="marquee-item">ТЕОРИЯ</span>
-        <span class="marquee-item">ДОМАШНЕЕ ЗАДАНИЕ</span>
-        <span class="marquee-item">БАНК ЗАДАНИЙ</span>
-        <span class="marquee-item">НАРЕШКА</span>
-        <span class="marquee-item">КАТАЛОГ ВАРИАНТОВ</span>
-        <span class="marquee-item">БЫСТРОЕ ПОВТОРЕНИЕ</span>
+        <span class="marquee-item">МАТЕМАТИКА</span>
+        <span class="marquee-item">РУССКИЙ ЯЗЫК</span>
+        <span class="marquee-item">ИНФОРМАТИКА</span>
+        <span class="marquee-item">ФИЗИКА</span>
+        <span class="marquee-item">7 ДНЕЙ БЕСПЛАТНО</span>
     </div></div>
 
-    <!-- §01 Обучение: шесть вкладок кабинета -->
-    <section class="section" id="learning">
+    <!-- §01 Предметы -->
+    <section class="section" id="subjects">
         <div class="container">
             <div class="section-head reveal">
                 <div>
-                    <p class="eyebrow">§ 01 · Обучение</p>
+                    <p class="eyebrow">§ 01 · Предметы</p>
+                    <div class="rule"></div>
+                    <h2 class="h2">Четыре экзамена —<br><span class="accent">один кабинет.</span></h2>
+                </div>
+                <p class="lead">Одна система для всех предметов: те же вкладки, тот же ритм, общий прогресс. Можно начать
+                    с одного предмета и добавить второй в любой момент.</p>
+            </div>
+            <div class="subjects">
+                <article class="card subject reveal" style="--c:var(--b1)">
+                    <span class="tool-icon"><i data-lucide="sigma"></i></span>
+                    <h3>Математика</h3>
+                    <p>Профильный уровень: от первой части до параметра и чисел.</p>
+                    <dl><div><dt>заданий</dt><dd>19</dd></div><div><dt>первичных</dt><dd>32</dd></div><div><dt>время</dt><dd>3:55</dd></div></dl>
+                </article>
+                <article class="card subject reveal" style="--c:var(--b2);--d:80ms">
+                    <span class="tool-icon"><i data-lucide="book-open"></i></span>
+                    <h3>Русский язык</h3>
+                    <p>Орфография и пунктуация на автомате, сочинение по критериям.</p>
+                    <dl><div><dt>заданий</dt><dd>27</dd></div><div><dt>первичных</dt><dd>50</dd></div><div><dt>время</dt><dd>3:30</dd></div></dl>
+                </article>
+                <article class="card subject reveal" style="--c:var(--b3);--d:160ms">
+                    <span class="tool-icon"><i data-lucide="terminal"></i></span>
+                    <h3>Информатика</h3>
+                    <p>Python с нуля, Excel и задачи в компьютерной форме, как на КЕГЭ.</p>
+                    <dl><div><dt>заданий</dt><dd>27</dd></div><div><dt>первичных</dt><dd>29</dd></div><div><dt>время</dt><dd>3:55</dd></div></dl>
+                </article>
+                <article class="card subject reveal" style="--c:var(--b4);--d:240ms">
+                    <span class="tool-icon"><i data-lucide="atom"></i></span>
+                    <h3>Физика</h3>
+                    <p>Механика, электричество, оптика — и расчётные задачи второй части.</p>
+                    <dl><div><dt>заданий</dt><dd>26</dd></div><div><dt>первичных</dt><dd>45</dd></div><div><dt>время</dt><dd>3:55</dd></div></dl>
+                </article>
+            </div>
+            <p class="fine-print">Формат — по демоверсиям ЕГЭ 2025, сверить с ФИПИ перед запуском.</p>
+        </div>
+    </section>
+
+    <!-- §02 Обучение: шесть вкладок кабинета -->
+    <section class="section section-alt" id="learning">
+        <div class="container">
+            <div class="section-head reveal">
+                <div>
+                    <p class="eyebrow">§ 02 · Обучение</p>
                     <div class="rule"></div>
                     <h2 class="h2">Шесть инструментов —<br><span class="accent">одна цель.</span></h2>
                 </div>
                 <p class="lead">Каждая вкладка кабинета отвечает за свой этап: понять тему, закрепить её, отработать
-                    номер до автоматизма и проверить себя в формате экзамена.</p>
+                    номер до автоматизма и проверить себя в формате экзамена. Во всех четырёх предметах.</p>
             </div>
 
             <div class="tools">
                 <a class="card tool reveal" style="--c:var(--b1)" href="../../theory_page/static/index.html">
                     <div class="tool-top"><span class="tool-icon"><i data-lucide="book-open"></i></span><span class="tool-num">01</span></div>
                     <h3>Теория</h3>
-                    <p>Маршрут по программе: темы разбиты на короткие уроки — ролик, вопросы на понимание, практика. Ничего лишнего и всегда понятно, что дальше.</p>
+                    <p>Маршрут по программе: каждая тема — серия роликов по 60–90 секунд, после каждого вопрос на понимание, в конце практика.</p>
                     <div class="tool-preview"><div class="pv-steps"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
                     <span class="tool-link">Открыть маршрут<i data-lucide="arrow-right"></i></span>
                 </a>
@@ -124,7 +168,7 @@
                 <a class="card tool reveal" style="--c:var(--b3);--d:160ms" href="../../bank_page/static/index.html">
                     <div class="tool-top"><span class="tool-icon"><i data-lucide="layers"></i></span><span class="tool-num">03</span></div>
                     <h3>Банк заданий</h3>
-                    <p>Все прототипы ЕГЭ по номерам 1–19 и темам. Фильтры по сложности, отметки «решено» — номер закрывается полностью.</p>
+                    <p>Все прототипы ЕГЭ по номерам и темам каждого предмета. Фильтры по сложности, отметки «решено» — номер закрывается полностью.</p>
                     <div class="tool-preview"><div class="pv-nums">
                         <span class="on">1</span><span class="on">2</span><span class="on">3</span><span class="on">4</span><span class="on">5</span><span class="on">6</span><span>7</span><span>8</span><span>9</span><span>10</span>
                     </div></div>
@@ -150,7 +194,7 @@
                 <a class="card tool reveal" style="--c:var(--b1);--d:160ms" href="../../review_page/static/index.html">
                     <div class="tool-top"><span class="tool-icon"><i data-lucide="repeat"></i></span><span class="tool-num">06</span></div>
                     <h3>Быстрое повторение</h3>
-                    <p>Пять минут на микс вопросов по теории и вычислениям с вариантами ответа — чтобы формулы не забывались.</p>
+                    <p>Пять минут на микс вопросов по теории и правилам с вариантами ответа — чтобы формулы и нормы не забывались.</p>
                     <div class="tool-preview"><div class="pv-options"><span>log₂8 = 4</span><span class="on">log₂8 = 3</span><span>log₂8 = 6</span><span>log₂8 = 2</span></div></div>
                     <span class="tool-link">Повторить<i data-lucide="arrow-right"></i></span>
                 </a>
@@ -158,32 +202,67 @@
         </div>
     </section>
 
-    <!-- Как проходит один урок -->
-    <section class="section section-alt">
+    <!-- §03 Как проходит один урок: короткие ролики по 60–90 секунд -->
+    <section class="section">
         <div class="container">
             <div class="section-head reveal">
                 <div>
-                    <p class="eyebrow">§ 02 · Один урок</p>
+                    <p class="eyebrow">§ 03 · Один урок</p>
                     <div class="rule"></div>
-                    <h2 class="h2">Двадцать минут,<br>и тема <span class="accent">понятна.</span></h2>
+                    <h2 class="h2">90 секунд на мысль.<br>Тема — <span class="accent">за вечер.</span></h2>
                 </div>
                 <a class="btn btn-outline" href="../../lesson_page/static/index.html?id=1.10.2">Открыть пример урока<i data-lucide="arrow-right"></i></a>
             </div>
             <ol class="flow">
-                <li class="is-active reveal"><h4>Короткий ролик</h4><p>Одна мысль — один ролик на 5–7 минут. Можно пересмотреть любой кусок.</p></li>
-                <li class="reveal" style="--d:80ms"><h4>Вопросы на понимание</h4><p>Сразу после ролика: поняли ли определение и где обычно ошибаются.</p></li>
+                <li class="is-active reveal"><h4>Короткие ролики</h4><p>Тема разбита на несколько видео по 60–90 секунд, в каждом — одна мысль. Не нужно держать внимание 40 минут.</p></li>
+                <li class="reveal" style="--d:80ms"><h4>Вопрос после каждого</h4><p>Посмотрел ролик — ответил на вопрос. Ошибся — ролик можно пересмотреть сразу, не ища нужную минуту.</p></li>
                 <li class="reveal" style="--d:160ms"><h4>Практика</h4><p>Задачи из банка по теме урока с мгновенной проверкой ответа.</p></li>
                 <li class="reveal" style="--d:240ms"><h4>Повторение</h4><p>Тема возвращается в быстрое повторение и домашку через несколько дней.</p></li>
             </ol>
         </div>
     </section>
 
-    <!-- §03 Для кого: выпускникам и родителям -->
-    <section class="section" id="audience">
+    <!-- §04 Пробная неделя: главный призыв страницы -->
+    <section class="section trial-week" id="trial-week">
         <div class="container">
             <div class="section-head reveal">
                 <div>
-                    <p class="eyebrow">§ 03 · Для кого</p>
+                    <p class="eyebrow">§ 04 · Пробная неделя</p>
+                    <div class="rule"></div>
+                    <h2 class="h2">7 дней бесплатно.<br><span class="accent">Весь кабинет.</span></h2>
+                </div>
+                <p class="lead">Не демо-урок, а полноценная неделя подготовки по всем четырём предметам. К концу недели у вас
+                    будет стартовый балл, план до экзамена и первый результат — по нему и решите, продолжать ли.</p>
+            </div>
+
+            <ol class="days">
+                <li class="card reveal"><span class="day">День 1</span><i data-lucide="flag"></i><h4>Входной тест</h4><p>15 минут — и видно стартовый балл и план до экзамена.</p></li>
+                <li class="card reveal" style="--d:60ms"><span class="day">День 2</span><i data-lucide="play-circle"></i><h4>Первые уроки</h4><p>Короткие ролики по самой слабой теме из теста.</p></li>
+                <li class="card reveal" style="--d:120ms"><span class="day">День 3</span><i data-lucide="clipboard-list"></i><h4>Домашка</h4><p>С дедлайном и разбором каждой задачи.</p></li>
+                <li class="card reveal" style="--d:180ms"><span class="day">День 4</span><i data-lucide="zap"></i><h4>Нарешка</h4><p>Один номер до автоматизма — серия без ошибок.</p></li>
+                <li class="card reveal" style="--d:240ms"><span class="day">День 5</span><i data-lucide="repeat"></i><h4>Повторение</h4><p>Проверяем, что запомнилось за неделю.</p></li>
+                <li class="card reveal" style="--d:300ms"><span class="day">День 6</span><i data-lucide="timer"></i><h4>Пробник</h4><p>Полный вариант на время, как на экзамене.</p></li>
+                <li class="card reveal is-final" style="--d:360ms"><span class="day">День 7</span><i data-lucide="trending-up"></i><h4>Было → стало</h4><p>Отчёт ученику и родителю: рост и план дальше.</p></li>
+            </ol>
+
+            <div class="trial-cta reveal">
+                <ul class="guarantees">
+                    <li><i data-lucide="credit-card"></i>Без привязки карты</li>
+                    <li><i data-lucide="ban"></i>Никаких автосписаний</li>
+                    <li><i data-lucide="library"></i>Все 4 предмета</li>
+                    <li><i data-lucide="save"></i>Прогресс сохранится после оплаты</li>
+                </ul>
+                <a class="btn btn-primary btn-xl" href="../../theory_page/static/index.html">Начать бесплатную неделю<i data-lucide="arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- §05 Для кого: выпускникам и родителям -->
+    <section class="section section-alt" id="audience">
+        <div class="container">
+            <div class="section-head reveal">
+                <div>
+                    <p class="eyebrow">§ 05 · Для кого</p>
                     <div class="rule"></div>
                     <h2 class="h2">Ученику — план.<br>Родителю — <span class="accent">спокойствие.</span></h2>
                 </div>
@@ -195,8 +274,8 @@
                     <div class="countdown"><b data-countdown="days">—</b><span data-countdown-label>дней до ЕГЭ</span></div>
                     <h3>Успеть всё — по плану, а не в мае.</h3>
                     <ul class="aud-points">
-                        <li><i data-lucide="calendar-check"></i>План по месяцам: от первой части до пробников</li>
-                        <li><i data-lucide="map"></i>Карта 19 номеров и что в кабинете под каждый</li>
+                        <li><i data-lucide="calendar-check"></i>План по месяцам для каждого предмета</li>
+                        <li><i data-lucide="map"></i>Карта номеров и что в кабинете под каждый</li>
                         <li><i data-lucide="calculator"></i>Калькулятор: сколько решить на нужный балл</li>
                     </ul>
                     <a class="btn btn-outline" href="graduates.html">План подготовки<i data-lucide="arrow-right"></i></a>
@@ -215,7 +294,7 @@
                     </div>
                     <h3>Видно, как идёт подготовка — без допросов.</h3>
                     <ul class="aud-points">
-                        <li><i data-lucide="activity"></i>Занятия по дням и время в кабинете</li>
+                        <li><i data-lucide="activity"></i>Занятия по дням и предметам</li>
                         <li><i data-lucide="clipboard-check"></i>Домашки: что сдано, что просрочено</li>
                         <li><i data-lucide="mail"></i>Отчёт за неделю — каждое воскресенье</li>
                     </ul>
@@ -225,63 +304,76 @@
         </div>
     </section>
 
-    <!-- §04 Тарифы: без психолога и личного ментора, в терминах кабинета -->
-    <section class="section section-alt" id="pricing">
+    <!-- §06 Тарифы: подписка за предмет, скидка за набор и за год, экспертная проверка — отдельно -->
+    <section class="section" id="pricing">
         <div class="container">
             <div class="section-head reveal">
                 <div>
-                    <p class="eyebrow">§ 04 · Тарифы</p>
+                    <p class="eyebrow">§ 06 · Тарифы</p>
                     <div class="rule"></div>
-                    <h2 class="h2">Выберите <span class="accent">темп.</span></h2>
+                    <h2 class="h2">Платите за предметы,<br>а не за <span class="accent">«пакеты».</span></h2>
                 </div>
-                <p class="lead">Во всех тарифах — весь кабинет. Отличаются длительность, число пробников и проверка второй части.</p>
+                <div class="billing" role="radiogroup" aria-label="Период оплаты" id="billing">
+                    <button type="button" role="radio" aria-checked="true" data-period="month">Помесячно</button>
+                    <button type="button" role="radio" aria-checked="false" data-period="year">До экзамена <span class="chip chip-done">−25%</span></button>
+                </div>
             </div>
 
             <div class="tiers">
                 <article class="card tier reveal">
-                    <div><p class="tier-dur">START · 3 МЕСЯЦА</p><h3 class="tier-name" style="margin-top:8px">Базовый</h3></div>
+                    <div><p class="tier-dur">1 ПРЕДМЕТ</p><h3 class="tier-name">Предмет</h3></div>
+                    <div class="price"><b data-month="1 490" data-year="1 120">1 490</b><span>₽ / мес</span></div>
                     <ul class="tier-list">
-                        <li><i data-lucide="check"></i>Теория и уроки по всей программе</li>
-                        <li><i data-lucide="check"></i>Домашние задания каждую неделю</li>
-                        <li><i data-lucide="check"></i>Банк заданий и нарешка</li>
-                        <li><i data-lucide="check"></i>Один пробник в месяц</li>
+                        <li><i data-lucide="check"></i>Все шесть вкладок кабинета</li>
+                        <li><i data-lucide="check"></i>Домашки и пробники каждый месяц</li>
+                        <li><i data-lucide="check"></i>Кабинет родителя и недельный отчёт</li>
+                        <li><i data-lucide="check"></i>Автопроверка первой части</li>
                     </ul>
-                    <a class="btn btn-outline" href="#trial">Попробовать</a>
+                    <a class="btn btn-outline" href="#trial-week">Начать с 7 дней бесплатно</a>
                 </article>
 
                 <article class="card tier tier-featured reveal" style="--d:80ms">
-                    <span class="tier-badge">ВЫБОР УЧЕНИКОВ</span>
-                    <div><p class="tier-dur">PRO · 6 МЕСЯЦЕВ</p><h3 class="tier-name" style="margin-top:8px">Интенсив</h3></div>
+                    <span class="tier-badge">ЧАЩЕ ВСЕГО</span>
+                    <div><p class="tier-dur">2 ПРЕДМЕТА · РУССКИЙ + ПРОФИЛЬНЫЙ</p><h3 class="tier-name">Пара</h3></div>
+                    <div class="price"><b data-month="2 490" data-year="1 870">2 490</b><span>₽ / мес</span><s>2 980</s></div>
                     <ul class="tier-list">
-                        <li><i data-lucide="check"></i>Всё из базового</li>
-                        <li><i data-lucide="check"></i>Каталог вариантов без ограничений</li>
-                        <li><i data-lucide="check"></i>Проверка второй части с комментариями</li>
-                        <li><i data-lucide="check"></i>Индивидуальный план по слабым номерам</li>
-                        <li><i data-lucide="check"></i>Кабинет родителя и недельный отчёт</li>
+                        <li><i data-lucide="check"></i>Всё из тарифа «Предмет» по двум предметам</li>
+                        <li><i data-lucide="check"></i>Общий план и расписание на неделю</li>
+                        <li><i data-lucide="check"></i>2 экспертные проверки в месяц</li>
                     </ul>
-                    <a class="btn btn-primary" href="#trial">Начать<i data-lucide="arrow-right"></i></a>
+                    <a class="btn btn-primary" href="#trial-week">Начать с 7 дней бесплатно<i data-lucide="arrow-right"></i></a>
                 </article>
 
                 <article class="card tier reveal" style="--d:160ms">
-                    <div><p class="tier-dur">ELITE · 9 МЕСЯЦЕВ</p><h3 class="tier-name" style="margin-top:8px">Максимум</h3></div>
+                    <div><p class="tier-dur">3–4 ПРЕДМЕТА</p><h3 class="tier-name">Всё включено</h3></div>
+                    <div class="price"><b data-month="3 490" data-year="2 620">3 490</b><span>₽ / мес</span><s>5 960</s></div>
                     <ul class="tier-list">
-                        <li><i data-lucide="check"></i>Всё из интенсива</li>
-                        <li><i data-lucide="check"></i>Три пробника в месяц в формате ЕГЭ</li>
-                        <li><i data-lucide="check"></i>Разбор каждого пробника по номерам</li>
+                        <li><i data-lucide="check"></i>Все предметы платформы</li>
+                        <li><i data-lucide="check"></i>5 экспертных проверок в месяц</li>
                         <li><i data-lucide="check"></i>Помощь с выбором вуза по баллам</li>
                     </ul>
-                    <a class="btn btn-outline" href="#trial">Попробовать</a>
+                    <a class="btn btn-outline" href="#trial-week">Начать с 7 дней бесплатно</a>
                 </article>
             </div>
+
+            <div class="addon card reveal">
+                <span class="tool-icon" style="--c:var(--b2)"><i data-lucide="pen-line"></i></span>
+                <div>
+                    <h4>Экспертная проверка — отдельно</h4>
+                    <p>Сочинение по русскому или вторая часть по математике и физике с комментариями по критериям ФИПИ.
+                        <b>290 ₽</b> за работу или <b>2 490 ₽</b> за пакет из 10.</p>
+                </div>
+            </div>
+            <p class="fine-print">Цены — пример для концепта. «До экзамена» — оплата сразу до июня со скидкой.</p>
         </div>
     </section>
 
-    <!-- §05 Результаты -->
-    <section class="section">
+    <!-- §07 Результаты -->
+    <section class="section section-alt">
         <div class="container">
             <div class="section-head reveal">
                 <div>
-                    <p class="eyebrow">§ 05 · Выпускники 2026</p>
+                    <p class="eyebrow">§ 07 · Выпускники 2026</p>
                     <div class="rule"></div>
                     <h2 class="h2">Было → <span class="accent">стало.</span></h2>
                 </div>
@@ -291,17 +383,17 @@
                 <figure class="card review reveal" style="margin:0">
                     <div class="review-score"><b>92</b><s>было 40</s></div>
                     <p>«Нарешка по шестому номеру каждый вечер по 15 минут — и через месяц я перестал в нём ошибаться совсем.»</p>
-                    <footer><b>Алексей В.</b><span>профильная математика</span></footer>
+                    <footer><b>Алексей В.</b><span>математика</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0;--d:80ms">
-                    <div class="review-score"><b>86</b><s>было 54</s></div>
-                    <p>«Пробники на время убрали страх: на экзамене было ощущение, что я это уже делала двадцать раз.»</p>
-                    <footer><b>Мария К.</b><span>профильная математика</span></footer>
+                    <div class="review-score"><b>96</b><s>было 61</s></div>
+                    <p>«Короткие ролики смотрела в перерывах. Пунктуация, которую я не понимала с седьмого класса, сложилась за месяц.»</p>
+                    <footer><b>Мария К.</b><span>русский язык</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0;--d:160ms">
-                    <div class="review-score"><b>98</b><s>было 72</s></div>
-                    <p>«Разборы второй части в домашках — это то, чего не было в учебниках. Восемнадцатый номер наконец сдался.»</p>
-                    <footer><b>София Л.</b><span>профильная математика</span></footer>
+                    <div class="review-score"><b>94</b><s>было 48</s></div>
+                    <p>«Пробники в компьютерной форме — на экзамене интерфейс был уже как родной. Python начал учить прямо здесь.»</p>
+                    <footer><b>Дмитрий С.</b><span>информатика</span></footer>
                 </figure>
             </div>
         </div>
@@ -311,6 +403,7 @@
 <div id="trial"></div>
 <div id="footer"></div>
 
-<script src="main.js?v=20261009b"></script>
+<script src="home.js?v=20261009d"></script>
+<script src="main.js?v=20261009d"></script>
 </body>
 </html>

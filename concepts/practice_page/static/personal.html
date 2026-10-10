@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Персональный режим — Нарешка</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <!-- Оболочка кабинета общая со страницей «Теория» -->
+    <link rel="stylesheet" href="../../theory_page/static/shell.css?v=20261009e">
+    <link rel="stylesheet" href="styles.css?v=20261009e">
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script>
+        // Тема до отрисовки, чтобы не мигало
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body>
+<div class="layout">
+    <div class="wrapper">
+
+        <!-- Сайдбар: как widgets/sidebar -->
+        <aside class="glass sidebar">
+            <a href="#" class="logo" aria-label="Из нуля в сотку">
+                <img src="../../../frontend/src/shared/assets/icons/logo.svg" alt="" class="logo-icon">
+                <span class="logo-text">Из нуля в сотку</span>
+            </a>
+
+            <nav class="nav" aria-label="Основная навигация">
+                <a class="nav-btn" href="../../main_page/static/index.html"><i data-lucide="house"></i><span>Главная</span></a>
+                <a class="nav-btn" href="../../theory_page/static/index.html"><i data-lucide="book-open"></i><span>Теория</span></a>
+                <a class="nav-btn" href="../../homework_page/static/index.html"><i data-lucide="clipboard-list"></i><span>Домашнее задание</span></a>
+                <a class="nav-btn" href="../../bank_page/static/index.html"><i data-lucide="layers"></i><span>Банк заданий</span></a>
+                <a class="nav-btn active" href="index.html" aria-current="page"><i data-lucide="zap"></i><span>Нарешка</span></a>
+                <a class="nav-btn" href="../../variants_page/static/index.html"><i data-lucide="folder-open"></i><span>Каталог вариантов</span></a>
+                <a class="nav-btn" href="../../review_page/static/index.html"><i data-lucide="repeat"></i><span>Быстрое повторение</span></a>
+            </nav>
+
+            <div class="subject-box">
+                <span class="subject-icon"><i data-lucide="sigma"></i></span>
+                <span class="subject-text">
+                    <span class="subject-label">Предмет</span>
+                    <span class="subject-value">Математика</span>
+                </span>
+            </div>
+        </aside>
+
+        <div class="main">
+            <header class="glass header">
+                <label class="search">
+                    <i data-lucide="search"></i>
+                    <input type="search" placeholder="Поиск по урокам, заданиям…" aria-label="Поиск">
+                </label>
+                <div class="actions">
+                    <button type="button" class="icon-btn" id="theme-toggle" aria-label="Сменить тему">
+                        <i data-lucide="moon" class="theme-dark-hidden"></i>
+                        <i data-lucide="sun" class="theme-light-hidden"></i>
+                    </button>
+                    <button type="button" class="icon-btn" aria-label="Уведомления"><i data-lucide="bell"></i></button>
+                    <span class="avatar" aria-hidden="true"><i data-lucide="user"></i></span>
+                </div>
+            </header>
+
+            <main class="page">
+                <section class="picker">
+                    <a class="back-link" href="index.html"><i data-lucide="arrow-left"></i>Нарешка</a>
+                    <div class="page-header">
+                        <p class="eyebrow">Нарешка · настройка</p>
+                        <h1 class="title">Персональный режим</h1>
+                        <p class="description">Отметьте номера целиком или отдельные подтемы — в персональном режиме задачи
+                            будут только из них, вперемешку. Подборка сохраняется сама.</p>
+                    </div>
+
+                    <section class="levels-box glass" aria-labelledby="levels-title">
+                        <div>
+                            <h2 class="levels-title" id="levels-title">Сложность</h2>
+                            <p class="levels-hint">Задания каких уровней будут попадаться в ленте. «Гроб» бывает только во второй части.</p>
+                        </div>
+                        <div class="chips" id="levels" role="group" aria-labelledby="levels-title"></div>
+                    </section>
+
+                    <h2 class="section-title">Номера и подтемы</h2>
+                    <div class="num-grid" id="numbers"></div>
+
+                    <div class="select-bar" id="select-bar">
+                        <span class="select-info" id="select-info"></span>
+                        <button type="button" class="btn btn-ghost" id="clear">Очистить</button>
+                        <a class="btn btn-primary" id="go" href="index.html?scope=personal"><i data-lucide="play"></i>Решать</a>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script src="../../bank_page/static/bank.js?v=20261009e"></script>
+<script src="../../bank_page/static/common.js?v=20261009e"></script>
+<script src="practice.js?v=20261009e"></script>
+<script src="personal.js?v=20261009e"></script>
+</body>
+</html>

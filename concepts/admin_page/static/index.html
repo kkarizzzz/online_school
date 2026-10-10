@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Кабинет преподавателя — Из нуля в сотку</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <!-- Оболочка кабинета — из «Теории», кнопки и токены статусов — из каталога вариантов -->
+    <link rel="stylesheet" href="../../theory_page/static/shell.css?v=20261009b">
+    <link rel="stylesheet" href="../../variants_page/static/exam.css?v=20261009b">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.19.0/katex.min.css">
+    <link rel="stylesheet" href="styles.css?v=20261009b">
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.19.0/katex.min.js"></script>
+    <script>
+        // Тема до отрисовки, чтобы не мигало
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body>
+<div class="layout">
+    <div class="wrapper">
+
+        <aside class="glass sidebar">
+            <a href="#/overview" class="logo" aria-label="Из нуля в сотку">
+                <img src="../../../frontend/src/shared/assets/icons/logo.svg" alt="" class="logo-icon">
+                <span class="logo-text">Из нуля в сотку</span>
+            </a>
+
+            <nav class="nav" aria-label="Разделы кабинета" id="nav">
+                <a class="nav-btn" href="#/overview" data-route="overview"><i data-lucide="layout-dashboard"></i><span>Обзор</span></a>
+                <a class="nav-btn" href="#/bank" data-route="bank"><i data-lucide="layers"></i><span>Банк заданий</span></a>
+                <a class="nav-btn" href="#/homework" data-route="homework"><i data-lucide="clipboard-list"></i><span>Домашние задания</span><span class="nav-count" id="nav-pending" hidden></span></a>
+                <a class="nav-btn" href="#/students" data-route="students"><i data-lucide="users"></i><span>Ученики</span></a>
+            </nav>
+
+            <div class="subject-box">
+                <span class="subject-icon"><i data-lucide="graduation-cap"></i></span>
+                <span class="subject-text">
+                    <span class="subject-label">Преподаватель</span>
+                    <span class="subject-value">Математика · профиль</span>
+                </span>
+            </div>
+        </aside>
+
+        <div class="main">
+            <header class="glass header">
+                <label class="search">
+                    <i data-lucide="search"></i>
+                    <input type="search" id="global-search" placeholder="Ученик или ДЗ…" aria-label="Поиск по ученикам и ДЗ">
+                </label>
+                <div class="actions">
+                    <a class="btn btn-primary btn-s" href="#/homework/new"><i data-lucide="plus"></i><span>Выдать ДЗ</span></a>
+                    <button type="button" class="icon-btn" id="theme-toggle" aria-label="Сменить тему">
+                        <i data-lucide="moon" class="theme-dark-hidden"></i>
+                        <i data-lucide="sun" class="theme-light-hidden"></i>
+                    </button>
+                    <span class="avatar" aria-hidden="true"><i data-lucide="user"></i></span>
+                </div>
+            </header>
+
+            <!-- Телефон и планшет: сайдбар скрыт, разделы — полоской -->
+            <nav class="glass mnav" aria-label="Разделы кабинета" id="mnav">
+                <a href="#/overview" data-route="overview"><i data-lucide="layout-dashboard"></i>Обзор</a>
+                <a href="#/bank" data-route="bank"><i data-lucide="layers"></i>Банк</a>
+                <a href="#/homework" data-route="homework"><i data-lucide="clipboard-list"></i>ДЗ</a>
+                <a href="#/students" data-route="students"><i data-lucide="users"></i>Ученики</a>
+            </nav>
+
+            <main class="page" id="view"></main>
+        </div>
+    </div>
+</div>
+
+<!-- Корзина банка: видна, пока в ней есть задачи и открыт не конструктор -->
+<div class="glass basket" id="basket" hidden></div>
+
+<dialog class="modal" id="modal"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../bank_page/static/bank.js?v=20261009b"></script>
+<script src="data.js?v=20261009b"></script>
+<script src="app.js?v=20261009b"></script>
+</body>
+</html>

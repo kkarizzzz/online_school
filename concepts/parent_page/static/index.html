@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Кабинет родителя — Из нуля в сотку</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <!-- Оболочка кабинета — из «Теории», кнопки и токены статусов — из каталога вариантов -->
+    <link rel="stylesheet" href="../../theory_page/static/shell.css?v=20261011">
+    <link rel="stylesheet" href="../../variants_page/static/exam.css?v=20261011">
+    <link rel="stylesheet" href="styles.css?v=20261011">
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script>
+        // Тема до отрисовки, чтобы не мигало
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body>
+<div class="layout">
+    <div class="wrapper">
+
+        <aside class="glass sidebar">
+            <a href="#/a" class="logo" aria-label="Из нуля в сотку">
+                <img src="../../../frontend/src/shared/assets/icons/logo.svg" alt="" class="logo-icon">
+                <span class="logo-text">Из нуля в сотку</span>
+            </a>
+
+            <nav class="nav" aria-label="Варианты кабинета" id="nav">
+                <span class="nav-caption">Варианты главной</span>
+                <a class="nav-btn" href="#/a" data-route="a"><i data-lucide="layout-dashboard"></i><span>A · Четыре ответа</span></a>
+                <a class="nav-btn" href="#/b" data-route="b"><i data-lucide="newspaper"></i><span>B · Отчёт недели</span></a>
+                <a class="nav-btn" href="#/c" data-route="c"><i data-lucide="traffic-cone"></i><span>C · Светофор</span></a>
+                <span class="nav-caption">Общее</span>
+                <a class="nav-btn" href="#/settings" data-route="settings"><i data-lucide="bell"></i><span>Отчёты и сигналы</span></a>
+            </nav>
+
+            <div class="subject-box">
+                <span class="subject-icon"><i data-lucide="heart-handshake"></i></span>
+                <span class="subject-text">
+                    <span class="subject-label">Родитель</span>
+                    <span class="subject-value">Только просмотр</span>
+                </span>
+            </div>
+        </aside>
+
+        <div class="main">
+            <header class="glass header">
+                <div class="kids" id="kids" role="tablist" aria-label="Ребёнок"></div>
+                <div class="actions">
+                    <button type="button" class="icon-btn" id="theme-toggle" aria-label="Сменить тему">
+                        <i data-lucide="moon" class="theme-dark-hidden"></i>
+                        <i data-lucide="sun" class="theme-light-hidden"></i>
+                    </button>
+                    <span class="avatar" aria-hidden="true"><i data-lucide="user"></i></span>
+                </div>
+            </header>
+
+            <!-- Телефон и планшет: сайдбар скрыт, варианты — полоской -->
+            <nav class="glass mnav" aria-label="Варианты кабинета" id="mnav">
+                <a href="#/a" data-route="a"><i data-lucide="layout-dashboard"></i>A</a>
+                <a href="#/b" data-route="b"><i data-lucide="newspaper"></i>B</a>
+                <a href="#/c" data-route="c"><i data-lucide="traffic-cone"></i>C</a>
+                <a href="#/settings" data-route="settings"><i data-lucide="bell"></i>Сигналы</a>
+            </nav>
+
+            <main class="page" id="view"></main>
+        </div>
+    </div>
+</div>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js?v=20261011"></script>
+<script src="app.js?v=20261011"></script>
+</body>
+</html>

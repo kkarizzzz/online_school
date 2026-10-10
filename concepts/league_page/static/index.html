@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Лига — Из нуля в сотку</title>
+    <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
+    <!-- Токены, шрифты и шапка — общие с остальными концептами кабинета -->
+    <link rel="stylesheet" href="../../theory_page/static/shell.css?v=20261009c">
+    <link rel="stylesheet" href="styles.css?v=20261009c">
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
+    <script>
+        // Тема до отрисовки, чтобы не мигало
+        try {
+            const saved = localStorage.getItem('concept-theme');
+            const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = saved || (dark ? 'dark' : 'light');
+        } catch { document.documentElement.dataset.theme = 'light'; }
+    </script>
+</head>
+<body>
+<div class="layout">
+    <div class="profile">
+
+        <!-- Шапка профиля: как widgets/profile-header (логотип + действия) -->
+        <header class="profile-header">
+            <a href="#" class="logo" aria-label="Из нуля в сотку">
+                <img src="../../../frontend/src/shared/assets/icons/logo.svg" alt="" class="logo-icon">
+                <span class="logo-text">Из нуля в сотку</span>
+            </a>
+            <div class="actions">
+                <span class="balance-chip" title="Баланс соток"><span class="coin" aria-hidden="true">С</span><b id="header-balance">0</b></span>
+                <button type="button" class="icon-btn" id="theme-toggle" aria-label="Сменить тему">
+                    <i data-lucide="moon" class="theme-dark-hidden"></i>
+                    <i data-lucide="sun" class="theme-light-hidden"></i>
+                </button>
+                <button type="button" class="icon-btn" aria-label="Уведомления"><i data-lucide="bell"></i></button>
+                <span class="avatar" aria-hidden="true"><i data-lucide="user"></i></span>
+            </div>
+        </header>
+
+        <main class="page">
+            <div class="page-header">
+                <p class="eyebrow" id="eyebrow">Сезон</p>
+                <h1 class="title">Лига</h1>
+                <p class="description">Учитесь вместе с кланом: за решённые задачи, уроки и ДЗ начисляются очки,
+                    за еженедельные задания — сотки. Сотки тратятся в магазине.</p>
+            </div>
+
+            <!-- ============ Ученик в клане ============ -->
+            <div id="with-clan">
+                <section class="summary" aria-label="Итоги недели">
+                    <a class="glass card clan-card" href="#clan" data-go="clan" id="clan-card"></a>
+                    <div class="glass card stat">
+                        <span class="stat-label"><i data-lucide="timer"></i>До конца недели</span>
+                        <b class="stat-value" id="countdown">—</b>
+                        <span class="stat-note">Итоги — в понедельник в 00:00 МСК</span>
+                    </div>
+                    <div class="glass card stat">
+                        <span class="stat-label"><i data-lucide="zap"></i>Мои очки</span>
+                        <b class="stat-value" id="my-points">0</b>
+                        <span class="stat-note" id="my-share"></span>
+                    </div>
+                    <div class="glass card stat">
+                        <span class="stat-label"><span class="coin coin-s" aria-hidden="true">С</span>Сотки</span>
+                        <b class="stat-value" id="balance">0</b>
+                        <span class="stat-note" id="earned"></span>
+                    </div>
+                </section>
+
+                <div class="glass tabs" role="tablist" id="tabs">
+                    <button class="tab" role="tab" data-tab="quests"><i data-lucide="list-checks"></i>Задания<span class="tab-badge" id="claim-badge" hidden></span></button>
+                    <button class="tab" role="tab" data-tab="league"><i data-lucide="trophy"></i>Лига</button>
+                    <button class="tab" role="tab" data-tab="clan"><i data-lucide="users"></i>Клан</button>
+                    <button class="tab" role="tab" data-tab="friends"><i data-lucide="heart-handshake"></i>Друзья<span class="tab-badge" id="friends-badge" hidden></span></button>
+                    <button class="tab" role="tab" data-tab="shop"><i data-lucide="store"></i>Магазин</button>
+                    <button class="tab" role="tab" data-tab="rules"><i data-lucide="info"></i>Как считаются очки</button>
+                </div>
+
+                <!-- Задания -->
+                <section class="panel" data-panel="quests">
+                    <div class="block-head">
+                        <h2>Личные задания</h2>
+                        <span class="muted">Подобраны по вашим слабым номерам · новые в понедельник</span>
+                    </div>
+                    <ul class="quests" id="personal-quests"></ul>
+                    <div class="glass chest" id="chest"></div>
+
+                    <div class="block-head">
+                        <h2>Задания клана</h2>
+                        <span class="muted">Общий прогресс · награда каждому, кто внёс вклад, и в банк клана</span>
+                    </div>
+                    <ul class="quests" id="clan-quests"></ul>
+                </section>
+
+                <!-- Лига -->
+                <section class="panel" data-panel="league" hidden>
+                    <div class="ladder" id="ladder"></div>
+                    <div class="glass table-card">
+                        <div class="table-head">
+                            <span>#</span><span>Клан</span><span class="num">Участники</span><span class="num">Очки</span><span class="num">Награда</span>
+                        </div>
+                        <ol class="standings" id="standings"></ol>
+                    </div>
+                    <p class="muted legend">
+                        <span class="dot dot-up"></span>1–3 — переход в лигу выше
+                        <span class="dot dot-down"></span>10–12 — вылет в лигу ниже.
+                        Очки клана — сумма 10 лучших участников и бонусов клановых заданий. Награда в сотках — каждому, кто набрал за неделю 100+ очков.
+                    </p>
+                </section>
+
+                <!-- Клан -->
+                <section class="panel" data-panel="clan" hidden>
+                    <div class="clan-grid">
+                        <div class="glass card">
+                            <div class="block-head tight">
+                                <h2>Участники</h2>
+                                <span class="muted" id="members-count"></span>
+                            </div>
+                            <ol class="members" id="members"></ol>
+                        </div>
+                        <div class="clan-side">
+                            <div class="glass card bank">
+                                <span class="stat-label"><i data-lucide="landmark"></i>Банк клана</span>
+                                <b class="stat-value" id="bank">0</b>
+                                <span class="stat-note">Пополняется клановыми заданиями и взносами. Тратят глава и офицеры.</span>
+                                <button type="button" class="btn btn-ghost" id="donate"><i data-lucide="hand-coins"></i>Вложить 100 соток</button>
+                            </div>
+                            <div class="glass card">
+                                <span class="stat-label"><i data-lucide="link"></i>Пригласить</span>
+                                <div class="invite">
+                                    <code id="invite"></code>
+                                    <button type="button" class="icon-btn" id="copy-invite" aria-label="Скопировать код"><i data-lucide="copy"></i></button>
+                                </div>
+                                <span class="stat-note" id="seats"></span>
+                            </div>
+                            <div class="glass card">
+                                <span class="stat-label"><i data-lucide="activity"></i>Лента</span>
+                                <ul class="feed" id="feed"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Друзья -->
+                <section class="panel" data-panel="friends" hidden>
+                    <div class="friends-top">
+                        <div class="glass card">
+                            <span class="stat-label"><i data-lucide="user-plus"></i>Добавить друга</span>
+                            <form class="add-friend" id="add-friend">
+                                <label class="code-input"><i data-lucide="at-sign"></i><input id="friend-input" placeholder="Ник или код друга" aria-label="Ник или код друга"></label>
+                                <button type="submit" class="btn btn-primary">Отправить заявку</button>
+                            </form>
+                            <span class="stat-note">Ваш код: <code class="my-code" id="friend-code"></code>
+                                <button type="button" class="link-btn" id="copy-friend-code">скопировать</button></span>
+                        </div>
+                        <div class="glass card invite-card">
+                            <span class="stat-label"><i data-lucide="gift"></i>Пригласить в школу</span>
+                            <b id="invite-reward"></b>
+                            <span class="stat-note">Обоим, когда друг позанимается 5 дней в первую неделю. Ссылка даёт ему 7 дней бесплатно.</span>
+                            <button type="button" class="btn btn-ghost" id="copy-invite-link"><i data-lucide="link"></i>Скопировать ссылку</button>
+                        </div>
+                    </div>
+
+                    <div id="requests"></div>
+
+                    <div class="block-head">
+                        <h2>Вызовы</h2>
+                        <span class="muted">1 на 1, до 3 одновременно · победителю +60 соток, второму +20</span>
+                    </div>
+                    <ul class="challenges" id="challenges"></ul>
+
+                    <div class="block-head">
+                        <h2>Друзья за неделю</h2>
+                        <span class="muted" id="friends-count"></span>
+                    </div>
+                    <div class="glass card">
+                        <ol class="friends" id="friends"></ol>
+                    </div>
+                    <p class="muted legend"><i data-lucide="flame" class="inline-icon"></i> рядом с другом — <b>общая серия</b>: сколько дней подряд вы оба занимались.
+                        Друзья видят только ваши очки за неделю, серию и клан — оценки скрыты, это меняется в настройках.</p>
+                </section>
+
+                <!-- Новый вызов -->
+                <dialog class="glass dialog" id="challenge-dialog">
+                    <form method="dialog">
+                        <h2 id="challenge-title">Вызов</h2>
+                        <p class="muted small">Выберите, в чём соревноваться</p>
+                        <div class="templates" id="templates"></div>
+                        <div class="dialog-actions">
+                            <button class="btn btn-ghost" value="cancel">Отмена</button>
+                        </div>
+                    </form>
+                </dialog>
+
+                <!-- Магазин -->
+                <section class="panel" data-panel="shop" hidden>
+                    <div class="filters" id="shop-filters"></div>
+                    <ul class="shop" id="shop"></ul>
+                    <p class="muted legend">За сотки нельзя купить очки лиги и баллы — только то, что помогает учиться или украшает профиль.</p>
+                </section>
+
+                <!-- Правила -->
+                <section class="panel" data-panel="rules" hidden>
+                    <div class="rules">
+                        <div class="glass card">
+                            <h2>Очки — за учёбу</h2>
+                            <p class="muted">Идут в рейтинг клана и сгорают в конце недели.</p>
+                            <table class="points">
+                                <tbody>
+                                <tr><td>Верная задача первой части, впервые</td><td>+10</td></tr>
+                                <tr><td>Задача второй части</td><td>+30 × доля баллов</td></tr>
+                                <tr><td>Урок теории пройден</td><td>+20</td></tr>
+                                <tr><td>Сессия быстрого повторения</td><td>+15</td></tr>
+                                <tr><td>ДЗ сдано в срок</td><td>+40 + 60 × доля верных</td></tr>
+                                <tr><td>Полный вариант на время</td><td>+100 + тестовый балл</td></tr>
+                                <tr><td>Повторное решение той же задачи</td><td>0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="glass card">
+                            <h2>Множители и ограничения</h2>
+                            <ul class="bullets">
+                                <li><b>Серия дней:</b> +5% за каждый день подряд, максимум +50% с 10-го дня.</li>
+                                <li><b>Слабый номер:</b> ×1,5 за задачи номеров, где у вас меньше 50% верных.</li>
+                                <li><b>Лимит:</b> не больше 400 очков в день за задачи — нарешка ради рейтинга не окупается.</li>
+                                <li><b>Подсказка</b> или просмотр решения до ответа — очки задачи ×0,5.</li>
+                                <li>В рейтинг клана идут <b>10 лучших</b> участников — большой клан не побеждает числом.</li>
+                            </ul>
+                        </div>
+                        <div class="glass card">
+                            <h2>Сотки — валюта</h2>
+                            <p class="muted">Копятся, не сгорают. Только за результат, а не за время на сайте.</p>
+                            <table class="points">
+                                <tbody>
+                                <tr><td>Личное задание недели</td><td>100–180</td></tr>
+                                <tr><td>Все три личных задания</td><td>+150</td></tr>
+                                <tr><td>Задание клана (за вклад)</td><td>50–80</td></tr>
+                                <tr><td>Место клана в группе</td><td>20–300</td></tr>
+                                <tr><td>Переход в лигу выше</td><td>+200</td></tr>
+                                <tr><td>Достижение</td><td>50–500</td></tr>
+                                <tr><td>Вызов друга: победа / участие</td><td>60 / 20</td></tr>
+                                <tr><td>Приглашённый друг прошёл первую неделю</td><td>+300 обоим</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="glass card">
+                            <h2>Лиги</h2>
+                            <ul class="bullets">
+                                <li>Пять лиг: Бронзовая → Серебряная → Золотая → Платиновая → Лига Сотки.</li>
+                                <li>Каждую неделю клан играет в группе из 12 кланов своей лиги.</li>
+                                <li>Тройка лучших поднимается, тройка худших опускается.</li>
+                                <li>Сезон — 12 недель. В конце — значок за лучшую лигу сезона, лиги сбрасываются на ступень вниз.</li>
+                                <li>Клан — от 5 до 20 учеников одного предмета.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ============ Ученик без клана ============ -->
+            <section id="no-clan" hidden>
+                <div class="glass card join-hero">
+                    <span class="join-icon"><i data-lucide="users-round"></i></span>
+                    <div>
+                        <h2>Вступите в клан, чтобы играть в лиге</h2>
+                        <p class="muted">Личные задания и сотки работают и без клана. С кланом — рейтинг, клановые задания и награда за место.</p>
+                    </div>
+                    <div class="join-actions">
+                        <label class="code-input"><i data-lucide="key-round"></i><input placeholder="Код приглашения" aria-label="Код приглашения"></label>
+                        <button type="button" class="btn btn-primary">Вступить</button>
+                        <button type="button" class="btn btn-ghost"><i data-lucide="plus"></i>Создать клан · 500 соток</button>
+                    </div>
+                </div>
+                <div class="block-head">
+                    <h2>Открытые кланы</h2>
+                    <span class="muted">По вашему предмету и целевому баллу</span>
+                </div>
+                <ul class="open-clans" id="open-clans"></ul>
+            </section>
+
+            <p class="demo-note">Концепт: данные — заглушка из data.js, сотки и покупки хранятся только в этом браузере.
+                <a href="?clan=none" id="demo-switch">Посмотреть экран без клана</a></p>
+        </main>
+    </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="data.js?v=20261009c"></script>
+<script src="app.js?v=20261009c"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Выпускникам — Из нуля в сотку</title>
     <link rel="icon" href="../../../frontend/src/shared/assets/icons/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css?v=20261009b">
+    <link rel="stylesheet" href="styles.css?v=20261009e">
     <script src="https://cdn.jsdelivr.net/npm/lucide@1.52.0/dist/umd/lucide.min.js"></script>
     <script>
         try {
@@ -25,26 +25,37 @@
                 <p class="eyebrow">Выпускникам · ЕГЭ 2027</p>
                 <div class="rule"></div>
                 <h1 class="page-title">До экзамена — один учебный год. <span class="accent">Хватит.</span></h1>
-                <p class="hero-desc">Если идти по плану. Ниже — как распределить подготовку по месяцам, какие номера дают
-                    баллы быстрее всего и сколько нужно решить, чтобы получить свой результат.</p>
+                <p class="hero-desc">Если идти по плану. Математика, русский, информатика или физика — ниже план по месяцам,
+                    карта всех номеров экзамена и калькулятор: сколько нужно решить, чтобы получить свой результат.</p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="#trial">Начать с пробной недели<i data-lucide="arrow-right"></i></a>
+                    <a class="btn btn-primary" href="index.html#trial-week">7 дней бесплатно<i data-lucide="arrow-right"></i></a>
                     <a class="btn btn-outline" href="#calc">Посчитать баллы</a>
                 </div>
+                <p class="hero-note"><i data-lucide="shield-check"></i>Первая неделя начинается с входного теста — сразу увидите стартовый балл</p>
             </div>
 
-            <aside class="exam-clock reveal" aria-label="Отсчёт до экзамена">
-                <span class="mock-label">Профильная математика · ориентировочно 1 июня</span>
-                <div class="exam-clock-grid">
-                    <div><b data-countdown="days">—</b><span id="clock-days">дней</span></div>
-                    <div><b id="clock-weeks">—</b><span id="clock-weeks-label">недель</span></div>
-                    <div><b id="clock-lessons">—</b><span>уроков в плане</span></div>
+            <!-- Таймер: светлый в светлой теме, тёмный — в тёмной -->
+            <aside class="card exam-clock reveal" aria-label="Отсчёт до экзамена">
+                <span class="mock-label">Основной период · ориентировочно с 1 июня</span>
+                <div class="exam-clock-grid" role="timer" aria-live="off">
+                    <div><b id="t-days">—</b><span id="t-days-label">дней</span></div>
+                    <div><b id="t-hours">—</b><span id="t-hours-label">часов</span></div>
+                    <div><b id="t-mins">—</b><span id="t-mins-label">минут</span></div>
+                    <div><b id="t-secs">—</b><span id="t-secs-label">секунд</span></div>
                 </div>
-                <p>Точную дату Рособрнадзор публикует зимой — отсчёт обновится. При трёх занятиях в неделю программа
-                    проходится к апрелю, остаток — на варианты.</p>
+                <p class="exam-clock-sum" id="clock-sum"></p>
+                <p>Расписание по предметам Рособрнадзор публикует зимой — отсчёт обновится. При трёх занятиях в неделю на
+                    предмет программа проходится к апрелю, остаток — на варианты.</p>
             </aside>
         </div>
     </section>
+
+    <!-- Выбор предмета: один на всю страницу — план, карта и калькулятор меняются вместе -->
+    <div class="subject-bar" id="subject-bar">
+        <div class="container">
+            <div class="subject-tabs" role="tablist" aria-label="Предмет" id="subject-tabs"></div>
+        </div>
+    </div>
 
     <!-- План по месяцам: текущий этап подсвечивается по сегодняшней дате -->
     <section class="section section-alt" id="plan">
@@ -58,55 +69,50 @@
                 <p class="lead">Каждому этапу — свои вкладки кабинета. Пропустили месяц — план в кабинете сдвинется сам,
                     без «догоняния» всего за выходные.</p>
             </div>
+            <div class="exam-facts" id="exam-facts"></div>
             <ol class="plan" id="plan-list"></ol>
         </div>
     </section>
 
-    <!-- Карта номеров -->
+    <!-- Карта номеров выбранного предмета -->
     <section class="section" id="map">
         <div class="container">
             <div class="section-head reveal">
                 <div>
                     <p class="eyebrow">§ 02 · Карта экзамена</p>
                     <div class="rule"></div>
-                    <h2 class="h2">19 номеров,<br><span class="accent">32</span> первичных балла.</h2>
+                    <h2 class="h2" id="map-title">Все номера экзамена</h2>
                 </div>
-                <p class="lead">Клик по номеру открывает его в банке заданий: все прототипы с разбивкой по темам.</p>
+                <p class="lead" id="map-lead"></p>
             </div>
-            <div class="map-part reveal">
-                <h3>Часть 1 <small>№ 1–12 · краткий ответ · по 1 баллу</small></h3>
-                <div class="map-grid" id="map-part1"></div>
-            </div>
-            <div class="map-part reveal">
-                <h3>Часть 2 <small>№ 13–19 · развёрнутый ответ · 2–4 балла</small></h3>
-                <div class="map-grid" id="map-part2"></div>
-            </div>
+            <div id="map-parts"></div>
+            <p class="fine-print">Структура — по спецификациям ФИПИ 2026; названия заданий упрощены, сверить перед запуском.</p>
         </div>
     </section>
 
-    <!-- Калькулятор баллов -->
+    <!-- Калькулятор баллов выбранного предмета -->
     <section class="section section-alt" id="calc">
         <div class="container">
             <div class="card calc reveal">
                 <div>
                     <p class="eyebrow">§ 03 · Калькулятор</p>
                     <div class="rule"></div>
-                    <h2 class="h2" style="font-size:clamp(30px,4vw,44px)">Сколько нужно решить?</h2>
-                    <p class="lead">Двигайте ползунок — покажем тестовый балл и самый короткий путь к нему: сначала вся
-                        первая часть, потом номера второй части, где баллы даются легче.</p>
+                    <h2 class="h2" style="font-size:clamp(30px,4vw,44px)" id="calc-title">Сколько нужно решить?</h2>
+                    <p class="lead">Двигайте ползунок — покажем тестовый балл и самый короткий путь к нему: сначала задания,
+                        где баллы даются легче всего, потом — сложные.</p>
                     <label for="calc-range" class="mock-label" style="display:block;margin-top:28px">Первичные баллы</label>
                     <input type="range" id="calc-range" min="0" max="32" value="14">
-                    <div class="calc-scale"><span>0</span><span>12 — вся часть 1</span><span>32</span></div>
+                    <div class="calc-scale"><span>0</span><span id="calc-mid"></span><span id="calc-max"></span></div>
                 </div>
                 <div>
                     <div class="calc-out">
                         <div class="calc-big"><b id="calc-test">—</b><small>тестовых баллов</small></div>
-                        <div class="calc-big calc-prim"><b id="calc-prim">—</b><small>первичных из 32</small></div>
+                        <div class="calc-big calc-prim"><b id="calc-prim">—</b><small id="calc-prim-label">первичных</small></div>
                     </div>
                     <div class="calc-bar" id="calc-bar" aria-hidden="true"></div>
-                    <div class="calc-scale" style="margin-top:6px"><span>№ 1</span><span>№ 12</span><span>№ 19</span></div>
+                    <div class="calc-scale" style="margin-top:6px"><span>№ 1</span><span id="calc-last"></span></div>
                     <p class="calc-hint" id="calc-hint"></p>
-                    <p style="margin-top:12px;font-size:12px;color:var(--text-secondary)">Шкала перевода — по ЕГЭ 2025, на 2027 год может немного измениться.</p>
+                    <p style="margin-top:12px;font-size:12px;color:var(--text-secondary)">Шкалы перевода — ЕГЭ 2026, на 2027 год могут немного измениться.</p>
                 </div>
             </div>
         </div>
@@ -129,34 +135,34 @@
             </div>
             <div class="reviews">
                 <figure class="card review reveal" style="margin:0">
-                    <div class="review-score"><b>92</b><s>первый пробник 40</s></div>
+                    <div class="review-score"><b>92</b><s>математика · первый пробник 40</s></div>
                     <p>«Нарешка по шестому номеру каждый вечер по 15 минут — и через месяц я перестал в нём ошибаться совсем.»</p>
                     <footer><b>Алексей В.</b><span>МГТУ им. Баумана</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0;--d:80ms">
-                    <div class="review-score"><b>86</b><s>первый пробник 54</s></div>
-                    <p>«Пробники на время убрали страх: на экзамене было ощущение, что я это уже делала двадцать раз.»</p>
+                    <div class="review-score"><b>96</b><s>русский · первый пробник 61</s></div>
+                    <p>«Короткие ролики смотрела в перерывах. Пунктуация, которую я не понимала с седьмого класса, сложилась за месяц.»</p>
                     <footer><b>Мария К.</b><span>НИУ ВШЭ</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0;--d:160ms">
-                    <div class="review-score"><b>98</b><s>первый пробник 72</s></div>
-                    <p>«Разборы второй части в домашках — то, чего не было в учебниках. Восемнадцатый номер наконец сдался.»</p>
-                    <footer><b>София Л.</b><span>МФТИ</span></footer>
+                    <div class="review-score"><b>94</b><s>информатика · первый пробник 48</s></div>
+                    <p>«Python начал учить прямо здесь. Пробники в компьютерной форме — на экзамене интерфейс был уже как родной.»</p>
+                    <footer><b>Дмитрий С.</b><span>МФТИ</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0">
-                    <div class="review-score"><b>78</b><s>первый пробник 33</s></div>
-                    <p>«Начинал в январе почти с нуля. План честно показал: успеваю первую часть и 13, 16 — так и вышло.»</p>
-                    <footer><b>Иван М.</b><span>СПбПУ</span></footer>
+                    <div class="review-score"><b>90</b><s>физика · первый пробник 55</s></div>
+                    <p>«Вопрос после каждого ролика не даёт смотреть вполглаза. Механику впервые понял, а не выучил.»</p>
+                    <footer><b>Иван М.</b><span>МИФИ</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0;--d:80ms">
-                    <div class="review-score"><b>90</b><s>первый пробник 62</s></div>
-                    <p>«Быстрое повторение в автобусе по утрам. Формулы производных теперь помню лучше, чем таблицу умножения.»</p>
-                    <footer><b>Елена П.</b><span>МИФИ</span></footer>
+                    <div class="review-score"><b>98</b><s>математика · первый пробник 72</s></div>
+                    <p>«Разборы второй части в домашках — то, чего не было в учебниках. Восемнадцатый номер наконец сдался.»</p>
+                    <footer><b>София Л.</b><span>МГУ</span></footer>
                 </figure>
                 <figure class="card review reveal" style="margin:0;--d:160ms">
-                    <div class="review-score"><b>84</b><s>первый пробник 58</s></div>
-                    <p>«Домашки с дедлайнами — лучшая дисциплина. Без них я бы откладывал до мая.»</p>
-                    <footer><b>Дмитрий С.</b><span>РЭУ им. Плеханова</span></footer>
+                    <div class="review-score"><b>88</b><s>русский · первый пробник 52</s></div>
+                    <p>«Сочинение по критериям раз в неделю с проверкой — к весне писала без шаблонов и без потерь баллов.»</p>
+                    <footer><b>Елена П.</b><span>СПбГУ</span></footer>
                 </figure>
             </div>
         </div>
@@ -166,7 +172,7 @@
 <div id="trial"></div>
 <div id="footer"></div>
 
-<script src="graduates.js?v=20261009b"></script>
-<script src="main.js?v=20261009b"></script>
+<script src="graduates.js?v=20261009e"></script>
+<script src="main.js?v=20261009d"></script>
 </body>
 </html>
