@@ -1,4 +1,6 @@
 """Каталог вариантов и отработок"""
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, Query
 from sqlalchemy import func, select
 
@@ -9,7 +11,7 @@ from app.db.models import AttemptModel, TaskSetModel, TaskSetStatsModel
 from app.repositories.attempts import attempt_briefs, attempt_view, set_summaries
 from app.schemas.attempt_schemas import AttemptOut
 from app.schemas.variant_schemas import VariantItem, VariantSort, VariantStatus
-from app.services.attempts import start_attempt
+from app.services.attempts import GRACE, abandon_attempt, start_attempt, submit_attempt
 from app.services.errors import NotFoundError
 
 router = APIRouter(prefix='/variants', tags=['Варианты'])
@@ -120,10 +122,25 @@ async def variant_attempts(set_id: int, session: SessionDep, student: StudentDep
     )).scalars().all()
 
 
-@router.post('/{set_id}/start', response_model=AttemptOut, summary='Начать или продолжить вариант')
+@router.post('/{set_id}/start', response_model=AttemptOut, summary='Приступить к варианту')
 async def start_variant(set_id: int, session: SessionDep, student: StudentDep):
+    """
+    Всегда новая попытка: продолжить начатую нельзя. Незаконченная бросается (не считается),
+    а та, у которой уже вышло время, сдаётся моментом окончания таймера — как её сдал бы фоновый таймер.
+    """
     if not await _catalog(session, student.id, set_ids=[set_id]):
         raise NotFoundError('Вариант не найден')
+    unfinished = (await session.execute(
+        select(AttemptModel).where(
+            AttemptModel.student_id == student.id, AttemptModel.set_id == set_id,
+            AttemptModel.student_assignment_id.is_(None), AttemptModel.status == AttemptStatus.in_progress,
+        ).with_for_update()
+    )).scalar_one_or_none()
+    if unfinished is not None:
+        if unfinished.expires_at is not None and datetime.now(timezone.utc) > unfinished.expires_at + GRACE:
+            await submit_attempt(session, unfinished, now=unfinished.expires_at)
+        else:
+            await abandon_attempt(session, unfinished)
     attempt = await start_attempt(session, student.id, set_id=set_id)
     await session.commit()
     return await attempt_view(session, attempt)
