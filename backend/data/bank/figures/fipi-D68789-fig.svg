@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 140.8' width='432' height='190.1'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='28,112.8 292,112.8 261.1,28' stroke='black' fill='none' stroke-width='1.8'/>
+<polyline points='249.8,32.1 253.9,43.4 265.2,39.3' stroke='black' fill='none' stroke-width='1.2'/>
+<line x1='261.1' y1='28' x2='221.6' y2='112.8' stroke='black' fill='none' stroke-width='1.6'/>
+<text x='218.1' y='138.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<line x1='261.1' y1='28' x2='160' y2='112.8' stroke='black' fill='none' stroke-width='1.6'/>
+<text x='158.3' y='138.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>M</text>
+<text x='11.8' y='130.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='310.2' y='127.2' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='275.3' y='19.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+</svg>

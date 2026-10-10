@@ -1,0 +1,21 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 236.9 260' width='319.8' height='351'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='36.5,28 82.7,200.4 208.9,200.4' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='36.5' y1='28' x2='36.5' y2='200.4' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='122.7' y1='114.2' x2='59.6' y2='114.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='145.8' y1='200.4' x2='122.7' y2='114.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='59.6' y1='114.2' x2='36.5' y2='200.4' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='82.7' y1='200.4' x2='36.5' y2='200.4' stroke='black' fill='none' stroke-width='1.6'/>
+<circle cx='91.1' cy='168.9' r='63.1' stroke='black' fill='none' stroke-width='1.8'/>
+<text x='23.1' y='19.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='81.8' y='221.4' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='227.1' y='214.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='155.3' y='224' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A₁</text>
+<text x='133.5' y='103.4' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B₁</text>
+<text x='46.3' y='113.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C₁</text>
+<text x='20.8' y='218.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>H</text>
+<circle cx='145.8' cy='200.4' r='2.6' fill='black'/>
+<circle cx='122.7' cy='114.2' r='2.6' fill='black'/>
+<circle cx='59.6' cy='114.2' r='2.6' fill='black'/>
+<circle cx='36.5' cy='200.4' r='2.6' fill='black'/>
+</svg>

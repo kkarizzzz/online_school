@@ -1,0 +1,20 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 241.2' width='459' height='325.6'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='28,213.2 126.8,28 213.2,28 312,213.2' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='28' y1='213.2' x2='249.1' y2='95.3' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='213.2' y1='28' x2='213.2' y2='213.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='213.2' x2='213.2' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='126.8' y1='28' x2='312' y2='213.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='213.2' y1='28' x2='213.2' y2='114.4' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='126.8' y1='28' x2='213.2' y2='114.4' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<text x='10.2' y='228.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='111.8' y='20.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='226.3' y='18.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='328.3' y='230.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='266.2' y='90.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>M</text>
+<text x='212.6' y='239.2' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>N</text>
+<text x='233' y='123.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>P</text>
+<circle cx='249.1' cy='95.3' r='2.6' fill='black'/>
+<circle cx='213.2' cy='213.2' r='2.6' fill='black'/>
+<circle cx='213.2' cy='114.4' r='2.6' fill='black'/>
+</svg>

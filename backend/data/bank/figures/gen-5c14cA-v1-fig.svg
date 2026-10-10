@@ -1,0 +1,26 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 235.4' width='459' height='317.9'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='182.4,207.4 241,93.9 157.6,119.7' fill='#d9d9d9' fill-opacity='0.7' stroke='none'/>
+<line x1='28' y1='167.4' x2='182.4' y2='207.4' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='167.4' x2='157.6' y2='119.7' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='28' y1='167.4' x2='170' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='182.4' y1='207.4' x2='312' y2='159.7' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='182.4' y1='207.4' x2='170' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='312' y1='159.7' x2='157.6' y2='119.7' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='312' y1='159.7' x2='170' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='157.6' y1='119.7' x2='170' y2='28' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='182.4' y1='207.4' x2='241' y2='93.9' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='241' y1='93.9' x2='157.6' y2='119.7' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='157.6' y1='119.7' x2='182.4' y2='207.4' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='170' y1='163.6' x2='241' y2='93.9' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='28' y1='167.4' x2='312' y2='159.7' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<text x='10.2' y='182.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='185.9' y='233.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='330.2' y='174' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='141.9' y='113.2' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='155.9' y='19.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>S</text>
+<text x='160' y='186.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>O</text>
+<text x='254.9' y='85.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>K</text>
+<circle cx='170' cy='163.6' r='2.6' fill='black'/>
+<circle cx='241' cy='93.9' r='2.6' fill='black'/>
+</svg>

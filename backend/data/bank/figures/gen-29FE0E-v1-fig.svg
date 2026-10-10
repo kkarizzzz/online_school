@@ -1,0 +1,38 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 267 250' width='360.5' height='337.5'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<line x1='28' y1='222' x2='182.2' y2='222' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='182.2' y1='222' x2='239' y2='182.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='67.8' x2='182.2' y2='67.8' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='182.2' y1='67.8' x2='239' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='239' y1='28' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='84.8' y1='28' x2='28' y2='67.8' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='222' x2='28' y2='67.8' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='182.2' y1='222' x2='182.2' y2='67.8' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='239' y1='182.2' x2='239' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='239' y1='182.2' x2='84.8' y2='182.2' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='84.8' y1='182.2' x2='28' y2='222' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='84.8' y1='182.2' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<text x='13.3' y='241.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='13.5' y='60' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<text x='191.2' y='245.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='180.6' y='53.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<text x='256.6' y='197.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='253.8' y='20.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<text x='86.4' y='208.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='71.5' y='19.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<line x1='182.2' y1='222' x2='239' y2='182.2' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='182.2' y1='222' x2='84.8' y2='182.2' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='182.2' y1='222' x2='182.2' y2='67.8' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='182.2' y1='222' x2='239' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='182.2' y1='222' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='239' y1='182.2' x2='84.8' y2='182.2' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='239' y1='182.2' x2='182.2' y2='67.8' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='239' y1='182.2' x2='239' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='239' y1='182.2' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='84.8' y1='182.2' x2='182.2' y2='67.8' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='84.8' y1='182.2' x2='239' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='84.8' y1='182.2' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='182.2' y1='67.8' x2='239' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='182.2' y1='67.8' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='239' y1='28' x2='84.8' y2='28' stroke='black' fill='none' stroke-width='1.0'/>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 344.5 320' width='465.1' height='432'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<line x1='14' y1='306' x2='14' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='38.5' y1='306' x2='38.5' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='63.1' y1='306' x2='63.1' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='87.6' y1='306' x2='87.6' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='112.2' y1='306' x2='112.2' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='136.7' y1='306' x2='136.7' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='161.2' y1='306' x2='161.2' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='185.8' y1='306' x2='185.8' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='210.3' y1='306' x2='210.3' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='234.8' y1='306' x2='234.8' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='259.4' y1='306' x2='259.4' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='283.9' y1='306' x2='283.9' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='308.5' y1='306' x2='308.5' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='306' x2='308.5' y2='306' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='281.5' x2='308.5' y2='281.5' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='256.9' x2='308.5' y2='256.9' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='232.4' x2='308.5' y2='232.4' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='207.8' x2='308.5' y2='207.8' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='183.3' x2='308.5' y2='183.3' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='158.8' x2='308.5' y2='158.8' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='134.2' x2='308.5' y2='134.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='109.7' x2='308.5' y2='109.7' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='85.2' x2='308.5' y2='85.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='60.6' x2='308.5' y2='60.6' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='36.1' x2='308.5' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='183.3' x2='323.2' y2='183.3' stroke='black' fill='none' stroke-width='1.4'/>
+<line x1='161.2' y1='306' x2='161.2' y2='21.4' stroke='black' fill='none' stroke-width='1.4'/>
+<path d='M323.2,183.3 l-9,-4 l0,8 z' fill='black'/>
+<path d='M161.2,21.4 l-4,9 l8,0 z' fill='black'/>
+<text x='321.9' y='200.9' font-size='16' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>x</text>
+<text x='150.2' y='27.9' font-size='16' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>y</text>
+<text x='152.6' y='199' font-size='14' text-anchor='middle' font-family='Times New Roman, serif'>0</text>
+<text x='185.8' y='199' font-size='14' text-anchor='middle' font-family='Times New Roman, serif'>1</text>
+<text x='152.6' y='163.4' font-size='14' text-anchor='middle' font-family='Times New Roman, serif'>1</text>
+<polyline points='43.4,302.1 44.7,295.3 45.9,288.6 47.1,282 48.4,275.6 49.6,269.3 50.8,263.1 52,257 53.3,251 54.5,245.2 55.7,239.5 56.9,233.9 58.2,228.5 59.4,223.1 60.6,217.9 61.8,212.8 63.1,207.8 64.3,203 65.5,198.3 66.8,193.7 68,189.2 69.2,184.8 70.4,180.6 71.7,176.5 72.9,172.5 74.1,168.6 75.3,164.9 76.6,161.3 77.8,157.8 79,154.4 80.3,151.2 81.5,148 82.7,145 83.9,142.1 85.2,139.4 86.4,136.8 87.6,134.2 88.8,131.8 90.1,129.6 91.3,127.4 92.5,125.4 93.7,123.5 95,121.7 96.2,120.1 97.4,118.5 98.7,117.1 99.9,115.8 101.1,114.7 102.3,113.6 103.6,112.7 104.8,111.9 106,111.2 107.2,110.7 108.5,110.2 109.7,109.9 110.9,109.8 112.2,109.7 113.4,109.8 114.6,109.9 115.8,110.2 117.1,110.7 118.3,111.2 119.5,111.9 120.7,112.7 122,113.6 123.2,114.7 124.4,115.8 125.6,117.1 126.9,118.5 128.1,120.1 129.3,121.7 130.6,123.5 131.8,125.4 133,127.4 134.2,129.6 135.5,131.8 136.7,134.2 137.9,136.8 139.1,139.4 140.4,142.1 141.6,145 142.8,148 144.1,151.2 145.3,154.4 146.5,157.8 147.7,161.3 149,164.9 150.2,168.6 151.4,172.5 152.6,176.5 153.9,180.6 155.1,184.8 156.3,189.2 157.5,193.7 158.8,198.3 160,203 161.2,207.8 162.5,212.8 163.7,217.9 164.9,223.1 166.1,228.5 167.4,233.9 168.6,239.5 169.8,245.2 171,251 172.3,257 173.5,263.1 174.7,269.3 175.9,275.6 177.2,282 178.4,288.6 179.6,295.3 180.9,302.1' stroke='black' fill='none' stroke-width='2.2' stroke-linejoin='round'/>
+<circle cx='112.2' cy='109.7' r='2.6' fill='black'/>
+<circle cx='87.6' cy='134.2' r='2.6' fill='black'/>
+<circle cx='161.2' cy='207.8' r='2.6' fill='black'/>
+</svg>

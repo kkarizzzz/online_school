@@ -1,0 +1,21 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 207.8 280' width='280.6' height='378'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='129.2,230.6 28,81.3 179.8,123.7' fill='#d9d9d9' fill-opacity='0.7' stroke='none'/>
+<line x1='28' y1='187.8' x2='179.8' y2='252' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='187.8' x2='179.8' y2='123.7' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='28' y1='187.8' x2='28' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='179.8' y1='252' x2='179.8' y2='123.7' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='179.8' y1='252' x2='28' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='179.8' y1='123.7' x2='28' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='129.2' y1='230.6' x2='28' y2='81.3' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='28' y1='81.3' x2='179.8' y2='123.7' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='179.8' y1='123.7' x2='129.2' y2='230.6' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<text x='11.2' y='204.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='191' y='274.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='197.7' y='120.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='12.8' y='21' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='124.2' y='256' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>M</text>
+<text x='9.5' y='79.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>N</text>
+<circle cx='129.2' cy='230.6' r='2.6' fill='black'/>
+<circle cx='28' cy='81.3' r='2.6' fill='black'/>
+</svg>

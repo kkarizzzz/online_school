@@ -1,0 +1,35 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 293.2 280' width='395.9' height='378'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='98.1,81.3 222.7,252 195.1,198.7 70.5,28' fill='#d9d9d9' fill-opacity='0.7' stroke='none'/>
+<line x1='28' y1='225.5' x2='222.7' y2='252' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='225.5' x2='70.5' y2='181.7' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='28' y1='225.5' x2='28' y2='71.8' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='222.7' y1='252' x2='265.2' y2='208.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='222.7' y1='252' x2='222.7' y2='98.3' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='265.2' y1='208.2' x2='70.5' y2='181.7' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='265.2' y1='208.2' x2='265.2' y2='54.5' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='70.5' y1='181.7' x2='70.5' y2='28' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='28' y1='71.8' x2='222.7' y2='98.3' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='71.8' x2='70.5' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='222.7' y1='98.3' x2='265.2' y2='54.5' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='265.2' y1='54.5' x2='70.5' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='98.1' y1='81.3' x2='222.7' y2='252' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='222.7' y1='252' x2='195.1' y2='198.7' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='195.1' y1='198.7' x2='70.5' y2='28' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='70.5' y1='28' x2='98.1' y2='81.3' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='28' y1='225.5' x2='265.2' y2='54.5' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<text x='11.8' y='243.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='233.9' y='274.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='282.6' y='224.2' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='51.3' y='182.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='13.8' y='63.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A₁</text>
+<text x='241.9' y='109.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B₁</text>
+<text x='277.9' y='45.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C₁</text>
+<text x='55.4' y='20.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D₁</text>
+<text x='166.6' y='146' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>M</text>
+<text x='86.5' y='103.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>X</text>
+<text x='206.7' y='188.4' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>Y</text>
+<circle cx='146.6' cy='140' r='2.6' fill='black'/>
+<circle cx='98.1' cy='81.3' r='2.6' fill='black'/>
+<circle cx='195.1' cy='198.7' r='2.6' fill='black'/>
+</svg>

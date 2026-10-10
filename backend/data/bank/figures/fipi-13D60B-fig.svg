@@ -1,0 +1,27 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 157.9 280' width='213.2' height='378'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<path d='M28,232.9 A51,19.1 0 0 1 129.9,232.9' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<path d='M28,232.9 A51,19.1 0 0 0 129.9,232.9' stroke='black' fill='none' stroke-width='1.6'/>
+<path d='M28,47.1 A51,19.1 0 0 1 129.9,47.1' stroke='black' fill='none' stroke-width='1.6'/>
+<path d='M28,47.1 A51,19.1 0 0 0 129.9,47.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='232.9' x2='28' y2='47.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='129.9' y1='232.9' x2='129.9' y2='47.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='126.9' y1='226.4' x2='111.7' y2='247.5' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='111.7' y1='247.5' x2='111.7' y2='61.7' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='111.7' y1='61.7' x2='31.1' y2='53.6' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='126.9' y1='226.4' x2='31.1' y2='53.6' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='31.1' y1='239.4' x2='31.1' y2='53.6' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='126.9' y1='226.4' x2='31.1' y2='239.4' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='111.7' y1='247.5' x2='31.1' y2='239.4' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='111.7' y1='247.5' x2='31.1' y2='53.6' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<circle cx='126.9' cy='226.4' r='2.6' fill='black'/>
+<text x='146.9' y='232.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<circle cx='111.7' cy='247.5' r='2.6' fill='black'/>
+<text x='117.6' y='272.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<circle cx='31.1' cy='239.4' r='2.6' fill='black'/>
+<text x='22.4' y='263.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<circle cx='111.7' cy='61.7' r='2.6' fill='black'/>
+<text x='109.2' y='47.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B₁</text>
+<circle cx='31.1' cy='53.6' r='2.6' fill='black'/>
+<text x='41.4' y='42.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C₁</text>
+</svg>

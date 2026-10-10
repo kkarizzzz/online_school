@@ -1,0 +1,29 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 220.6' width='405' height='297.8'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<line x1='28' y1='192.6' x2='214.7' y2='192.6' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='214.7' y1='192.6' x2='272' y2='152.4' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='68.1' x2='214.7' y2='68.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='214.7' y1='68.1' x2='272' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='272' y1='28' x2='85.3' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='85.3' y1='28' x2='28' y2='68.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='192.6' x2='28' y2='68.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='214.7' y1='192.6' x2='214.7' y2='68.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='272' y1='152.4' x2='272' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='272' y1='152.4' x2='85.3' y2='152.4' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='85.3' y1='152.4' x2='28' y2='192.6' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='85.3' y1='152.4' x2='85.3' y2='28' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<text x='11.4' y='209.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='14.9' y='59' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<text x='227' y='214.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='208.4' y='55.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<text x='288.6' y='169.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='285.1' y='18.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<text x='67.5' y='149.4' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='73' y='18.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D<tspan baseline-shift='sub' font-size='12'>1</tspan></text>
+<line x1='28' y1='192.6' x2='214.7' y2='192.6' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='28' y1='192.6' x2='272' y2='152.4' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='28' y1='192.6' x2='214.7' y2='68.1' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='214.7' y1='192.6' x2='272' y2='152.4' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='214.7' y1='192.6' x2='214.7' y2='68.1' stroke='black' fill='none' stroke-width='1.0'/>
+<line x1='272' y1='152.4' x2='214.7' y2='68.1' stroke='black' fill='none' stroke-width='1.0'/>
+</svg>

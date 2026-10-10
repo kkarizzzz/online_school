@@ -1,0 +1,21 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 256.5' width='459' height='346.2'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='217.3,216.2 189,73.5 104.1,159.8' fill='#d9d9d9' fill-opacity='0.7' stroke='none'/>
+<line x1='28' y1='228.5' x2='312' y2='210.1' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='228.5' x2='104.1' y2='159.8' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='28' y1='228.5' x2='148' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='312' y1='210.1' x2='104.1' y2='159.8' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='312' y1='210.1' x2='148' y2='28' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='104.1' y1='159.8' x2='148' y2='28' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<line x1='217.3' y1='216.2' x2='189' y2='73.5' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='189' y1='73.5' x2='104.1' y2='159.8' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='104.1' y1='159.8' x2='217.3' y2='216.2' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<text x='10.8' y='244.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='328.8' y='227' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='90.6' y='159.2' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='162.2' y='19.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>S</text>
+<text x='218.8' y='242.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>M</text>
+<text x='202.2' y='64.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>K</text>
+<circle cx='217.3' cy='216.2' r='2.6' fill='black'/>
+<circle cx='189' cy='73.5' r='2.6' fill='black'/>
+</svg>

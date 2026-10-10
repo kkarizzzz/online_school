@@ -1,0 +1,21 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 254 260' width='342.9' height='351'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='104.2,28 28,232 226,232' stroke='black' fill='none' stroke-width='1.8'/>
+<polygon points='52.3,167.1 104.2,186.5 104.2,136.1' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='104.2' y1='28' x2='104.2' y2='232' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='232' x2='174' y2='144.9' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='226' y1='232' x2='52.3' y2='167.1' stroke='black' fill='none' stroke-width='1.6'/>
+<text x='117.6' y='19.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='11.9' y='249.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='243.5' y='247.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='101.7' y='257.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A₁</text>
+<text x='190' y='138.8' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B₁</text>
+<text x='33.2' y='167' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C₁</text>
+<text x='115.6' y='209' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>H</text>
+<text x='123.7' y='137.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>K</text>
+<circle cx='104.2' cy='232' r='2.6' fill='black'/>
+<circle cx='174' cy='144.9' r='2.6' fill='black'/>
+<circle cx='52.3' cy='167.1' r='2.6' fill='black'/>
+<circle cx='104.2' cy='186.5' r='2.6' fill='black'/>
+<circle cx='104.2' cy='136.1' r='2.6' fill='black'/>
+</svg>

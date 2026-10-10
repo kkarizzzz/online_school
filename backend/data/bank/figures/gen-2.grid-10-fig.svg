@@ -1,0 +1,27 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 239.6' width='405' height='323.4'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<line x1='14' y1='225.6' x2='14' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='44.2' y1='225.6' x2='44.2' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='74.4' y1='225.6' x2='74.4' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='104.7' y1='225.6' x2='104.7' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='134.9' y1='225.6' x2='134.9' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='165.1' y1='225.6' x2='165.1' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='195.3' y1='225.6' x2='195.3' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='225.6' y1='225.6' x2='225.6' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='255.8' y1='225.6' x2='255.8' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='286' y1='225.6' x2='286' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='225.6' x2='286' y2='225.6' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='195.3' x2='286' y2='195.3' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='165.1' x2='286' y2='165.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='134.9' x2='286' y2='134.9' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='104.7' x2='286' y2='104.7' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='74.4' x2='286' y2='74.4' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='44.2' x2='286' y2='44.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='14' x2='286' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='44.2' y1='44.2' x2='44.2' y2='195.3' stroke='black' stroke-width='2' marker-end='url(#ar)'/>
+<text x='30.2' y='125.8' font-size='18' font-style='italic' font-weight='bold' text-anchor='middle' font-family='Times New Roman, serif'><tspan>a</tspan></text>
+<line x1='24.2' y1='109.8' x2='37.2' y2='109.8' stroke='black' stroke-width='1.1' marker-end='url(#ar)'/>
+<line x1='104.7' y1='165.1' x2='255.8' y2='195.3' stroke='black' stroke-width='2' marker-end='url(#ar)'/>
+<text x='177.5' y='200' font-size='18' font-style='italic' font-weight='bold' text-anchor='middle' font-family='Times New Roman, serif'><tspan>b</tspan></text>
+<line x1='171.5' y1='184' x2='184.5' y2='184' stroke='black' stroke-width='1.1' marker-end='url(#ar)'/>
+</svg>

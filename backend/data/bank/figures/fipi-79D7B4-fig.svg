@@ -1,0 +1,9 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240' width='324' height='324'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<circle cx='120' cy='120' r='92' stroke='black' fill='none' stroke-width='1.8'/>
+<polygon points='39.1,76.1 86.3,205.6 176,193 211.4,109.6' stroke='black' fill='none' stroke-width='1.8'/>
+<text x='21.6' y='72.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='79' y='230.2' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='188.2' y='214.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='230' y='108.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+</svg>

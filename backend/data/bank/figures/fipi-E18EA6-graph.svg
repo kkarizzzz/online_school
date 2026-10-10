@@ -1,0 +1,45 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 344.5 320' width='465.1' height='432'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<line x1='14' y1='306' x2='14' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='38.5' y1='306' x2='38.5' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='63.1' y1='306' x2='63.1' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='87.6' y1='306' x2='87.6' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='112.2' y1='306' x2='112.2' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='136.7' y1='306' x2='136.7' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='161.2' y1='306' x2='161.2' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='185.8' y1='306' x2='185.8' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='210.3' y1='306' x2='210.3' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='234.8' y1='306' x2='234.8' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='259.4' y1='306' x2='259.4' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='283.9' y1='306' x2='283.9' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='308.5' y1='306' x2='308.5' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='306' x2='308.5' y2='306' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='281.5' x2='308.5' y2='281.5' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='256.9' x2='308.5' y2='256.9' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='232.4' x2='308.5' y2='232.4' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='207.8' x2='308.5' y2='207.8' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='183.3' x2='308.5' y2='183.3' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='158.8' x2='308.5' y2='158.8' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='134.2' x2='308.5' y2='134.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='109.7' x2='308.5' y2='109.7' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='85.2' x2='308.5' y2='85.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='60.6' x2='308.5' y2='60.6' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='36.1' x2='308.5' y2='36.1' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='183.3' x2='323.2' y2='183.3' stroke='black' fill='none' stroke-width='1.4'/>
+<line x1='161.2' y1='306' x2='161.2' y2='21.4' stroke='black' fill='none' stroke-width='1.4'/>
+<path d='M323.2,183.3 l-9,-4 l0,8 z' fill='black'/>
+<path d='M161.2,21.4 l-4,9 l8,0 z' fill='black'/>
+<text x='321.9' y='200.9' font-size='16' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>x</text>
+<text x='150.2' y='27.9' font-size='16' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>y</text>
+<text x='152.6' y='199' font-size='14' text-anchor='middle' font-family='Times New Roman, serif'>0</text>
+<text x='185.8' y='199' font-size='14' text-anchor='middle' font-family='Times New Roman, serif'>1</text>
+<text x='152.6' y='163.4' font-size='14' text-anchor='middle' font-family='Times New Roman, serif'>1</text>
+<polyline points='112.2,36.1 113.4,42.2 114.6,48.1 115.8,53.9 117.1,59.6 118.3,65.2 119.5,70.7 120.7,76 122,81.2 123.2,86.3 124.4,91.3 125.6,96.1 126.9,100.9 128.1,105.5 129.3,109.9 130.6,114.3 131.8,118.5 133,122.6 134.2,126.6 135.5,130.5 136.7,134.2 137.9,137.9 139.1,141.4 140.4,144.7 141.6,148 142.8,151.1 144.1,154.1 145.3,157 146.5,159.8 147.7,162.4 149,164.9 150.2,167.3 151.4,169.6 152.6,171.7 153.9,173.7 155.1,175.6 156.3,177.4 157.5,179.1 158.8,180.6 160,182 161.2,183.3 162.5,184.5 163.7,185.5 164.9,186.4 166.1,187.2 167.4,187.9 168.6,188.5 169.8,188.9 171,189.2 172.3,189.4 173.5,189.4 174.7,189.4 175.9,189.2 177.2,188.9 178.4,188.5 179.6,187.9 180.9,187.2 182.1,186.4 183.3,185.5 184.5,184.5 185.8,183.3 187,182 188.2,180.6 189.4,179.1 190.7,177.4 191.9,175.6 193.1,173.7 194.4,171.7 195.6,169.6 196.8,167.3 198,164.9 199.3,162.4 200.5,159.8 201.7,157 202.9,154.1 204.2,151.1 205.4,148 206.6,144.7 207.8,141.4 209.1,137.9 210.3,134.2 211.5,130.5 212.8,126.6 214,122.6 215.2,118.5 216.4,114.3 217.7,109.9 218.9,105.5 220.1,100.9 221.3,96.1 222.6,91.3 223.8,86.3 225,81.2 226.3,76 227.5,70.7 228.7,65.2 229.9,59.6 231.2,53.9 232.4,48.1 233.6,42.2 234.8,36.1' stroke='black' fill='none' stroke-width='2.2' stroke-linejoin='round'/>
+<polyline points='130.6,306 131.8,301.1 133,296.2 134.2,291.3 135.5,286.4 136.7,281.5 137.9,276.6 139.1,271.6 140.4,266.7 141.6,261.8 142.8,256.9 144.1,252 145.3,247.1 146.5,242.2 147.7,237.3 149,232.4 150.2,227.5 151.4,222.6 152.6,217.7 153.9,212.8 155.1,207.8 156.3,202.9 157.5,198 158.8,193.1 160,188.2 161.2,183.3 162.5,178.4 163.7,173.5 164.9,168.6 166.1,163.7 167.4,158.8 168.6,153.9 169.8,149 171,144.1 172.3,139.1 173.5,134.2 174.7,129.3 175.9,124.4 177.2,119.5 178.4,114.6 179.6,109.7 180.9,104.8 182.1,99.9 183.3,95 184.5,90.1 185.8,85.2 187,80.3 188.2,75.3 189.4,70.4 190.7,65.5 191.9,60.6 193.1,55.7 194.4,50.8 195.6,45.9 196.8,41 198,36.1' stroke='black' fill='none' stroke-width='2.2' stroke-linejoin='round'/>
+<circle cx='161.2' cy='183.3' r='2.6' fill='black'/>
+<circle cx='185.8' cy='183.3' r='2.6' fill='black'/>
+<circle cx='210.3' cy='134.2' r='2.6' fill='black'/>
+<circle cx='185.8' cy='85.2' r='2.6' fill='black'/>
+<circle cx='161.2' cy='183.3' r='2.6' fill='black'/>
+<text x='171' y='179.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+</svg>

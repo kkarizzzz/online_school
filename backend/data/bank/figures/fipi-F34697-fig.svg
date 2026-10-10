@@ -1,0 +1,10 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 232' width='432' height='313.2'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='28,204 292,204 116,28' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='72' y1='116' x2='204' y2='116' stroke='black' fill='none' stroke-width='1.6'/>
+<text x='11' y='220.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='310.1' y='218.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='102.1' y='19.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='54.5' y='112.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>D</text>
+<text x='217.9' y='107.6' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>E</text>
+</svg>

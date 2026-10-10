@@ -1,0 +1,30 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 272.8 300' width='368.3' height='405'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<line x1='14' y1='286' x2='14' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='41.2' y1='286' x2='41.2' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='68.4' y1='286' x2='68.4' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='95.6' y1='286' x2='95.6' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='122.8' y1='286' x2='122.8' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='150' y1='286' x2='150' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='177.2' y1='286' x2='177.2' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='204.4' y1='286' x2='204.4' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='231.6' y1='286' x2='231.6' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='258.8' y1='286' x2='258.8' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='286' x2='258.8' y2='286' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='258.8' x2='258.8' y2='258.8' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='231.6' x2='258.8' y2='231.6' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='204.4' x2='258.8' y2='204.4' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='177.2' x2='258.8' y2='177.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='150' x2='258.8' y2='150' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='122.8' x2='258.8' y2='122.8' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='95.6' x2='258.8' y2='95.6' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='68.4' x2='258.8' y2='68.4' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='41.2' x2='258.8' y2='41.2' stroke='#bbb' stroke-width='0.8'/>
+<line x1='14' y1='14' x2='258.8' y2='14' stroke='#bbb' stroke-width='0.8'/>
+<line x1='41.2' y1='258.8' x2='95.6' y2='95.6' stroke='black' stroke-width='2' marker-end='url(#ar)'/>
+<text x='81.7' y='187.6' font-size='18' font-style='italic' font-weight='bold' text-anchor='middle' font-family='Times New Roman, serif'><tspan>a</tspan></text>
+<line x1='75.7' y1='171.6' x2='88.7' y2='171.6' stroke='black' stroke-width='1.1' marker-end='url(#ar)'/>
+<line x1='231.6' y1='204.4' x2='150' y2='41.2' stroke='black' stroke-width='2' marker-end='url(#ar)'/>
+<text x='203.3' y='122.5' font-size='18' font-style='italic' font-weight='bold' text-anchor='middle' font-family='Times New Roman, serif'><tspan>b</tspan></text>
+<line x1='197.3' y1='106.5' x2='210.3' y2='106.5' stroke='black' stroke-width='1.1' marker-end='url(#ar)'/>
+</svg>

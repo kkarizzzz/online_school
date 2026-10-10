@@ -1,0 +1,23 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 273.6 260' width='369.4' height='351'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='28,232 136.8,28 245.6,232' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='28' y1='232' x2='197.4' y2='141.6' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='245.6' y1='232' x2='76.2' y2='141.6' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='197.4' y1='141.6' x2='103' y2='91.3' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='197.4' y1='141.6' x2='197.4' y2='232' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='103' y1='91.3' x2='197.4' y2='232' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='170.6' y1='192' x2='197.4' y2='141.6' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<text x='10.9' y='248.4' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<text x='150.1' y='19.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<text x='262' y='249.4' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<text x='216.2' y='140.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>H</text>
+<text x='59.1' y='137.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>T</text>
+<text x='85.6' y='87.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>M</text>
+<text x='199.8' y='257.9' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>K</text>
+<text x='159.2' y='214.5' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>E</text>
+<circle cx='197.4' cy='141.6' r='2.6' fill='black'/>
+<circle cx='76.2' cy='141.6' r='2.6' fill='black'/>
+<circle cx='103' cy='91.3' r='2.6' fill='black'/>
+<circle cx='197.4' cy='232' r='2.6' fill='black'/>
+<circle cx='170.6' cy='192' r='2.6' fill='black'/>
+</svg>

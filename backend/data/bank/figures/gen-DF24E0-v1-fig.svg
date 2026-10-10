@@ -1,0 +1,6 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 171.5' width='432' height='231.5'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<polygon points='28,143.5 292,143.5 188.8,28' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='188.8' y1='28' x2='188.8' y2='143.5' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<polyline points='200.8,143.5 200.8,131.5 188.8,131.5' stroke='black' fill='none' stroke-width='1.2'/>
+</svg>

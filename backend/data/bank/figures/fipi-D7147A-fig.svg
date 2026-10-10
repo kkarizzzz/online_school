@@ -1,0 +1,22 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 273.4 280' width='369.1' height='378'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<path d='M28,211.3 A108.7,40.7 0 0 1 245.4,211.3' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<path d='M28,211.3 A108.7,40.7 0 0 0 245.4,211.3' stroke='black' fill='none' stroke-width='1.6'/>
+<path d='M28,68.7 A108.7,40.7 0 0 1 245.4,68.7' stroke='black' fill='none' stroke-width='1.6'/>
+<path d='M28,68.7 A108.7,40.7 0 0 0 245.4,68.7' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='211.3' x2='28' y2='68.7' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='245.4' y1='211.3' x2='245.4' y2='68.7' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='238.9' y1='197.3' x2='220' y2='237.5' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='220' y1='237.5' x2='34.6' y2='225.2' stroke='black' fill='none' stroke-width='1.8'/>
+<line x1='238.9' y1='197.3' x2='34.6' y2='225.2' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='34.6' y1='225.2' x2='34.6' y2='82.7' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<line x1='238.9' y1='197.3' x2='34.6' y2='82.7' stroke='black' fill='none' stroke-width='1.8' stroke-dasharray='5 4'/>
+<circle cx='238.9' cy='197.3' r='2.6' fill='black'/>
+<text x='258.9' y='203.1' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>A</text>
+<circle cx='220' cy='237.5' r='2.6' fill='black'/>
+<text x='233' y='258.7' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>B</text>
+<circle cx='34.6' cy='225.2' r='2.6' fill='black'/>
+<text x='19.2' y='244' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C</text>
+<circle cx='34.6' cy='82.7' r='2.6' fill='black'/>
+<text x='48.5' y='74.3' font-size='18' font-style='italic' text-anchor='middle' font-family='Times New Roman, serif'>C₁</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 197.5 240' width='266.7' height='324'>
+<defs><marker id='ar' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='black'/></marker></defs>
+<path d='M28,190.8 A70.8,21.2 0 0 1 169.5,190.8' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<path d='M28,190.8 A70.8,21.2 0 0 0 169.5,190.8' stroke='black' fill='none' stroke-width='1.6'/>
+<path d='M28,49.2 A70.8,21.2 0 0 1 169.5,49.2' stroke='black' fill='none' stroke-width='1.6'/>
+<path d='M28,49.2 A70.8,21.2 0 0 0 169.5,49.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='28' y1='190.8' x2='28' y2='49.2' stroke='black' fill='none' stroke-width='1.6'/>
+<line x1='169.5' y1='190.8' x2='169.5' y2='49.2' stroke='black' fill='none' stroke-width='1.6'/>
+<circle cx='98.8' cy='120' r='70.8' stroke='black' fill='none' stroke-width='1.8'/>
+<path d='M28,120 A70.8,21.2 0 0 1 169.5,120' stroke='black' fill='none' stroke-width='1.6' stroke-dasharray='5 4'/>
+<path d='M28,120 A70.8,21.2 0 0 0 169.5,120' stroke='black' fill='none' stroke-width='1.6'/>
+</svg>
