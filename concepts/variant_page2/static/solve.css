@@ -1,0 +1,239 @@
+/* Решение варианта: верхняя панель с таймером, полоса заданий, карточка задания, результаты */
+
+.solve {
+    display: flex; flex-direction: column; gap: 16px;
+    max-width: 980px; margin: 0 auto; padding: 12px 12px 40px;
+}
+
+@media (min-width: 1024px) { .solve { padding: 20px 20px 48px; } }
+
+.card { display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: var(--radius); }
+
+@media (max-width: 560px) { .card { padding: 18px; } }
+
+.card-title { font-size: 16px; font-weight: 700; }
+.card-sub { margin-top: -10px; font-size: 13px; color: var(--text-secondary); }
+.demo-note { font-size: 13px; color: var(--text-secondary); text-align: center; text-wrap: pretty; }
+
+/* ------------------------------ верхняя панель ------------------------------ */
+
+.solve-top {
+    position: sticky; top: 8px; z-index: 20;
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 14px 12px 12px; border-radius: 16px;
+}
+
+.back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 40px; padding: 0 12px; border-radius: 10px;
+    color: var(--text-secondary); font-size: 14px; font-weight: 600; transition: all .2s;
+}
+
+.back-link svg { width: 18px; height: 18px; }
+.back-link:hover { color: var(--text-primary); background: var(--bg-secondary); }
+
+.solve-heading { flex: 1; min-width: 0; }
+.solve-kicker { font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); }
+.solve-title { margin-top: 2px; font-size: 17px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.timer {
+    display: inline-flex; align-items: center; gap: 10px;
+    height: 46px; padding: 0 14px; border-radius: 12px;
+    background: var(--bg-secondary); color: var(--text-primary);
+    transition: background-color .3s, color .3s;
+}
+
+.timer > svg { width: 20px; height: 20px; color: var(--text-secondary); }
+.timer-text { display: flex; flex-direction: column; line-height: 1.1; }
+.timer-text b { font: 600 17px var(--font-mono); font-variant-numeric: tabular-nums; }
+.timer-text span { font-size: 11px; color: var(--text-secondary); }
+
+.timer.is-warn { background: var(--part-bg); color: var(--part); }
+.timer.is-danger { background: var(--bad-bg); color: var(--bad); }
+.timer.is-warn > svg, .timer.is-danger > svg, .timer.is-warn .timer-text span, .timer.is-danger .timer-text span { color: inherit; }
+
+@media (max-width: 720px) {
+    .solve-top { flex-wrap: wrap; gap: 10px; }
+    .solve-heading { order: -1; flex-basis: 100%; padding: 0 4px; }
+    .solve-top:not(.is-results) .back-link span { display: none; }
+    .timer { flex: 1; }
+    .finish-btn { padding: 0 16px; }
+}
+
+@media (max-width: 420px) {
+    .solve-top { gap: 8px; padding: 10px; }
+    .back-link { padding: 0 8px; }
+    .timer { gap: 8px; padding: 0 12px; }
+    .timer > svg { display: none; }
+    .finish-btn { gap: 6px; padding: 0 14px; }
+}
+
+/* ------------------------------ полоса заданий ------------------------------ */
+
+.work { display: flex; flex-direction: column; gap: 16px; }
+
+.task-nav { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 16px; }
+
+.nav-head { display: flex; justify-content: space-between; gap: 12px; }
+.nav-title { font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); }
+.nav-progress { font-size: 13px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+.nav-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+
+.nav-task {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px;
+    border: 1px solid var(--border-color); background: transparent; color: var(--text-primary);
+    font: 600 14px var(--font-sans); font-variant-numeric: tabular-nums; transition: all .15s;
+}
+
+.nav-task:hover { border-color: var(--primary); }
+.nav-task:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.nav-task.is-answered { background: var(--primary-soft); border-color: transparent; color: var(--primary-text); }
+.nav-task[aria-current] { background: var(--primary); border-color: var(--primary); color: var(--white); }
+
+.nav-sep { flex-shrink: 0; width: 1px; height: 26px; margin: 0 6px; background: var(--border-color); }
+
+/* ------------------------------ задание ------------------------------ */
+
+.task { gap: 18px; }
+
+.task-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.task-num { font-size: 20px; font-weight: 700; }
+.task-meta { font: 600 12px var(--font-mono); color: var(--text-secondary); }
+
+.task-text { font-size: 17px; line-height: 1.6; text-wrap: pretty; }
+.task-text .katex { font-size: 1.08em; }
+
+.answer { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.answer-label { font-weight: 700; }
+
+.answer input {
+    flex: 1; max-width: 280px; height: 48px; padding: 0 16px; border-radius: 12px;
+    border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);
+    font: 600 18px var(--font-mono); outline: none; transition: border-color .2s, box-shadow .2s;
+}
+
+.answer input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.answer input::placeholder { font: 400 15px var(--font-sans); color: var(--text-secondary); }
+
+.answer-hint { margin-top: -8px; font-size: 13px; color: var(--text-secondary); }
+
+.task-actions {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding-top: 16px; border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 480px) {
+    .answer { flex-direction: column; align-items: stretch; gap: 6px; }
+    .answer input { max-width: none; }
+    .task-actions .btn { flex: 1; padding: 0 12px; }
+}
+
+/* ------------------------------ подтверждение ------------------------------ */
+
+.confirm {
+    width: min(440px, calc(100vw - 32px)); padding: 24px; border-radius: 16px;
+    border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+}
+
+.confirm::backdrop { background: rgba(10, 12, 20, .45); backdrop-filter: blur(2px); }
+.confirm-title { font-size: 19px; font-weight: 700; }
+.confirm-text { margin-top: 8px; font-size: 15px; line-height: 1.5; color: var(--text-secondary); text-wrap: pretty; }
+.confirm-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+
+/* ------------------------------ результаты ------------------------------ */
+
+.results { display: flex; flex-direction: column; gap: 16px; }
+
+.results-kicker { font-size: 14px; color: var(--text-secondary); }
+.results-title { margin-top: 2px; font-size: 24px; font-weight: 700; }
+
+.results-actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+
+@media (max-width: 480px) { .results-actions .btn { flex: 1; } }
+
+.review { display: flex; flex-direction: column; gap: 6px; }
+
+/* scroll-margin — чтобы при подкрутке к открытой строке её не закрывала липкая шапка */
+.review-row { border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; scroll-margin-top: 140px; }
+
+.review-row summary {
+    display: grid; grid-template-columns: 34px 44px 1fr auto 18px; align-items: center; gap: 12px;
+    padding: 10px 14px; cursor: pointer; list-style: none;
+}
+
+.review-row summary::-webkit-details-marker { display: none; }
+.review-row summary:hover { background: var(--bg-secondary); }
+.review-row summary:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+.review-num {
+    display: flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 8px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+
+.review-row.is-full .review-num { background: var(--done-bg); color: var(--done); }
+.review-row.is-part .review-num { background: var(--part-bg); color: var(--part); }
+.review-row.is-zero .review-num { background: var(--bad-bg); color: var(--bad); }
+
+.review-ege { font: 600 12px var(--font-mono); color: var(--text-secondary); }
+
+.review-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-width: 0; font: 600 14px var(--font-mono); }
+.review-answers > span { display: flex; flex-direction: column; min-width: 0; overflow-wrap: anywhere; }
+.review-answers small { font: 400 11px var(--font-sans); color: var(--text-secondary); }
+.review-answers em { font: italic 400 13px var(--font-sans); color: var(--text-secondary); }
+
+.review-points { font: 600 13px var(--font-mono); font-variant-numeric: tabular-nums; }
+.review-row.is-full .review-points { color: var(--done); }
+.review-row.is-zero .review-points { color: var(--bad); }
+
+.review-chevron { width: 16px; height: 16px; color: var(--text-secondary); transition: transform .2s; }
+.review-row[open] .review-chevron { transform: rotate(180deg); }
+
+/* Раскрытая строка: условие, под ним разбор */
+.review-body { display: flex; flex-direction: column; gap: 12px; padding: 4px 14px 14px 60px; }
+
+.review-text { font-size: 15px; line-height: 1.6; text-wrap: pretty; }
+
+.review-solution {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 12px 14px; border-radius: 10px; background: var(--bg-secondary);
+    border-left: 3px solid var(--primary);
+}
+
+.review-solution-title {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--primary-text);
+}
+
+.review-solution-title svg { width: 14px; height: 14px; }
+.review-solution-text { font-size: 15px; line-height: 1.6; text-wrap: pretty; overflow-x: auto; }
+.review-solution-answer { font-size: 14px; color: var(--text-secondary); }
+.review-solution-answer b { font-family: var(--font-mono); color: var(--text-primary); }
+
+@media (max-width: 560px) {
+    .review-row summary { grid-template-columns: 30px 1fr auto 16px; gap: 10px; }
+    .review-ege { display: none; }
+    .review-body { padding-left: 14px; }
+}
+
+/* ------------------------------ не найден ------------------------------ */
+
+.missing { align-items: center; padding: 48px 24px; text-align: center; }
+.missing > svg { width: 34px; height: 34px; color: var(--text-secondary); }
+.missing-title { font-size: 17px; font-weight: 700; }
+
+/* Стартовый экран: правила и «Приступить к варианту» */
+.intro { gap: 20px; max-width: 640px; width: 100%; margin: 0 auto; padding: 28px; }
+.intro-head { display: flex; align-items: center; gap: 14px; }
+.intro-ico { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--bg-secondary); color: var(--primary-text); }
+.intro-ico svg { width: 24px; height: 24px; }
+.intro-kicker { font: 600 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); }
+.intro-title { margin-top: 2px; font-size: 20px; line-height: 1.25; font-weight: 700; text-wrap: balance; }
+.intro-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 4px; }
+.intro-actions .btn { width: 100%; max-width: 320px; }
+.intro-hint { font-size: 13px; color: var(--text-secondary); text-align: center; }
+@media (max-width: 560px) {
+    .intro { padding: 20px 16px; }
+    .intro .facts { grid-template-columns: 1fr; }
+}
